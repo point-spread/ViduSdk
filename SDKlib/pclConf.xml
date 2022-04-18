@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Stelz (STEMMER IMAGING GmbH) -->
+<?xml-stylesheet type="text/xsl" href="C:\Projects\VC_GigE\GenApi\GenApi.xsl"?>
+<RegisterDescription xmlns="http://www.genicam.org/GenApi/Version_1_0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ModelName="TLDYV" VendorName="STEMMERIMAGING" ToolTip="GenICam TL DataStream Interface" StandardNameSpace="None" SchemaMajorVersion="1" SchemaMinorVersion="0" SchemaSubMinorVersion="1" MajorVersion="1" MinorVersion="0" SubMinorVersion="8" ProductGuid="1F3C6A72-7842-4edd-9130-E2E90A2058BA" VersionGuid="7645D2A1-A41E-4ac6-B486-1531FB7BECE6" xsi:schemaLocation="http://www.genicam.org/GenApi/Version_1_0 W:\Source\ImageManager\GenICam\genicam_v1_0\xml\GenApi\GenApiSchema_Version_1_0.xsd">
+    <Category Name="feature_full" NameSpace="Standard">
+        <pFeature>PixelFormat</pFeature>
+	</Category>
+
+    <String Name="MetaData">
+		<Value>Height,"Image Height",t,8;
+            Width,"Image Width",t,a;
+            FrameCount,"Image FrameCount",j,14;
+            CurFps,"Current Fps",f,1c;
+            PixelFormat,"PixelFormat",j,10;
+            DepthTimestamp,"Depth timestamp",j,44;
+            TextureTimestamp,"Texture timestamp",j,40;
+        </Value>
+	</String>
+    <Category Name="Property" NameSpace="Standard">
+        <pFeature>DevSyncRegValue</pFeature>
+        <pFeature>DevSyncRegAddr</pFeature>
+	</Category>
+    <Integer Name="DevSyncRegValue">
+        <Value>16</Value>
+    </Integer> 
+    <Integer Name="DevSyncRegAddr">
+        <Value>0x44a20008</Value>
+    </Integer> 
+    <Enumeration Name="PixelFormat" NameSpace="Standard">
+        <ToolTip>Pixel Format defined in PFNC</ToolTip>
+        <DisplayName>Pixel Format</DisplayName>
+        <Visibility>Beginner</Visibility>        
+        <EnumEntry Name="ABC32fI16RGB8" NameSpace="Standard">
+            <Value>0x026000C3</Value>
+        </EnumEntry>
+        <pValue>PixelFormatReg</pValue>
+    </Enumeration>
+	<Integer Name="StreamAnnounceBufferMinimum">
+		<Value>2</Value>
+	</Integer>
+	<Enumeration Name="StreamType">
+		<EnumEntry Name="Custom">
+			<Value>1</Value>
+		</EnumEntry>
+		<Value>1</Value>
+	</Enumeration>
+	<IntReg Name="StreamReg">
+		<Description>Addr of datastream</Description>
+		<Streamable>Yes</Streamable>
+		<Address>0x200</Address>
+		<Length>4</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<IntReg Name="WidthReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC00003C4</Address>
+        <Length>2</Length>
+        <AccessMode>RW</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Sign>Unsigned</Sign>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+    <IntReg Name="HeightReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC00003C6</Address>
+        <Length>2</Length>
+        <AccessMode>RW</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Sign>Unsigned</Sign>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+    <IntReg Name="PixelFormatReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC00003C8</Address>
+        <Length>4</Length>
+        <AccessMode>RO</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Sign>Unsigned</Sign>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+    <IntReg Name="PayloadSizeReg">
+        <Visibility>Guru</Visibility>
+        <Address>0x25C</Address>
+        <Length>4</Length>
+        <AccessMode>RO</AccessMode>
+        <pPort>StreamPort</pPort>
+        <pInvalidator>WidthReg</pInvalidator>
+        <pInvalidator>HeightReg</pInvalidator>
+        <pInvalidator>PixelFormatReg</pInvalidator>
+        <Sign>Unsigned</Sign>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+    <IntReg Name="AcquisitionEnabledReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x44a20008</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+    <Integer Name="Width" NameSpace="Standard">
+        <ToolTip>Width of the image in pixels</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>WidthReg</pValue>
+        <Min>640</Min>
+        <Max>640</Max>
+        <Inc>4</Inc>
+        <Representation>Linear</Representation>
+    </Integer>
+    <Integer Name="Height" NameSpace="Standard">
+        <ToolTip>Height of the image in pixels</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>HeightReg</pValue>
+        <Min>480</Min>
+        <Max>480</Max>
+        <Inc>4</Inc>
+        <Representation>Linear</Representation>
+    </Integer>
+    <Integer Name="PayloadSize" NameSpace="Standard">
+        <ToolTip>Number of bytes per Image</ToolTip>
+        <Description>Image PayloadSize</Description>
+        <DisplayName>Payload Size</DisplayName>
+        <Visibility>Guru</Visibility>
+        <pValue>PayloadSizeReg</pValue>
+        <Representation>Linear</Representation>
+    </Integer>
+    <StringReg Name="ModuleNameReg">
+		<Address>0XC00003BC</Address>
+		<Length>7</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+	</StringReg>
+
+    <Command Name="AcquisitionStart" NameSpace="Standard">
+		<ToolTip>Starts the acquisition in the camera.</ToolTip>
+		<Description>Issues start command to the camera.</Description>
+		<DisplayName>Acquisition Start</DisplayName>
+		<Visibility>Beginner</Visibility>
+		<pValue>AcquisitionEnabledReg</pValue>
+		<CommandValue>4</CommandValue>
+	</Command>
+	<Command Name="AcquisitionStop" NameSpace="Standard">
+		<ToolTip>Stops the acquisition in the camera.</ToolTip>
+		<Description>Issues stop command to the camera.</Description>
+		<DisplayName>Acquisition Stop</DisplayName>
+		<Visibility>Beginner</Visibility>
+		<pValue>AcquisitionEnabledReg</pValue>
+		<CommandValue>4</CommandValue>
+	</Command>
+
+  <Port Name="StreamPort">
+		<ToolTip> Port giving access to one DataStream. </ToolTip>
+	</Port>
+</RegisterDescription>   

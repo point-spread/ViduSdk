@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Stelz (STEMMER IMAGING GmbH) -->
+<?xml-stylesheet type="text/xsl" href="C:\Projects\VC_GigE\GenApi\GenApi.xsl"?>
+<RegisterDescription xmlns="http://www.genicam.org/GenApi/Version_1_0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ModelName="TLDYV" VendorName="STEMMERIMAGING" ToolTip="TL Interface RegisterMap" StandardNameSpace="None" SchemaMajorVersion="1" SchemaMinorVersion="0" SchemaSubMinorVersion="1" MajorVersion="1" MinorVersion="0" SubMinorVersion="9" ProductGuid="1F3C6A72-7842-4edd-9130-E2E90A2058BA" VersionGuid="7645D2A1-A41E-4ac6-B486-1531FB7BECE6" xsi:schemaLocation="http://www.genicam.org/GenApi/Version_1_0 
+	W:\Source\ImageManager\GenICam\genicam_v1_0\xml\GenApi\GenApiSchema_Version_1_0.xsd">
+	<!-- Register Port =============================================================== -->
+	<Category Name="Root" NameSpace="Standard">
+		<ToolTip> TL Interface implementation. </ToolTip>
+		<Description>Root</Description>
+		<DisplayName>Settings</DisplayName>
+		<pFeature>InterfaceInformation</pFeature>
+		<pFeature>DeviceEnumeration</pFeature>
+	</Category>
+	<Category Name="InterfaceInformation" NameSpace="Standard">
+		<ToolTip>Interface Information</ToolTip>
+		<Description>Interface Information</Description>
+		<DisplayName>Interface Information</DisplayName>
+		<pFeature>InterfaceID</pFeature>
+		<pFeature>InterfaceDisplayName</pFeature>
+	</Category>
+    <Category Name="DeviceEnumeration" NameSpace="Standard">
+        <ToolTip>Device Enumeration</ToolTip>
+        <Description>This Category contains information on all attached devices</Description>
+        <DisplayName>Device Enumeration</DisplayName>
+        <pFeature>DeviceCount</pFeature>
+    </Category>
+	<IntReg Name="InterfaceID">
+		<Address>0x0</Address>
+		<Length>4</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>InterfacePort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<StringReg Name="IFTLtypeReg">
+		<Address>0x200</Address>
+		<Length>256</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>InterfacePort</pPort>
+	</StringReg>
+	<StringReg Name="IFModelReg">
+		<Address>0x300</Address>
+		<Length>256</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>InterfacePort</pPort>
+	</StringReg>
+	<StringReg Name="InterfaceDisplayName">
+		<Address>0x400</Address>
+		<Length>256</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>InterfacePort</pPort>
+	</StringReg>
+	<IntReg Name="DeviceCount" NameSpace="Standard">
+		<Address>0x100</Address>
+		<Length>4</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>InterfacePort</pPort>
+		<Cachable>NoCache</Cachable>
+		<PollingTime>500</PollingTime>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<IntSwissKnife Name="MaxDeviceIndex">
+		<pVariable Name="MAXINDEX">DeviceCount</pVariable>
+		<Formula><![CDATA[MAXINDEX - 1 ]]></Formula>
+	</IntSwissKnife>
+	<IntSwissKnife Name="DeviceIndexAvailable">
+		<pVariable Name="MAXINDEX">DeviceCount</pVariable>
+		<Formula><![CDATA[((MAXINDEX - 1) < 0) ? 0 : 1]]></Formula>
+	</IntSwissKnife>
+	<IntReg Name="r_UpdateDeviceList">
+		<Address>0x280</Address>
+		<Length>4</Length>
+		<AccessMode>WO</AccessMode>
+		<pPort>InterfacePort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+    <Port Name="InterfacePort">
+        <ToolTip> Port giving access to the interface. </ToolTip>
+    </Port>
+</RegisterDescription>     

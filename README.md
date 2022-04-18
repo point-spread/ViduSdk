@@ -24,27 +24,27 @@ other dependencies : OpenCV ( 4.2 recommended ), CMake
 #### 3. Set environment: 
 
 ```
-export GENICAM_GENTL64_PATH={OkuloSdkDir}/lib  ({OkuloSdkDir} should be absolute path wrt. your computer!!!)
+export GENICAM_GENTL64_PATH={OkuloSdkDir}/SDKlib  ({OkuloSdkDir} should be absolute path wrt. your computer!!!)
 ```
 
 It's recommended to put this command in your  ~/.bashrc.
 
 ### What SDK included:
 
-1. **okulo_viewer ** *(lib/okulo_viewer)* : show the origin camera stream & point cloud & control the stream
-2. **streamShow** *(lib/streamShow)* : the example/streamShow output
-3. **getCameraPara** *(lib/getCameraPara)* : acquire the calibrated parameters recorded in the camera.
-4. **OkuloTest.py** *(lib/streamShow)* : python example, which invoke the *lib/pydyv.cpython-38-x86_64-linux-gnu.so* indeed.
+1. **okulo_viewer** *(SDKlib/okulo_viewer)* : show the origin camera stream & point cloud & control the stream
+2. **streamShow** *(SDKlib/streamShow)* : the example/streamShow output
+3. **getCameraPara** *(SDKlib/getCameraPara)* : acquire the calibrated parameters recorded in the camera.
+4. **OkuloTest.py** *(SDKlib/streamShow)* : python example, which invoke the *SDKlib/pydyv.cpython-38-x86_64-linux-gnu.so* indeed.
 
 
 
 ## Develop:
 
-**code/GenTL** provides C headers by which the developer can directly invoke the *lib/libDYVGenTL.cti*  using  C interface according the **GenTL** standard.
+**SDKcode/GenTL** provides C headers by which the developer can directly invoke the *SDKlib/libDYVGenTL.cti*  using  C interface according the **GenTL** standard.
 
-**code/wrapper** provides a C++ wrapper of the *lib/libDYVGenTL.cti* , which may let the code of developer more conciser and C+ tone.
+**SDKcode/wrapper** provides a C++ wrapper of the *SDKlib/libDYVGenTL.cti* , which may let the code of developer more conciser and C+ tone.
 
-**code/common** provides some debug or timing code fragment.
+**SDKcode/common** provides some debug or timing code fragment.
 
 **example** example of how to get data from the camera.
 
