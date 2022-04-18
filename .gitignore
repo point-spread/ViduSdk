@@ -37,6 +37,7 @@ librealsense.xc/build
 *.a
 *.o
 *.so
+!SDKlib/*.so
 *.pyc
 *.class
 
