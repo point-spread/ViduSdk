@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Stelz (STEMMER IMAGING GmbH) -->
+<?xml-stylesheet type="text/xsl" href="C:\Projects\VC_GigE\GenApi\GenApi.xsl"?>
+<RegisterDescription xmlns="http://www.genicam.org/GenApi/Version_1_0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ModelName="TLDYV" VendorName="STEMMERIMAGING" ToolTip="GenICam TL Device RegisterMap" StandardNameSpace="None" SchemaMajorVersion="1" SchemaMinorVersion="0" SchemaSubMinorVersion="1" MajorVersion="1" MinorVersion="0" SubMinorVersion="4" ProductGuid="1F3C6A72-7842-4edd-9130-E2E90A2058BA" VersionGuid="7645D2A1-A41E-4ac6-B486-1531FB7BECE6" xsi:schemaLocation="http://www.genicam.org/GenApi/Version_1_0 W:\Source\ImageManager\GenICam\genicam_v1_0\xml\GenApi\GenApiSchema_Version_1_0.xsd">
+	<Category Name="Root">
+		<ToolTip> TL DataStream implementation. </ToolTip>
+		<pFeature>DeviceInformation</pFeature>
+		<pFeature>Stream</pFeature>
+		<pFeature>DeviceReg</pFeature>
+	</Category>
+	<Category Name="DeviceInformation" NameSpace="Standard">
+		<pFeature>DeviceDisplayName</pFeature>
+		<pFeature>DeviceID</pFeature>
+		<pFeature>DeviceVendorName</pFeature>
+		<pFeature>DeviceModelName</pFeature>
+		<pFeature>DeviceType</pFeature>
+		<pFeature>DeviceSerialNumber</pFeature>
+	</Category>
+	<Category Name="Stream">
+		<pFeature>StreamCount</pFeature>
+	</Category>
+	<IntReg Name="StreamCount">
+		<Visibility>Guru</Visibility>
+		<Address>0x4</Address>
+		<Length>4</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>DevicePort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<StringReg Name="DeviceReg" NameSpace="Standard">
+		<Address>0xC0000000</Address>
+		<Length>128</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>DevicePort</pPort>
+	</StringReg>
+	<StringReg Name="DeviceID" NameSpace="Standard">
+		<Address>0x100</Address>
+		<Length>64</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>DevicePort</pPort>
+	</StringReg>
+	<StringReg Name="DeviceSerialNumber" NameSpace="Standard">
+    <Address>0x240</Address>
+    <Length>64</Length>
+    <AccessMode>RO</AccessMode>
+    <pPort>DevicePort</pPort>
+  </StringReg>
+  <StringReg Name="DeviceVendorName" NameSpace="Standard">
+    <Address>0x140</Address>
+    <Length>64</Length>
+    <AccessMode>RO</AccessMode>
+    <pPort>DevicePort</pPort>
+  </StringReg>
+  <StringReg Name="DeviceModelName" NameSpace="Standard">
+		<Address>0x180</Address>
+		<Length>64</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>DevicePort</pPort>
+	</StringReg>
+	<Enumeration Name="DeviceType" NameSpace="Standard">
+    <EnumEntry Name="Custom">
+      <Value>1</Value>
+    </EnumEntry>
+    <Value>1</Value>
+  </Enumeration>
+  <StringReg Name="DeviceDisplayName" NameSpace="Standard">
+		<Address>0x300</Address>
+		<Length>256</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>DevicePort</pPort>
+	</StringReg>
+	<!-- Register Port =============================================================== -->
+	<Port Name="DevicePort">
+		<ToolTip> Port giving access to the grabber. </ToolTip>
+	</Port>
+</RegisterDescription>   
