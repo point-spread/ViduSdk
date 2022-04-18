@@ -25,9 +25,10 @@ other dependencies : OpenCV ( 4.2 recommended ), CMake
 
 ```
 export GENICAM_GENTL64_PATH={OkuloSdkDir}/SDKlib  ({OkuloSdkDir} should be absolute path wrt. your computer!!!)
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"{OkuloSdkDir}/SDKlib"  ({OkuloSdkDir} should be absolute path wrt. your computer!!!)
 ```
 
-It's recommended to put this command in your  ~/.bashrc.
+It's recommended to put those command in your  ~/.bashrc.
 
 ### What SDK included:
 

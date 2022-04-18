@@ -1,10 +1,10 @@
 /*
  * @Author: Kian Liu
  * @Date: 2021-12-07 23:15:51
- * @LastEditTime: 2022-04-16 20:42:32
+ * @LastEditTime: 2022-04-18 13:55:25
  * @LastEditors: Kian Liu
  * @Description:
- * @FilePath: /DYV_SDK/GenTLwrapper/src/sPDstream.cpp
+ * @FilePath: /OkuloSdk/SDKcode/GenTLwrapper/src/sPDstream.cpp
  */
 #include "inc/sPDstream.h"
 #include "basic/inc/buffer2cvMat.h"
@@ -197,7 +197,7 @@ bool sPDstream::getCamPara(intrinsics &intr, extrinsics &extr)
     {
         if (err == GenTL::GC_ERR_NO_DATA)
         {
-            PD_WARNING("this stream don't have camera para!\n");
+            PD_WARNING("this stream doesn't have camera para!\n");
         }
         PD_ERROR("failed PDDSCamIntPara!\n");
         return false;
