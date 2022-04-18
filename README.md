@@ -2,7 +2,7 @@
 
 ## Precondition
 
-#### 1. install cam drivers:
+#### 1. Install cam drivers:
 
 execute the following commands in a terminal
 
@@ -13,7 +13,7 @@ sudo chmod +x installDriver.sh
 sudo ./installDriver.sh
 ```
 
-#### 2. install SDK dependencies: 
+#### 2. Install SDK dependencies: 
 
 ```
 sudo apt install libglfw3-dev libglm-dev
@@ -28,14 +28,14 @@ export GENICAM_GENTL64_PATH={OkuloSdkDir}/SDKlib  ({OkuloSdkDir} should be absol
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"{OkuloSdkDir}/SDKlib"  ({OkuloSdkDir} should be absolute path wrt. your computer!!!)
 ```
 
-It's recommended to put those command in your  ~/.bashrc.
+It's recommended to put those command in your  `~/.bashrc`, also remember to ``source ~/.bashrc``
 
 ### What SDK included:
 
 1. **okulo_viewer** *(SDKlib/okulo_viewer)* : show the origin camera stream & point cloud & control the stream
 2. **streamShow** *(SDKlib/streamShow)* : the example/streamShow output
 3. **getCameraPara** *(SDKlib/getCameraPara)* : acquire the calibrated parameters recorded in the camera.
-4. **OkuloTest.py** *(SDKlib/streamShow)* : python example, which invoke the *SDKlib/pydyv.cpython-38-x86_64-linux-gnu.so* indeed.
+4. **OkuloTest.py** *(SDKlib/OkuloTest.py)* : python example, which invoke the *SDKlib/pydyv.cpython-38-x86_64-linux-gnu.so* indeed.
 
 
 
