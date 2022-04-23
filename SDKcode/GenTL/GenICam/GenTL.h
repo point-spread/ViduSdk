@@ -424,7 +424,9 @@ extern "C"
         STREAM_INFO_FLOW_TABLE = 14,                /* BUFFER     Flow mapping table in GenDC format. GenTL v1.6 */
         STREAM_INFO_GENDC_PREFETCH_DESCRIPTOR = 15, /* BUFFER     Prefetch version of GenDC descriptor. GenTL v1.6 */
 
-        STREAM_INFO_CUSTOM_ID = 1000 /* Starting value for GenTL Producer custom IDs. */
+        STREAM_INFO_CUSTOM_ID = 1000, /* Starting value for GenTL Producer custom IDs. */
+        STREAM_CAM_INT_PARA = 1001,
+        STREAM_CAM_EXT_PARA = 1002,
     };
     typedef int32_t STREAM_INFO_CMD;
 
@@ -752,9 +754,6 @@ This value is reset to 0 when the buffer is placed into the Input Buffer Pool. *
     GC_API GCReadPort(PORT_HANDLE hPort, uint64_t iAddress, void *pBuffer, size_t *piSize);
     GC_API GCWritePort(PORT_HANDLE hPort, uint64_t iAddress, const void *pBuffer, size_t *piSize);
 
-    GC_API GCReadPortWithName(PORT_HANDLE hPort, const char *varName, void *pBuffer, size_t *piSize);
-    GC_API GCWritePortWithName(PORT_HANDLE hPort, const char *varName, const void *pBuffer, size_t *piSize);
-
     GC_API GCGetPortURL(PORT_HANDLE hPort, char *sURL, size_t *piSize);
 
     GC_API GCGetPortInfo(PORT_HANDLE hPort, PORT_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer,
@@ -818,8 +817,10 @@ This value is reset to 0 when the buffer is placed into the Input Buffer Pool. *
                            INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
 
     // start customize
-    GC_API PDDSCamIntPara(DS_HANDLE hDataStream, void *buffer, size_t *piSize);
-    GC_API PDDSCamExtPara(DS_HANDLE hDataStream, void *buffer, size_t *piSize);
+    GC_API GCReadPortWithName(PORT_HANDLE hPort, const char *varName, INFO_DATATYPE *piType, void *pBuffer,
+                              size_t *piSize);
+    GC_API GCWritePortWithName(PORT_HANDLE hPort, const char *varName, INFO_DATATYPE *piType, const void *pBuffer,
+                               size_t *piSize);
 
     GC_API PDBufferGetInfo(BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer,
                            size_t *piSize);
@@ -970,6 +971,19 @@ This value is reset to 0 when the buffer is placed into the Input Buffer Pool. *
     GC_API_P(PDSGetBufferInfo)
     (DS_HANDLE hDataStream, BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer,
      size_t *piSize);
+
+    // start customize
+    GC_API_P(PPDBufferGetInfo)
+    (BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
+    GC_API_P(PPDBufferGetMetaData)
+    (BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize, char *pType);
+    GC_API_P(PPDBufferGetMetaDataDesc)
+    (BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName, const char **ppDescName);
+    GC_API_P(PPDBufferGetMetaDataNum)(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
+    GC_API_P(PPDBufferSave)(BUFFER_HANDLE hBuffer, const char *name);
+    GC_API_P(PPDPlySave)
+    (BUFFER_HANDLE hBufferXYZ, uint32_t XYZpartID, BUFFER_HANDLE hBufferColor, uint32_t ColorpartID, const char *name);
+    // end customize
 
     /* GenTL v1.1 */
     GC_API_P(PGCGetNumPortURLs)

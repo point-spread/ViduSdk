@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2021-12-07 23:15:51
- * @LastEditTime: 2022-04-18 13:55:25
+ * @LastEditTime: 2022-04-22 17:35:34
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /OkuloSdk/SDKcode/GenTLwrapper/src/sPDstream.cpp
@@ -192,7 +192,7 @@ sPDstream::sPDstream(PDdevice &device, const char *streamName) : hDev(device)
 bool sPDstream::getCamPara(intrinsics &intr, extrinsics &extr)
 {
     size_t size = sizeof(intr);
-    auto err = GenTL::PDDSCamIntPara(getPort(), &intr, &size);
+    auto err = GenTL::DSGetInfo(getPort(), GenTL::STREAM_INFO_CMD_LIST::STREAM_CAM_INT_PARA, nullptr, &intr, &size);
     if (err != GenTL::GC_ERR_SUCCESS)
     {
         if (err == GenTL::GC_ERR_NO_DATA)
@@ -203,7 +203,8 @@ bool sPDstream::getCamPara(intrinsics &intr, extrinsics &extr)
         return false;
     }
     size = sizeof(extr);
-    if (GenTL::PDDSCamExtPara(getPort(), &extr, &size) != GenTL::GC_ERR_SUCCESS)
+    if (GenTL::DSGetInfo(getPort(), GenTL::STREAM_INFO_CMD_LIST::STREAM_CAM_EXT_PARA, nullptr, &extr, &size) !=
+        GenTL::GC_ERR_SUCCESS)
     {
         PD_ERROR("failed PDDSCamIntPara!\n");
         return false;

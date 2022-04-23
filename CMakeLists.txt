@@ -1,6 +1,5 @@
 project(OCULO_SDK)
-cmake_minimum_required(VERSION 3.10)
-
-include_directories(${PROJECT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../common)
-add_subdirectory(example)
+cmake_minimum_required(VERSION 3.5)
 add_subdirectory(SDKcode/GenTLwrapper)
+add_subdirectory(example)
+
