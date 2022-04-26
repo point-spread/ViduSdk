@@ -10,7 +10,6 @@
 #include "PDdevice.h"
 #include "PDport.h"
 #include "basic/inc/camParaDef.h"
-#include "debug.h"
 #include <functional>
 #include <memory>
 #include <opencv2/opencv.hpp>

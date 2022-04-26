@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-03-04 19:58:39
- * @LastEditTime: 2022-04-14 11:44:25
+ * @LastEditTime: 2022-04-22 14:27:05
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/basic/inc/camParaDef.h
@@ -44,7 +44,8 @@ typedef struct stream_intrinsics
         cx = Kdata[2];
         fy = Kdata[4];
         cy = Kdata[5];
-        memcpy(coeffs, distortCoeffdata, 5 * sizeof(float));
+        memcpy(coeffs, distortCoeffdata, 4 * sizeof(float));
+        coeffs[4] = distortCoeffdata[4];
         width = _width;
         height = _height;
     }

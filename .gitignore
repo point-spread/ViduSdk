@@ -30,7 +30,6 @@ xcuserdata
 *.moved-aside
 DerivedData
 *.xcuserstate
-librealsense.xc/build
 
 *~
 *.TMP
@@ -38,6 +37,7 @@ librealsense.xc/build
 *.o
 *.so
 !SDKlib/*.so
+!SDKpythonLib/*.so
 *.pyc
 *.class
 
@@ -60,7 +60,6 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 *-build-*
-librealsense-log.txt
 
 *.pyproj
 *.orig
