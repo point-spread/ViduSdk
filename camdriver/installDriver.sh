@@ -1,4 +1,3 @@
-cd camdriver
 unzip d3xx-driver.zip
 sudo rm /usr/lib/libftd3xx.so
 sudo cp d3xx-driver/linux-x86_64/libftd3xx.so /usr/lib/

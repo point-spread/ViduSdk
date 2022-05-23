@@ -16,12 +16,12 @@
 		<pFeature>cameraPara</pFeature>
 	</Category>
 	<Category Name="feature" NameSpace="Standard">
+		<pFeature>Distance</pFeature>
 		<pFeature>StreamFps</pFeature>
 		<pFeature>AutoExposure</pFeature>  
 		<pFeature>Exposure</pFeature>
 		<pFeature>Confidence</pFeature>
 		<pFeature>FlyingPixelRemoval</pFeature>
-		<pFeature>SpatialFilter</pFeature>
 		<pFeature>FilterStrength</pFeature>
 	</Category>
 	<String Name="MetaData">
@@ -44,6 +44,7 @@
 			GyroY,"GyroY",f,74;
 			GyroZ,"GyroZ",f,78;
 			ModulateFreq,"modulation freq",f,84;
+			DistRange,"Distance Range",f,90;
 			</Value>
 		</String>
 	<Category Name="cameraPara" NameSpace="Standard">
@@ -72,13 +73,25 @@
     <Integer Name="AcquisitionDisabledValue">
         <Value>0</Value>
     </Integer>
-	<!-- <Boolean Name="IAcquisitionEnabled">
-		<Value>0</Value>
-	</Boolean> -->
-	<Category Name="BiLateral" NameSpace="Standard">
-		<pFeature>SpatialFilter</pFeature>
-		<pFeature>FilterStrength</pFeature>
-	</Category>
+
+	<Enumeration Name="Distance">
+        <ToolTip>Max distance the sensor can correctly detetct</ToolTip>
+        <DisplayName>Distance (m)</DisplayName> 
+        <EnumEntry Name="1.5" NameSpace="Standard">
+            <Value>0x1020100</Value>
+        </EnumEntry>
+        <EnumEntry Name="2.5" NameSpace="Standard">
+            <Value>0x1020001</Value>
+        </EnumEntry>
+        <EnumEntry Name="3" NameSpace="Standard">
+            <Value>0x1010002</Value>
+        </EnumEntry>
+        <EnumEntry Name="7.5" NameSpace="Standard">
+            <Value>0x2020100</Value>
+        </EnumEntry>
+        <pValue>ModFreqReg</pValue>
+    </Enumeration>
+
 	<Boolean Name="FlyingPixelRemoval">
 		<ToolTip>Remove the possible flying pixels</ToolTip>
 		<pValue>MedBlurReg</pValue>
@@ -98,7 +111,7 @@
 		<pFeature>Range</pFeature>
 	</Category>
 	<Integer Name="Threshold">
-		<ToolTip>threshold of the sensor</ToolTip>
+		<ToolTip>Threshold of the Confidence</ToolTip>
 		<pValue>ConfidenceReg</pValue>
 		<Min>0</Min>
 		<pMax>ConfidenceMax</pMax>
@@ -106,7 +119,7 @@
 		<Representation>Linear</Representation>
 	</Integer>
 	<Integer Name="Range">
-		<ToolTip>Range of the sensor</ToolTip>
+		<ToolTip>Range of the Confidence</ToolTip>
 		<pValue>ConfidenceNormalizeReg</pValue>
 		<pMin>ConfidenceNormRangeMin</pMin>
 		<Max>65535</Max>
@@ -133,20 +146,16 @@
 		<Min>0.008</Min>
 		<Max>1.2</Max>
 		<Inc>0.008</Inc>
+		<Unit>ms</Unit>
 		<Representation>Linear</Representation>
 	</Float>
-	<Boolean Name="SpatialFilter" NameSpace="Standard">
-		<pValue>BiLateralSRReg</pValue>
-		<OnValue>0</OnValue>
-		<OffValue>3</OffValue>
-	</Boolean>
 	<Float Name="FilterStrength" NameSpace="Standard">
-		<ToolTip>Bilater filter of the sensor</ToolTip>
+		<ToolTip>Filter strength of the spatial filter</ToolTip>
 		<Visibility>Beginner</Visibility>
-		<pValue>BiLateralSSReg</pValue>
+		<pValue>BiLateralOverallReg</pValue>
 		<Min>0.004</Min>
-		<Max>4.0</Max>
-		<Inc>0.001</Inc>
+		<Max>14.14</Max>
+		<Inc>0.008</Inc>
 		<Representation>Linear</Representation>
 	</Float>
 	<Category Name="TransportLayerControl" NameSpace="Standard">
@@ -277,6 +286,14 @@
 		<pPort>StreamPort</pPort>
 		<Endianess>LittleEndian</Endianess>
 	</FloatReg>
+	<FloatReg Name="BiLateralOverallReg">
+		<Visibility>Guru</Visibility>
+		<Address>0xf00020F0</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Endianess>LittleEndian</Endianess>
+	</FloatReg>	
     <MaskedIntReg Name="AutoExposureReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x44A70004</Address>
@@ -402,14 +419,14 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
-	<FloatReg Name="ModFreqReg">
+	<IntReg Name="ModFreqReg">
         <Visibility>Guru</Visibility>
-        <Address>0xf0002100</Address>
+        <Address>0XC0000310</Address>
         <Length>4</Length>
         <AccessMode>RW</AccessMode>
         <pPort>StreamPort</pPort>
         <Endianess>LittleEndian</Endianess>
-    </FloatReg>
+    </IntReg>
 	<Enumeration Name="PixelFormat" NameSpace="Standard">
 		<ToolTip>Pixel Format as specified in GigE Vision standard</ToolTip>
 		<Description>Refer to the Pixel format section (p. 117)</Description>
@@ -425,19 +442,16 @@
 	</Enumeration>
 	<Enumeration Name="AcquisitionMode" NameSpace="Standard">
 		<ToolTip>Sets the acquisition mode of the device.</ToolTip>
-		<Description>Sets the acquisition mode of the device. It defines mainly the number of frames to capture during an acquisition and the way the acquisition stops.</Description>
 		<DisplayName>Acquisition Mode</DisplayName>
 		<!--<pIsLocked>IsAcquisitionBusy</pIsLocked>-->
 		<Streamable>Yes</Streamable>
 		<EnumEntry Name="Continuous" NameSpace="Standard">
 			<ToolTip>Frames are captured continuously until stopped with the AcquisitionStop command.</ToolTip>
-			<Description>Configures the camera to start an infinite sequence of image acquisition with the AcquisitionStart command that must be stopped explicitly by the application with the AcquisitionStop command.</Description>
 			<DisplayName>Continuous</DisplayName>
 			<Value>0</Value>
 		</EnumEntry>
 		<EnumEntry Name="SingleFrame" NameSpace="Standard">
 			<ToolTip>One frame is captured</ToolTip>
-			<Description>One frame is captured. A new frame will be captured every time the AcquisitionStart command is executed. It is not necessary to execute AcquisitionStop command since the acquisition will be automatically stopped af the image is captured.</Description>
 			<DisplayName>Single Frame</DisplayName>
 			<Value>1</Value>
 		</EnumEntry>

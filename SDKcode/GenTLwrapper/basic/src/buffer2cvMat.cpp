@@ -1,16 +1,16 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-03-03 15:58:41
- * @LastEditTime: 2022-04-13 19:50:21
+ * @LastEditTime: 2022-04-27 21:53:23
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/basic/src/buffer2cvMat.cpp
  */
-#include "../inc/buffer2cvMat.h"
-#include "../inc/cvMatConvert.h"
+
+#include "../inc/getCvMatFromBuffer.h"
 #include "GenICam/GenTL.h"
 
-bool buffer2cvMat(void *buffer, void *stream, std::vector<cv::Mat> &Mats)
+bool getCvMatFromBuffer(void *buffer, void *stream, std::vector<cv::Mat> &Mats)
 {
     uint32_t height = 0, width = 0;
     uint64_t pixelFormat = 0;

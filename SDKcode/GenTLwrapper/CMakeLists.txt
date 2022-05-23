@@ -11,7 +11,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../common  
     ${CMAKE_CURRENT_SOURCE_DIR}/../GenTL)
 file(GLOB_RECURSE SRC src/*.cpp basic/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../common/*.cpp)
-add_library(${PROJECT_NAME} STATIC ${SRC})
-target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} ${Eigen3_LIBRARIES} ${CMAKE_CURRENT_SOURCE_DIR}/../../SDKlib/libDYVGenTL.cti)
+add_library(${PROJECT_NAME} SHARED ${SRC})
+target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} ${CMAKE_CURRENT_SOURCE_DIR}/../../SDKlib/libDYVGenTL.cti)
 
 

@@ -48,7 +48,6 @@
         <Value>0</Value>
     </Integer>
     
-    
     <Enumeration Name="StreamFps">
         <ToolTip>frame rate of the sensor</ToolTip>
         <DisplayName>StreamFps</DisplayName>
@@ -475,8 +474,9 @@
         <Min>5e-2</Min>
         <pMax>Exposure_Max</pMax>
         <Inc>5e-2</Inc>
-        <Unit>"ms"</Unit>
-        <DisplayNotation>Fixed</DisplayNotation>
+        <Unit>ms</Unit>
+        <Representation>Linear</Representation>
+        <!-- <DisplayNotation>Fixed</DisplayNotation> -->
         <DisplayPrecision>1</DisplayPrecision>
     </Float>
     <Boolean Name="AntiAliasingFilter" NameSpace="Standard">
@@ -576,6 +576,7 @@
         <Min>0</Min>
         <Max>9</Max>
         <Inc>1</Inc>
+    <Representation>Linear</Representation>
     </Integer>
     <Boolean Name="AutoGammaCorrection" NameSpace="Standard">
         <ToolTip>Auto Gamma Correction</ToolTip>

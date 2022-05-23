@@ -1,42 +1,27 @@
 /*
  * @Author: Kian Liu
  * @Date: 2021-12-07 23:15:57
- * @LastEditTime: 2022-04-16 20:31:07
+ * @LastEditTime: 2022-04-28 00:11:22
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/inc/sPDstream.h
  */
 #pragma once
+#include "PDbuffer.h"
 #include "PDdevice.h"
 #include "PDport.h"
 #include "basic/inc/camParaDef.h"
 #include <functional>
 #include <memory>
-#include <opencv2/opencv.hpp>
+
 #include <string>
 #include <vector>
 
-class sPDstream;
-
-class bufferSet
-{
-    bool releaseMat(PDHandle pHandle);
-    PDHandle hBuffer = nullptr;
-    PDHandle hStream = nullptr; // hBuffer intern will maintain the life of stream
-    bool setHanle();
-    friend class sPDstream;
-    std::vector<cv::Mat> Mats;
-
-  public:
-    uint32_t getMatNum();
-    const cv::Mat &getMat(uint32_t id = 0);
-    bufferSet(sPDstream *stream);
-    ~bufferSet();
-    operator PDHandle()
-    {
-        return hBuffer;
-    }
-};
+/**
+ * @brief wrapper of the GenTL stream handle. PCL stream depends on RGB & ToF stream, it cannot work independently.
+ * If you wanna open the RGB, TOF, PCL simultaneously, please use this class other than PDstream. Rember to grab RGB
+ * & ToF continuously for grabing PCL stream.
+ */
 class sPDstream : public PDport
 {
   private:
@@ -51,24 +36,54 @@ class sPDstream : public PDport
     const PDHandle hDev; // hStream intern will maintain the life of dev
 
   public:
+    /**
+     * @brief Construct a new sPDstream object
+     *
+     * @param device PDdevice object
+     * @param _streamID ID of the stream. For Okulo camera, RGB is O, TOF is 1, default is 0 (RGB)
+     */
     sPDstream(PDdevice &device, uint32_t _streamID = 0x0);
+    /**
+     * @brief Construct a new sPDstream object
+     *
+     * @param device PDdevice object
+     * @param streamName name of the stream to be open, option now : RGB/TOF/PCL
+     */
     sPDstream(PDdevice &device, const char *streamName);
-    virtual std::shared_ptr<bufferSet> waitFrames(uint64_t timeOut = 1);
 
+    /**
+     * @brief to grab a set of frames
+     *
+     * @param timeOut try times to get the frames
+     * @return std::shared_ptr<bufferSet> a smart pointer point the buffer of the frames
+               if the smart pointer is null, it means no valid frame get
+     */
+    virtual std::shared_ptr<PDbuffer> waitFrames(uint64_t timeOut = 1);
+
+    /**
+     * @brief Get the Cam Para object
+     *
+     * @param intr intrinsic paras of the camera (tof & rgb are different from each other)
+     * @param extr extrinsic paras of the camera (sdk align the rgb image to tof camera,
+                   so the extrinsic paras of the TOF camera may be a indentify matrix)
+     * @return true : get the para recorded at the camera
+     * @return false  : cannot get the valid para from the camera
+     */
     bool getCamPara(intrinsics &intr, extrinsics &extr);
 
+    /**
+     * @brief Init the PDstream objects, must be called once bdfore using the object,
+              user can also implict init it by check the object valid by bool operation,
+              just like if(sPDstream).
+     *
+     * @return true
+     * @return false
+     */
+    bool init() override;
+
+    /**
+     * @brief Destroy the sPDstream object
+     *
+     */
     virtual ~sPDstream();
-    bool init() override;
-};
-
-class PCLstream : public sPDstream
-{
-    std::vector<std::shared_ptr<sPDstream>> streamVec;
-
-  public:
-    PCLstream(PDdevice &device, uint32_t _streamID);
-    PCLstream(PDdevice &device, const char *streamName);
-    virtual std::shared_ptr<bufferSet> waitFrames(uint64_t timeOut = 1) override;
-    bool init() override;
-    ~PCLstream();
 };

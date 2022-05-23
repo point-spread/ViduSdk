@@ -1,13 +1,13 @@
 /*
  * @Author: Kian Liu
  * @Date: 2021-12-28 15:56:14
- * @LastEditTime: 2022-04-13 19:50:02
+ * @LastEditTime: 2022-04-27 21:53:30
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/basic/src/cvMatConvert.cpp
  */
 
-#include "../inc/cvMatConvert.h"
+#include "../inc/getCvMatFromBuffer.h"
 #include "GenICam/PFNC.h"
 #include "debug.h"
 

@@ -1,19 +1,16 @@
 /*
  * @Author: Kian Liu
  * @Date: 2021-12-07 23:15:51
- * @LastEditTime: 2022-04-17 14:31:30
+ * @LastEditTime: 2022-04-27 22:51:55
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/src/sPDstream.cpp
  */
 #include "inc/sPDstream.h"
-#include "basic/inc/buffer2cvMat.h"
-#include "debug.h"
-#include "stringFormat.h"
+#include "basic/inc/getCvMatFromBuffer.h"
 #include <algorithm>
 #include <cctype>
 #include <string>
-static cv::Mat emptyMat;
 
 bool sPDstream::init()
 {
@@ -118,65 +115,13 @@ PDHandle sPDstream::getMat(std::vector<cv::Mat> &Mats, uint64_t timeOut)
         if (GenTL::EventGetDataInfo(hEvent, &data, size, GenTL::EVENT_DATA_ID, nullptr, &buffer, &ptr_size) ==
             GenTL::GC_ERR_SUCCESS)
         {
-            if (buffer2cvMat(buffer, getPort(), Mats))
+            if (getCvMatFromBuffer(buffer, getPort(), Mats))
             {
                 return buffer;
             }
         }
     }
     return nullptr;
-}
-
-bool bufferSet::releaseMat(PDHandle pHandle)
-{
-    if (pHandle != nullptr)
-    {
-        if (GenTL::DSQueueBuffer(hStream, pHandle) != GenTL::GC_ERR_SUCCESS)
-        {
-            PD_ERROR("failed DSQueueBuffer!\n");
-            return false;
-        }
-    }
-    return true;
-}
-
-bufferSet::bufferSet(sPDstream *stream)
-{
-    hStream = stream->getPort();
-}
-
-uint32_t bufferSet::getMatNum()
-{
-    return Mats.size();
-}
-const cv::Mat &bufferSet::getMat(uint32_t id)
-{
-    if (id >= getMatNum())
-    {
-        return emptyMat;
-    }
-    return Mats[id];
-}
-
-std::shared_ptr<bufferSet> sPDstream::waitFrames(uint64_t timeOut)
-{
-    auto ret = std::make_shared<bufferSet>(this);
-
-    ret->hBuffer = getMat(ret->Mats, timeOut);
-
-    if (!ret->hBuffer)
-    {
-        ret.reset();
-    }
-    return ret;
-}
-
-bufferSet::~bufferSet()
-{
-    if (this->hBuffer)
-    {
-        releaseMat(this->hBuffer);
-    }
 }
 
 sPDstream::sPDstream(PDdevice &device, uint32_t _streamID) : hDev(device)
@@ -210,42 +155,4 @@ bool sPDstream::getCamPara(intrinsics &intr, extrinsics &extr)
         return false;
     }
     return true;
-}
-
-PCLstream::PCLstream(PDdevice &device, uint32_t _streamID) : sPDstream(device, _streamID)
-{
-    streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
-    streamVec.emplace_back(std::make_shared<sPDstream>(device, "ToF"));
-}
-
-PCLstream::PCLstream(PDdevice &device, const char *streamName) : sPDstream(device, streamName)
-{
-    streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
-    streamVec.emplace_back(std::make_shared<sPDstream>(device, "ToF"));
-}
-
-PCLstream::~PCLstream()
-{
-    streamVec.clear();
-}
-
-bool PCLstream::init()
-{
-    bool ret = true;
-    for (auto pStream : streamVec)
-    {
-        ret &= pStream->init();
-    }
-    ret &= sPDstream::init();
-    return ret;
-}
-
-std::shared_ptr<bufferSet> PCLstream::waitFrames(uint64_t timeOut)
-{
-    for (auto pStream : streamVec)
-    {
-        auto ret = pStream->waitFrames(1);
-        ret.reset();
-    }
-    return sPDstream::waitFrames(timeOut);
 }

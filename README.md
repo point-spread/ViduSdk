@@ -2,38 +2,18 @@
 
 ## Precondition
 #### 0. System:
-Ubuntu16.04 or later ubuntu LTS version (Tested on ubuntu 16.04, 18.04, 20.04)
-x86-64bit system
-#### 1. Install cam drivers:
+Ubuntu18.04 or later ubuntu LTS version (Tested on ubuntu 18.04, 20.04) x86-64bit system
+#### 1. Install
 
 execute the following commands in a terminal
 
 ```
 #under OkuloSdk
-cd camdriver
-sudo chmod +x installDriver.sh
-sudo ./installDriver.sh
+chmod +x ./install.sh 
+./install.sh 
+source ~/.bashrc
 ```
-
-#### 2. Install SDK dependencies: 
-
-```
-sudo apt install libglfw3-dev libglm-dev
-```
-
-other dependencies : 
-CMake (minimum version 3.5)
-
-#### 3. Set environment: 
-
-```
-export DYVCAM_GENTL64_PATH={OkuloSdkDir}/SDKlib  ({OkuloSdkDir} should be absolute path wrt. your computer!!!)
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"{OkuloSdkDir}/SDKlib"  ({OkuloSdkDir} should be absolute path wrt. your computer!!!)
-```
-
-It's recommended to put those commands in your  `~/.bashrc`, also remember to ``source ~/.bashrc``
-
-### What SDK includes:
+###  What SDK includes:
 
 1. **okulo_viewer** *(SDKbin/okulo_viewer)* : show the origin camera stream & point cloud & control the stream;
 2. **streamShow** *(SDKbin/streamShow)* : the example/streamShow output; press "c" save image or pcl, press "q" exit;
