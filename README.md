@@ -23,16 +23,17 @@ source ~/.bashrc
 
 ## Develop:
 
-**SDKcode/GenTL** provides C headers by which the developer can directly invoke the *SDKlib/libDYVGenTL.cti*  using  C interface according to the **GenTL** standard.
+**SDKcode/GenTL** provides C headers by which the developer can directly invoke the *SDKlib/libDYVGenTL.cti*  using the C interface according to the **GenTL** standard.
 
-**SDKcode/wrapper** provides a C++ wrapper of the *SDKlib/libDYVGenTL.cti*, which may let the code of developer more conciser and C++ tone.
+**SDKcode/wrapper** provides a C++ wrapper of the *SDKlib/libDYVGenTL.cti*, which may make the code of the developer more concise and C++ tone.
 
-**SDKcode/common** provides some debug or timing code fragment.
+**SDKcode/common** provides some debug or timing code fragments.
 
-**example** example of how to get data from the camera.
+**Example** example of how to get data from the camera.
+
 
 ```
-#under OkuloSdk
+#Building OkuloSdk
 mkdir build && cd build
 cmake ../
 make -j
