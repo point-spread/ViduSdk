@@ -1262,6 +1262,8 @@ extern "C"
     GC_API PDBufferGetInfo(BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer,
                            size_t *piSize);
     GC_API PDBufferGetMetaData(BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize, char *pType);
+    GC_API PDBufferGetMetaDataWithName(BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize,
+                                       char *pType);
     GC_API PDBufferGetMetaDataDesc(BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName,
                                    const char **ppDescName);
     GC_API PDBufferGetMetaDataNum(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
@@ -1500,6 +1502,8 @@ extern "C"
     (BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
     GC_API_P(PPDBufferGetMetaData)
     (BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize, char *pType);
+    GC_API_P(PPDBufferGetMetaDataWithName)
+    (BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize, char *pType);
     GC_API_P(PPDBufferGetMetaDataDesc)
     (BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName, const char **ppDescName);
     GC_API_P(PPDBufferGetMetaDataNum)(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
