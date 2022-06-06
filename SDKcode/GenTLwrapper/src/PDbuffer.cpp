@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-27 22:41:06
- * @LastEditTime: 2022-04-27 22:48:59
+ * @LastEditTime: 2022-06-02 21:54:45
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/src/PDbuffer.cpp
@@ -31,7 +31,7 @@ PDbuffer::PDbuffer(sPDstream *stream)
 
 uint32_t PDbuffer::getMatNum()
 {
-    return Mats.size();
+    return (uint32_t)Mats.size();
 }
 const cv::Mat &PDbuffer::getMat(uint32_t id)
 {

@@ -263,7 +263,8 @@ extern "C"
         INFO_DATATYPE_BUFFER = 13,  /*!< Like a INFO_DATATYPE_STRING but with arbitrary data and no NULL termination. */
         INFO_DATATYPE_PTRDIFF = 14, /*!< Platform dependent signed integer (32 bit on 32 bit platforms). GenTL v1.3 */
 
-        INFO_DATATYPE_CUSTOM_ID = 1000 /*!< Starting value for custom IDs. */
+        INFO_DATATYPE_CUSTOM_ID = 1000, /*!< Starting value for custom IDs. */
+        INFO_DATATYPE_FLOAT32 = 1001,
     };
     typedef int32_t INFO_DATATYPE;
 
@@ -1261,9 +1262,10 @@ extern "C"
 
     GC_API PDBufferGetInfo(BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer,
                            size_t *piSize);
-    GC_API PDBufferGetMetaData(BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize, char *pType);
+    GC_API PDBufferGetMetaData(BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize,
+                               INFO_DATATYPE *piType);
     GC_API PDBufferGetMetaDataWithName(BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize,
-                                       char *pType);
+                                       INFO_DATATYPE *piType);
     GC_API PDBufferGetMetaDataDesc(BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName,
                                    const char **ppDescName);
     GC_API PDBufferGetMetaDataNum(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
@@ -1501,9 +1503,9 @@ extern "C"
     GC_API_P(PPDBufferGetInfo)
     (BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
     GC_API_P(PPDBufferGetMetaData)
-    (BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize, char *pType);
+    (BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize, INFO_DATATYPE *piType);
     GC_API_P(PPDBufferGetMetaDataWithName)
-    (BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize, char *pType);
+    (BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize, INFO_DATATYPE *piType);
     GC_API_P(PPDBufferGetMetaDataDesc)
     (BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName, const char **ppDescName);
     GC_API_P(PPDBufferGetMetaDataNum)(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);

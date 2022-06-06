@@ -10,7 +10,7 @@ execute the following commands in a terminal
 ```
 #under OkuloSdk
 chmod +x ./install.sh 
-./install.sh 
+sudo ./install.sh 
 source ~/.bashrc
 ```
 ###  What SDK includes:
@@ -23,17 +23,16 @@ source ~/.bashrc
 
 ## Develop:
 
-**SDKcode/GenTL** provides C headers by which the developer can directly invoke the *SDKlib/libDYVGenTL.cti*  using the C interface according to the **GenTL** standard.
+**SDKcode/GenTL** provides C headers by which the developer can directly invoke the *SDKlib/libDYVGenTL.cti*  using  C interface according to the **GenTL** standard.
 
-**SDKcode/wrapper** provides a C++ wrapper of the *SDKlib/libDYVGenTL.cti*, which may make the code of the developer more concise and C++ tone.
+**SDKcode/wrapper** provides a C++ wrapper of the *SDKlib/libDYVGenTL.cti*, which may let the code of developer more conciser and C++ tone.
 
-**SDKcode/common** provides some debug or timing code fragments.
+**SDKcode/common** provides some debug or timing code fragment.
 
-**Example** example of how to get data from the camera.
-
+**example** example of how to get data from the camera.
 
 ```
-#Building OkuloSdk
+#under OkuloSdk
 mkdir build && cd build
 cmake ../
 make -j

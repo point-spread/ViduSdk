@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2021-12-07 23:15:57
- * @LastEditTime: 2022-04-28 00:11:22
+ * @LastEditTime: 2022-06-06 10:57:23
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/inc/sPDstream.h
@@ -32,8 +32,12 @@ class sPDstream : public PDport
     std::vector<std::function<void(void)>> destructFuncs;
     bool streamStarted = false;
     bool startStream();
+
     virtual PDHandle getMat(std::vector<cv::Mat> &Mats, uint64_t timeOut);
     const PDHandle hDev; // hStream intern will maintain the life of dev
+
+  protected:
+    bool stopStream();
 
   public:
     /**
@@ -50,6 +54,13 @@ class sPDstream : public PDport
      * @param streamName name of the stream to be open, option now : RGB/TOF/PCL
      */
     sPDstream(PDdevice &device, const char *streamName);
+
+    /**
+     * @brief Get the Stream Name object
+     *
+     * @return std::string
+     */
+    std::string getStreamName();
 
     /**
      * @brief to grab a set of frames

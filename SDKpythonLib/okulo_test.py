@@ -21,6 +21,7 @@ print("stream_num = {}\n".format(stream_num))
 for i in range(stream_num):
     stream = okulo.PDstream(device, i)
     suc= stream.init()
+    streamName = stream.getStreamName()
     if not suc:
         print("stream {} init failed\n".format(i))
     else:
@@ -28,7 +29,7 @@ for i in range(stream_num):
     while True:
         mats = stream.getPyMat()
         for i, mat in enumerate(mats):
-            cv.imshow("%d" %i, mat)
+            cv.imshow("%s: %i" %(streamName, i), mat)
         
         key = cv.waitKey(1)
         if key & 0xFF == ord('q'):
@@ -39,6 +40,7 @@ for i in range(stream_num):
     okulo.print_extrinsics(extrinsic)
 
     print("finish stream {}\n".format(i))
+    cv.destroyAllWindows()
 
 
 print("all set\n")

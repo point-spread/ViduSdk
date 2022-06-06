@@ -1,10 +1,10 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-12 22:24:05
- * @LastEditTime: 2022-04-27 23:05:02
+ * @LastEditTime: 2022-06-06 13:52:56
  * @LastEditors: Kian Liu
  * @Description:
- * @FilePath: /DYV_SDK/GenTLwrapper/inc/PDport.h
+ * @FilePath: /OkuloSdk/SDKcode/GenTLwrapper/inc/PDport.h
  */
 #pragma once
 #include "GenICam/GenTL.h"
@@ -25,18 +25,37 @@ class PDport
 
   protected:
     void setPort(PDHandle handle);
-
     bool isInited() const;
-
-  protected:
     virtual bool init();
-    bool set(const char *name, const void *value, size_t size);
-    bool get(const char *name, void *value, size_t size);
-    bool set(uint64_t addr, const void *value, size_t size);
-    bool get(uint64_t addr, void *value, size_t size);
+    bool set(const char *name, const void *value, size_t size, int32_t dataType);
+    bool get(const char *name, void *value, size_t size, int32_t dataType);
 
   public:
     virtual ~PDport() = default;
+
+    virtual bool set(const char *name, int64_t value);
+    virtual bool get(const char *name, int64_t &value);
+
+    virtual bool set(const char *name, uint64_t value);
+    virtual bool get(const char *name, uint64_t &value);
+
+    virtual bool set(const char *name, int32_t value);
+    virtual bool get(const char *name, int32_t &value);
+
+    virtual bool set(const char *name, uint32_t value);
+    virtual bool get(const char *name, uint32_t &value);
+
+    virtual bool set(const char *name, int16_t value);
+    virtual bool get(const char *name, int16_t &value);
+
+    virtual bool set(const char *name, uint16_t value);
+    virtual bool get(const char *name, uint16_t &value);
+
+    virtual bool set(const char *name, float value);
+    virtual bool get(const char *name, float &value);
+
+    virtual bool set(const char *name, bool value);
+    virtual bool get(const char *name, bool &value);
 
     /**
      * @brief coercion type conversion from PDport object to GenTL port

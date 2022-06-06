@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-16 20:02:17
- * @LastEditTime: 2022-04-27 23:26:27
+ * @LastEditTime: 2022-06-06 11:04:47
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/inc/PDstream.h
@@ -35,6 +35,12 @@ class PDstream : public PDport // proxy class
      */
     PDstream(PDdevice &device, const char *streamName);
     /**
+     * @brief Get the Stream Name object
+     *
+     * @return std::string
+     */
+    std::string getStreamName();
+    /**
      * @brief Get the Cam Para object
      *
      * @param intr intrinsic paras of the camera (tof & rgb are different from each other)
@@ -61,4 +67,14 @@ class PDstream : public PDport // proxy class
     * @return false
     */
     bool init() override;
+
+    template <typename T> bool set(const char *name, T value)
+    {
+        return pStream->set(name, value);
+    }
+
+    template <typename T> bool get(const char *name, T &value)
+    {
+        return pStream->get(name, value);
+    }
 };

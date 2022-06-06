@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-16 19:45:49
- * @LastEditTime: 2022-04-27 22:51:59
+ * @LastEditTime: 2022-06-06 11:05:12
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/src/PDstream.cpp
@@ -19,18 +19,56 @@ class PCLstream : public sPDstream
     virtual std::shared_ptr<PDbuffer> waitFrames(uint64_t timeOut = 1) override;
     bool init() override;
     ~PCLstream();
+
+    sPDstream *getStream(const char *name, int &offset)
+    {
+        auto nameStr = std::string(name);
+        if (nameStr.size() > 5 && nameStr.compare(0, 5, "ToF::") == 0)
+        {
+            offset = 5;
+            return streamVec[0].get();
+        }
+        else if (nameStr.size() > 5 && nameStr.compare(0, 5, "RGB::") == 0)
+        {
+            offset = 5;
+            return streamVec[1].get();
+        }
+        offset = 0;
+        return this;
+    }
+
+#define SET_GET_OVERRIDE_FUNC(type)                                                                                    \
+    bool set(const char *name, type value) override                                                                    \
+    {                                                                                                                  \
+        int offset = 0;                                                                                                \
+        return getStream(name, offset)->set(&name[offset], value);                                                     \
+    }                                                                                                                  \
+    bool get(const char *name, type &value) override                                                                   \
+    {                                                                                                                  \
+        int offset = 0;                                                                                                \
+        return getStream(name, offset)->get(&name[offset], value);                                                     \
+    }
+
+    SET_GET_OVERRIDE_FUNC(int64_t)
+    SET_GET_OVERRIDE_FUNC(uint64_t)
+    SET_GET_OVERRIDE_FUNC(int32_t)
+    SET_GET_OVERRIDE_FUNC(uint32_t)
+    SET_GET_OVERRIDE_FUNC(int16_t)
+    SET_GET_OVERRIDE_FUNC(uint16_t)
+    SET_GET_OVERRIDE_FUNC(float)
+    SET_GET_OVERRIDE_FUNC(bool)
 };
 
 PCLstream::PCLstream(PDdevice &device, uint32_t _streamID) : sPDstream(device, _streamID)
 {
-    streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
     streamVec.emplace_back(std::make_shared<sPDstream>(device, "ToF"));
+    streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
 }
 
 PCLstream::PCLstream(PDdevice &device, const char *streamName) : sPDstream(device, streamName)
 {
-    streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
     streamVec.emplace_back(std::make_shared<sPDstream>(device, "ToF"));
+    streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
 }
 
 PCLstream::~PCLstream()
@@ -84,6 +122,11 @@ PDstream::PDstream(PDdevice &device, uint32_t _streamID)
     {
         pStream = std::make_shared<sPDstream>(device, _streamID);
     }
+}
+
+std::string PDstream::getStreamName()
+{
+    return pStream->getStreamName();
 }
 
 bool PDstream::getCamPara(intrinsics &intr, extrinsics &extr)

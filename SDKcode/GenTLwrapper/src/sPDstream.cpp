@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2021-12-07 23:15:51
- * @LastEditTime: 2022-04-27 22:51:55
+ * @LastEditTime: 2022-06-06 11:02:44
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/src/sPDstream.cpp
@@ -132,6 +132,22 @@ sPDstream::sPDstream(PDdevice &device, uint32_t _streamID) : hDev(device)
 sPDstream::sPDstream(PDdevice &device, const char *streamName) : hDev(device)
 {
     streamIDstr = streamName;
+}
+
+std::string sPDstream::getStreamName()
+{
+    std::string streamName;
+    char tmp[1024];
+    size_t size = sizeof(tmp);
+    if (GenTL::DSGetInfo(getPort(), GenTL::STREAM_INFO_ID, nullptr, &tmp, &size) != GenTL::GC_ERR_SUCCESS)
+    {
+        PD_ERROR("failed getStreamName!\n");
+    }
+    else
+    {
+        streamName = std::string(tmp);
+    }
+    return streamName;
 }
 
 bool sPDstream::getCamPara(intrinsics &intr, extrinsics &extr)

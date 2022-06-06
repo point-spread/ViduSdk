@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-13 02:52:01
- * @LastEditTime: 2022-04-21 22:04:28
+ * @LastEditTime: 2022-06-02 16:37:28
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/utility/streamShow/main.cpp
@@ -22,6 +22,14 @@ int rgbDemo()
         auto stream = PDstream(devInst, "RGB");
         if (stream)
         {
+            bool isAutoExposure = false;
+            stream.get("AutoExposure", isAutoExposure);
+            if (isAutoExposure)
+            {
+                stream.set("AutoExposure", false);
+            }
+            stream.set("Exposure", 1.0f);
+            stream.set("Gain", 1.0f);
             while (1)
             {
                 auto frame = stream.waitFrames();
@@ -58,12 +66,29 @@ int tofDemo()
         auto stream = PDstream(devInst, "ToF");
         if (stream)
         {
+            bool isAutoExposure = false;
+            stream.get("AutoExposure", isAutoExposure);
+            if (isAutoExposure)
+            {
+                stream.set("AutoExposure", false);
+            }
+            stream.set("Exposure", 1.0f);
+
+            float DistRange = 0.0f;
             while (1)
             {
                 auto frame = stream.waitFrames();
+
                 char key = cv::waitKey(1);
                 if (frame)
                 {
+                    if (DistRange < 1e-5) // zGain should be inited
+                    {
+                        size_t varSize = sizeof(varSize);
+                        GenTL::PDBufferGetMetaDataWithName(frame->getPort(), "DistRange", &DistRange, &varSize,
+                                                           nullptr);
+                        printf("max distance %f for distanceMap", DistRange);
+                    }
                     const cv::Mat &pha = frame->getMat(0);
                     const cv::Mat &infrared = frame->getMat(1);
                     cv::imshow("pha", pha);
@@ -92,8 +117,30 @@ int pclDemo()
     if (devInst)
     {
         auto pclstream = PDstream(devInst, "PCL");
+
         if (pclstream)
         {
+
+            bool isTofAutoExposure = false;
+            bool isRGBAutoExposure = false;
+            pclstream.get("ToF::AutoExposure", isTofAutoExposure);
+            pclstream.get("RGB::AutoExposure", isRGBAutoExposure);
+            if (isTofAutoExposure)
+            {
+                pclstream.set("ToF::AutoExposure", false);
+            }
+            if (isRGBAutoExposure)
+            {
+                pclstream.set("RGB::AutoExposure", false);
+            }
+
+            pclstream.set("ToF::Distance", 7.5f);
+            pclstream.set("ToF::StreamFps", 50.0f);
+            pclstream.set("ToF::Threshold", 100);
+            pclstream.set("ToF::Exposure", 1.0f);
+            pclstream.set("RGB::Exposure", 10.0f);
+            pclstream.set("RGB::Gain", 20.0f);
+
             bool saveReq = false;
             while (1)
             {

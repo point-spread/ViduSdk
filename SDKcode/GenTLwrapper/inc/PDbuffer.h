@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-27 22:37:39
- * @LastEditTime: 2022-04-28 00:10:31
+ * @LastEditTime: 2022-06-02 16:35:55
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/inc/PDbuffer.h
@@ -32,6 +32,12 @@ class PDbuffer
     {
         return hBuffer;
     }
+
+    void *getPort()
+    {
+        return hBuffer;
+    }
+
     ~PDbuffer();
     /**
      * @brief Get the Mat Num
