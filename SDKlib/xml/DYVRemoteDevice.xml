@@ -107,8 +107,8 @@
     <Address>0x04</Address>  
     <Length>16</Length>  
     <AccessMode>RO</AccessMode>  
-    <pPort>Device</pPort> 
-  </StringReg>  
+    <pPort>Device</pPort>
+  </StringReg>
   <StringReg Name="DeviceVersion" NameSpace="Standard"> 
     <ToolTip>Version of the device.</ToolTip>  
     <Description>Version from bootstrap.</Description>  

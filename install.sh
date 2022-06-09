@@ -2,7 +2,7 @@
 ###
  # @Author: Kian Liu
  # @Date: 2022-05-23 17:42:39
- # @LastEditTime: 2022-05-23 19:18:51
+ # @LastEditTime: 2022-06-09 12:40:40
  # @LastEditors: Kian Liu
  # @Description: 
  # @FilePath: /OkuloSdk_Internal/install.sh
@@ -38,4 +38,10 @@ echo "opencv has been installed"
 else
 echo "opencv install..." 
 sudo apt-get install libopencv-dev python-opencv 1>/dev/null
+fi
+
+if [ "$EUID" -ne 0 ]; then
+ echo 'rember to execute "source ~/.bashrc"'
+else
+  echo "relogin for changes to take effect"
 fi

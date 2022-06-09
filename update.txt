@@ -16,3 +16,7 @@ v0.5:
     1.show streamName
     2.show viewer version
     3.add update.txt
+v0.6:
+    1.enhance flying pixel removal
+    2.jetson support
+    3.other minor modify

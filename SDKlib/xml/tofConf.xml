@@ -23,6 +23,7 @@
 		<pFeature>Confidence</pFeature>
 		<pFeature>FlyingPixelRemoval</pFeature>
 		<pFeature>FilterStrength</pFeature>
+		<pFeature>DepthCompletion</pFeature>
 	</Category>
 	<String Name="MetaData">
 		<Value>Height,"Image Height",t,8;
@@ -78,21 +79,29 @@
         <ToolTip>Max distance the sensor can correctly detetct</ToolTip>
         <DisplayName>Distance (m)</DisplayName> 
         <EnumEntry Name="1.5" NameSpace="Standard">
-            <Value>0x1020100</Value>
+            <Value>0x1000100</Value>
         </EnumEntry>
         <EnumEntry Name="2.5" NameSpace="Standard">
-            <Value>0x1020001</Value>
+            <Value>0x1000001</Value>
         </EnumEntry>
         <EnumEntry Name="3" NameSpace="Standard">
-            <Value>0x1010002</Value>
+            <Value>0x1000003</Value>
         </EnumEntry>
         <EnumEntry Name="7.5" NameSpace="Standard">
             <Value>0x2020100</Value>
         </EnumEntry>
+		<EnumEntry Name="15" NameSpace="Standard">
+            <Value>0x2000200</Value>
+        </EnumEntry>
         <pValue>ModFreqReg</pValue>
     </Enumeration>
 
-	<Boolean Name="FlyingPixelRemoval">
+	<Category Name="FlyingPixelRemoval" NameSpace="Standard">
+		<pFeature>Medblur</pFeature>
+		<pFeature>RemoveStrength</pFeature>
+	</Category>
+
+	<Boolean Name="Medblur">
 		<ToolTip>Remove the possible flying pixels</ToolTip>
 		<pValue>MedBlurReg</pValue>
 		<OnValue>0</OnValue>
@@ -158,6 +167,22 @@
 		<Inc>0.008</Inc>
 		<Representation>Linear</Representation>
 	</Float>
+	<Integer Name="RemoveStrength" NameSpace="Standard">
+        <ToolTip>Level of flying pixel removal strength</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>FlyingPixelRemovalLevelReg</pValue>
+        <Min>0</Min>
+        <Max>20</Max>
+        <Inc>1</Inc>
+    <Representation>Linear</Representation>
+    </Integer>
+	<Boolean Name="DepthCompletion" NameSpace="Standard">
+        <ToolTip>Depth Completion</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>DepthCompletionReg</pValue>
+        <OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
 	<Category Name="TransportLayerControl" NameSpace="Standard">
 		<DisplayName>Transport Layer Control</DisplayName>
 		<pFeature>PayloadSize</pFeature>
@@ -259,6 +284,27 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
+
+	<IntReg Name="FlyingPixelRemovalLevelReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x500</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+
+	<MaskedIntReg Name="DepthCompletionReg">
+		<Visibility>Guru</Visibility>
+		<Address>0X502</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+        <Bit>0</Bit>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</MaskedIntReg>
 
 	<IntReg Name="MedBlurReg">
 		<Visibility>Guru</Visibility>

@@ -1,10 +1,10 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-12 22:24:05
- * @LastEditTime: 2022-06-06 13:52:56
+ * @LastEditTime: 2022-06-06 13:53:18
  * @LastEditors: Kian Liu
  * @Description:
- * @FilePath: /OkuloSdk/SDKcode/GenTLwrapper/inc/PDport.h
+ * @FilePath: /DYV_SDK/GenTLwrapper/inc/PDport.h
  */
 #pragma once
 #include "GenICam/GenTL.h"

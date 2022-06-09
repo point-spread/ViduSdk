@@ -1,7 +1,7 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-13 02:52:01
- * @LastEditTime: 2022-06-02 16:37:28
+ * @LastEditTime: 2022-06-06 19:33:51
  * @LastEditors: Kian Liu
  * @Description:
  * @FilePath: /DYV_SDK/utility/streamShow/main.cpp
@@ -156,10 +156,10 @@ int pclDemo()
                 }
                 if (pPclFrame)
                 {
-                    const cv::Mat &dist = pPclFrame->getMat(0);
+                    const cv::Mat &xyz = pPclFrame->getMat(0);
                     const cv::Mat &infrared = pPclFrame->getMat(1);
                     const cv::Mat &color = pPclFrame->getMat(2);
-                    cv::imshow("dist", dist);
+                    cv::imshow("xyz", xyz);
                     cv::imshow("infrared", infrared);
                     cv::imshow("color", color);
                     if (saveReq)
