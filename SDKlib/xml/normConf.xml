@@ -9,10 +9,6 @@
         <pFeature>AutoExposure</pFeature>  
 		<pFeature>Exposure</pFeature>
 		<pFeature>Gain</pFeature>
-        <!-- <pFeature>WhiteBalanceControl</pFeature> -->
-        <pFeature>SpatialFilter</pFeature>
-        <pFeature>FilterStrength</pFeature>
-        <!-- <pFeature>BayerDomain</pFeature> -->
 	</Category>
     <Category Name="feature_full" NameSpace="Standard">
         <pFeature>PixelFormat</pFeature>
@@ -83,8 +79,6 @@
 	</Category>
     <Category Name="Filters" NameSpace="Standard">
         <pFeature>AntiAliasingFilter</pFeature>
-        <pFeature>SpatialFilter</pFeature>
-        <pFeature>FilterStrength</pFeature>
 	</Category>
     <Category Name="BayerDomain" NameSpace="Standard">
         <pFeature>DeadPixelCorrection</pFeature>
@@ -117,7 +111,6 @@
             CurFps,"Current Fps",f,1c;
             PixelFormat,"PixelFormat",j,10;
             ExpoTime,"Exposure Time",f,40;
-            TempSenBrd,"RgbSenBrd Temperature",f,48;
             TempProcessor,"Processor Temperature",f,54;</Value>
 		</String>
 
@@ -225,25 +218,6 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
-    <IntReg Name="SpatialFilterReg">
-		<Visibility>Guru</Visibility>
-		<Address>0x44C90000</Address>
-		<Length>4</Length>
-		<AccessMode>RW</AccessMode>
-		<pPort>StreamPort</pPort>
-		<Sign>Unsigned</Sign>
-		<Endianess>LittleEndian</Endianess>
-	</IntReg>
-    <IntReg Name="SpatialFilterLevelReg">
-		<Visibility>Guru</Visibility>
-        <pIsLocked>SFLocked</pIsLocked>
-		<Address>0x44C90004</Address>
-		<Length>4</Length>
-		<AccessMode>RW</AccessMode>
-		<pPort>StreamPort</pPort>
-		<Sign>Unsigned</Sign>
-		<Endianess>LittleEndian</Endianess>
-	</IntReg>
     <IntReg Name="AGCEnReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x44C80000</Address>
@@ -259,6 +233,7 @@
 		<Length>4</Length>
 		<AccessMode>RW</AccessMode>
 		<pPort>StreamPort</pPort>
+        <pInvalidator>AutoExposureReg</pInvalidator>
         <Bit>0</Bit>
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
@@ -555,28 +530,6 @@
         <Min>3096</Min>
         <Max>24573</Max>
         <Inc>10</Inc>
-    </Integer>
-    <Boolean Name="SpatialFilter" NameSpace="Standard">
-        <ToolTip>Spatial Filter in ISP </ToolTip>
-        <Visibility>Beginner</Visibility>
-        <pValue>SpatialFilterReg</pValue>
-        <OnValue>1</OnValue>
-		<OffValue>0</OffValue>
-    </Boolean>
-    <IntSwissKnife Name="SFLocked">
-        <ToolTip>Locks if Spatial Filter is enabled</ToolTip>
-        <Visibility>Invisible</Visibility>
-        <pVariable Name="SF">SpatialFilter</pVariable>
-        <Formula>(SF = 1) ? 0 : 1</Formula>
-    </IntSwissKnife>
-    <Integer Name="FilterStrength" NameSpace="Standard">
-        <ToolTip>Level of the spatial filter strength</ToolTip>
-        <Visibility>Beginner</Visibility>
-        <pValue>SpatialFilterLevelReg</pValue>
-        <Min>0</Min>
-        <Max>9</Max>
-        <Inc>1</Inc>
-    <Representation>Linear</Representation>
     </Integer>
     <Boolean Name="AutoGammaCorrection" NameSpace="Standard">
         <ToolTip>Auto Gamma Correction</ToolTip>

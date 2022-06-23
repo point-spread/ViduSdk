@@ -20,3 +20,7 @@ v0.6:
     1.enhance flying pixel removal
     2.jetson support
     3.other minor modify
+v0.7:
+    1.update viewer
+    2.enhance depth filter
+    3.other minor modify

@@ -150,7 +150,6 @@
     </IntSwissKnife>
 	<Float Name="Exposure" NameSpace="Standard">
 		<ToolTip>Exposure of the sensor</ToolTip>
-		<Visibility>Beginner</Visibility>
 		<pValue>ExposureReg</pValue>
 		<Min>0.008</Min>
 		<Max>1.2</Max>
@@ -158,15 +157,14 @@
 		<Unit>ms</Unit>
 		<Representation>Linear</Representation>
 	</Float>
-	<Float Name="FilterStrength" NameSpace="Standard">
+	<Integer Name="FilterStrength" NameSpace="Standard">
 		<ToolTip>Filter strength of the spatial filter</ToolTip>
-		<Visibility>Beginner</Visibility>
-		<pValue>BiLateralOverallReg</pValue>
-		<Min>0.004</Min>
-		<Max>14.14</Max>
-		<Inc>0.008</Inc>
+		<pValue>DepthFilterReg</pValue>
+		<Min>0</Min>
+        <Max>3</Max>
+        <Inc>1</Inc>
 		<Representation>Linear</Representation>
-	</Float>
+	</Integer>
 	<Integer Name="RemoveStrength" NameSpace="Standard">
         <ToolTip>Level of flying pixel removal strength</ToolTip>
         <Visibility>Beginner</Visibility>
@@ -306,6 +304,16 @@
 		<Endianess>LittleEndian</Endianess>
 	</MaskedIntReg>
 
+	<IntReg Name="DepthFilterReg">
+		<Visibility>Guru</Visibility>
+		<Address>0X504</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+
 	<IntReg Name="MedBlurReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x44a70000</Address>
@@ -316,30 +324,6 @@
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
 
-	<FloatReg Name="BiLateralSRReg">
-		<Visibility>Guru</Visibility>
-		<Address>0xf00020C0</Address>
-		<Length>4</Length>
-		<AccessMode>RW</AccessMode>
-		<pPort>StreamPort</pPort>
-		<Endianess>LittleEndian</Endianess>
-	</FloatReg>
-	<FloatReg Name="BiLateralSSReg">
-		<Visibility>Guru</Visibility>
-		<Address>0xf00020C4</Address>
-		<Length>4</Length>
-		<AccessMode>RW</AccessMode>
-		<pPort>StreamPort</pPort>
-		<Endianess>LittleEndian</Endianess>
-	</FloatReg>
-	<FloatReg Name="BiLateralOverallReg">
-		<Visibility>Guru</Visibility>
-		<Address>0xf00020F0</Address>
-		<Length>4</Length>
-		<AccessMode>RW</AccessMode>
-		<pPort>StreamPort</pPort>
-		<Endianess>LittleEndian</Endianess>
-	</FloatReg>	
     <MaskedIntReg Name="AutoExposureReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x44A70004</Address>

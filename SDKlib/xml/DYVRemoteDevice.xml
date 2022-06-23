@@ -104,7 +104,7 @@
     <Description>Model name from bootstap.</Description>  
     <DisplayName>Device Model Name</DisplayName>  
     <Visibility>Beginner</Visibility>  
-    <Address>0x04</Address>  
+    <Address>0x100</Address>  
     <Length>16</Length>  
     <AccessMode>RO</AccessMode>  
     <pPort>Device</pPort>
