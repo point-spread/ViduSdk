@@ -126,7 +126,7 @@ bool PDport::get(const char *name, bool &value)
 bool PDport::set(const char *name, const void *value, size_t size, int32_t dataType)
 {
     GenTL::INFO_DATATYPE dataTypeTmp = (GenTL::INFO_DATATYPE)dataType;
-    bool ret = GenTL::GCWritePortWithName(port, name, &dataTypeTmp, value, &size);
+    bool ret = GenTL::GCWritePortByName(port, name, &dataTypeTmp, value, &size);
     if ((int32_t)dataTypeTmp != dataType)
     {
         PD_WARNING("data type not match\n");
@@ -137,7 +137,7 @@ bool PDport::set(const char *name, const void *value, size_t size, int32_t dataT
 bool PDport::get(const char *name, void *value, size_t size, int32_t dataType)
 {
     GenTL::INFO_DATATYPE dataTypeTmp = (GenTL::INFO_DATATYPE)dataType;
-    bool ret = GenTL::GCReadPortWithName(port, name, &dataTypeTmp, value, &size);
+    bool ret = GenTL::GCReadPortByName(port, name, &dataTypeTmp, value, &size);
     if ((int32_t)dataTypeTmp != dataType)
     {
         PD_WARNING("data type not match\n");

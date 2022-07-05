@@ -78,7 +78,6 @@ Makefile*
 *.stamp
 *.depend
 *.vcxproj
-*.exe
 *.cache
 *.filters
 *.db

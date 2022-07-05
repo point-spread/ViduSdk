@@ -12,9 +12,9 @@
             FrameCount,"Image FrameCount",j,14;
             CurFps,"Current Fps",f,1c;
             PixelFormat,"PixelFormat",j,10;
-            DepthTimestamp,"  Depth timestamp",j,44;
+            DepthTimestamp,"Depth timestamp",j,44;
             TextureTimestamp,"Texture timestamp",j,40;
-            zGain,"factor of depth pixel to z",f,48;
+            Range,"Detect range (m)",f,48;
         </Value>
 	</String>
     <Category Name="Property" NameSpace="Standard">
