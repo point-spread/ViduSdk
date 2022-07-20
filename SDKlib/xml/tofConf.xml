@@ -45,7 +45,7 @@
 			GyroY,"GyroY",f,74;
 			GyroZ,"GyroZ",f,78;
 			ModulateFreq,"modulation freq",f,84;
-			DistRange,"Distance Range",f,90;
+			Range,"Detect range (m)",f,90;
 			</Value>
 		</String>
 	<Category Name="cameraPara" NameSpace="Standard">

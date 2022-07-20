@@ -24,3 +24,8 @@ v0.7:
     1.update viewer
     2.enhance depth filter
     3.other minor modify
+v0.8:
+    1.rename api with stream meta
+    2.show depth in pcl demo
+    3.other minor modify
+    4.windows support

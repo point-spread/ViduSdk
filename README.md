@@ -1,5 +1,5 @@
 # OkuloSdk
-**LINUX VERSION**, if windows, pls. checkout windows branch
+
 ## Precondition
 #### 0. System:
 Ubuntu18.04 or later ubuntu LTS version (Tested on ubuntu 18.04, 20.04) x86-64bit system

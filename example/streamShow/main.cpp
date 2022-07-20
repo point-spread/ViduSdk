@@ -72,6 +72,9 @@ int tofDemo()
             {
                 stream.set("AutoExposure", false);
             }
+            stream.set("Distance", 7.5f);
+            stream.set("StreamFps", 50.0f);
+            stream.set("Threshold", 100);
             stream.set("Exposure", 1.0f);
 
             float DistRange = 0.0f;
@@ -82,11 +85,10 @@ int tofDemo()
                 char key = cv::waitKey(1);
                 if (frame)
                 {
-                    if (DistRange < 1e-5) // zGain should be inited
+                    if (DistRange < 1e-5) // DistRange should be inited
                     {
                         size_t varSize = sizeof(varSize);
-                        GenTL::PDBufferGetMetaDataWithName(frame->getPort(), "DistRange", &DistRange, &varSize,
-                                                           nullptr);
+                        GenTL::PDBufferGetMetaByName(frame->getPort(), "Range", &DistRange, &varSize, nullptr);
                         printf("max distance %f for distanceMap", DistRange);
                     }
                     const cv::Mat &pha = frame->getMat(0);
@@ -142,6 +144,8 @@ int pclDemo()
             pclstream.set("RGB::Gain", 20.0f);
 
             bool saveReq = false;
+            int count = 0;
+            float DistRange = 0.0f;
             while (1)
             {
                 auto pPclFrame = pclstream.waitFrames(); // pcl frames work only when tof && rgb stream grab frames!!!
@@ -156,17 +160,34 @@ int pclDemo()
                 }
                 if (pPclFrame)
                 {
+                    if (DistRange < 1e-5) // DistRange should be inited
+                    {
+                        size_t varSize = sizeof(varSize);
+                        GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "Range", &DistRange, &varSize, nullptr);
+                        printf("max distance %f for distanceMap\n", DistRange);
+                    }
                     const cv::Mat &xyz = pPclFrame->getMat(0);
                     const cv::Mat &infrared = pPclFrame->getMat(1);
                     const cv::Mat &color = pPclFrame->getMat(2);
+
+                    std::vector<cv::Mat> channels(3);
+                    cv::split(xyz, channels);
+                    const cv::Mat &depth = channels[2];
+                    cv::Mat u16Depth;
+                    depth.convertTo(u16Depth, CV_16UC1, 65535.0 / DistRange);
+
                     cv::imshow("xyz", xyz);
                     cv::imshow("infrared", infrared);
                     cv::imshow("color", color);
+                    cv::imshow("depth", depth);
+
                     if (saveReq)
                     {
                         saveReq = false;
                         GenTL::PDBufferSave(*pPclFrame, nullptr);
+                        cv::imwrite(stringFormat("depth-%d.png", count), u16Depth);
                         printf("saved  \n");
+                        count++;
                     }
                 }
                 pPclFrame.reset(); // plz. release frame buffer imediately

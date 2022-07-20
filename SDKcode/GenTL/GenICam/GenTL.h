@@ -1255,20 +1255,19 @@ extern "C"
                            INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
 
     // start customize
-    GC_API GCReadPortWithName(PORT_HANDLE hPort, const char *varName, INFO_DATATYPE *piType, void *pBuffer,
-                              size_t *piSize);
-    GC_API GCWritePortWithName(PORT_HANDLE hPort, const char *varName, INFO_DATATYPE *piType, const void *pBuffer,
-                               size_t *piSize);
+    GC_API GCReadPortByName(PORT_HANDLE hPort, const char *varName, INFO_DATATYPE *piType, void *pBuffer,
+                            size_t *piSize);
+    GC_API GCWritePortByName(PORT_HANDLE hPort, const char *varName, INFO_DATATYPE *piType, const void *pBuffer,
+                             size_t *piSize);
 
     GC_API PDBufferGetInfo(BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer,
                            size_t *piSize);
-    GC_API PDBufferGetMetaData(BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize,
-                               INFO_DATATYPE *piType);
-    GC_API PDBufferGetMetaDataWithName(BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize,
-                                       INFO_DATATYPE *piType);
-    GC_API PDBufferGetMetaDataDesc(BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName,
-                                   const char **ppDescName);
-    GC_API PDBufferGetMetaDataNum(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
+    GC_API PDBufferGetMeta(BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize,
+                           INFO_DATATYPE *piType);
+    GC_API PDBufferGetMetaByName(BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize,
+                                 INFO_DATATYPE *piType);
+    GC_API PDBufferGetMetaDesc(BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName, const char **ppDescName);
+    GC_API PDBufferGetMetaNum(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
     GC_API PDBufferSave(BUFFER_HANDLE hBuffer, const char *name);
     GC_API PDPlySave(BUFFER_HANDLE hBufferXYZ, uint32_t XYZpartID, BUFFER_HANDLE hBufferColor, uint32_t ColorpartID,
                      const char *name);
@@ -1502,13 +1501,13 @@ extern "C"
     // start customize
     GC_API_P(PPDBufferGetInfo)
     (BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
-    GC_API_P(PPDBufferGetMetaData)
+    GC_API_P(PPDBufferGetMeta)
     (BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize, INFO_DATATYPE *piType);
-    GC_API_P(PPDBufferGetMetaDataWithName)
+    GC_API_P(PPDBufferGetMetaByName)
     (BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize, INFO_DATATYPE *piType);
-    GC_API_P(PPDBufferGetMetaDataDesc)
+    GC_API_P(PPDBufferGetMetaDesc)
     (BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName, const char **ppDescName);
-    GC_API_P(PPDBufferGetMetaDataNum)(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
+    GC_API_P(PPDBufferGetMetaNum)(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
     GC_API_P(PPDBufferSave)(BUFFER_HANDLE hBuffer, const char *name);
     GC_API_P(PPDPlySave)
     (BUFFER_HANDLE hBufferXYZ, uint32_t XYZpartID, BUFFER_HANDLE hBufferColor, uint32_t ColorpartID, const char *name);

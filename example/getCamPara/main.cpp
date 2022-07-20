@@ -32,5 +32,7 @@ int main()
                 print_extrinsics(&extrin);
             }
         }
+        return system("pause");
     }
+    return 0;
 }
