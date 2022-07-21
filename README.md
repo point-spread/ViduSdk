@@ -3,6 +3,7 @@
 
 [![Okulo P1](https://res.cloudinary.com/marcomontalbano/image/upload/v1658410834/video_to_markdown/images/youtube--t8YRnP8hS3M-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=t8YRnP8hS3M "Okulo P1")
 
+https://item.taobao.com/item.htm?spm=a230r.1.14.16.21096938dgxnqE&id=676718300324&ns=1&abbucket=11#detail
 
 ## Precondition
 #### 0. System:
