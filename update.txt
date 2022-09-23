@@ -29,3 +29,5 @@ v0.8:
     2.show depth in pcl demo
     3.other minor modify
     4.windows support
+v1.0:
+    1.first release for formal version of the camera

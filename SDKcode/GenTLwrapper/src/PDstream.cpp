@@ -19,6 +19,7 @@ class PCLstream : public sPDstream
     virtual std::shared_ptr<PDbuffer> waitFrames(uint64_t timeOut = 1) override;
     bool init() override;
     ~PCLstream();
+    bool getCamPara(intrinsics &intr, extrinsics &extr) override;
 
     sPDstream *getStream(const char *name, int &offset)
     {
@@ -33,6 +34,11 @@ class PCLstream : public sPDstream
             offset = 5;
             return streamVec[1].get();
         }
+        else if (nameStr.size() > 5 && nameStr.compare(0, 5, "PCL::") == 0)
+        {
+            offset = 5;
+            return this;
+        }
         offset = 0;
         return this;
     }
@@ -41,12 +47,18 @@ class PCLstream : public sPDstream
     bool set(const char *name, type value) override                                                                    \
     {                                                                                                                  \
         int offset = 0;                                                                                                \
-        return getStream(name, offset)->set(&name[offset], value);                                                     \
+        sPDstream *pSubStream = getStream(name, offset);                                                               \
+        if (pSubStream != this)                                                                                        \
+            return pSubStream->set(&name[offset], value);                                                              \
+        return sPDstream::set(&name[offset], value);                                                                   \
     }                                                                                                                  \
     bool get(const char *name, type &value) override                                                                   \
     {                                                                                                                  \
         int offset = 0;                                                                                                \
-        return getStream(name, offset)->get(&name[offset], value);                                                     \
+        sPDstream *pSubStream = getStream(name, offset);                                                               \
+        if (pSubStream != this)                                                                                        \
+            return pSubStream->get(&name[offset], value);                                                              \
+        return sPDstream::get(&name[offset], value);                                                                   \
     }
 
     SET_GET_OVERRIDE_FUNC(int64_t)
@@ -85,6 +97,11 @@ bool PCLstream::init()
     }
     ret &= sPDstream::init();
     return ret;
+}
+
+bool PCLstream::getCamPara(intrinsics &intr, extrinsics &extr)
+{
+    return streamVec[0]->getCamPara(intr, extr);
 }
 
 std::shared_ptr<PDbuffer> PCLstream::waitFrames(uint64_t timeOut)

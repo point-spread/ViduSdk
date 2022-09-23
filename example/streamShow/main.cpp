@@ -88,7 +88,7 @@ int tofDemo()
                     if (DistRange < 1e-5) // DistRange should be inited
                     {
                         size_t varSize = sizeof(varSize);
-                        GenTL::PDBufferGetMetaByName(frame->getPort(), "Range", &DistRange, &varSize, nullptr);
+                        GenTL::PDBufferGetMetaByName(frame->getPort(), "Range", nullptr, &DistRange, &varSize);
                         printf("max distance %f for distanceMap", DistRange);
                     }
                     const cv::Mat &pha = frame->getMat(0);
@@ -139,9 +139,11 @@ int pclDemo()
             pclstream.set("ToF::Distance", 7.5f);
             pclstream.set("ToF::StreamFps", 50.0f);
             pclstream.set("ToF::Threshold", 100);
+            pclstream.set("ToF::RemoveStrength", 1);
             pclstream.set("ToF::Exposure", 1.0f);
             pclstream.set("RGB::Exposure", 10.0f);
             pclstream.set("RGB::Gain", 20.0f);
+            pclstream.set("PCL::FilterStrength", 0.0f);
 
             bool saveReq = false;
             int count = 0;
@@ -163,7 +165,7 @@ int pclDemo()
                     if (DistRange < 1e-5) // DistRange should be inited
                     {
                         size_t varSize = sizeof(varSize);
-                        GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "Range", &DistRange, &varSize, nullptr);
+                        GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "Range", nullptr, &DistRange, &varSize);
                         printf("max distance %f for distanceMap\n", DistRange);
                     }
                     const cv::Mat &xyz = pPclFrame->getMat(0);

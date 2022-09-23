@@ -21,7 +21,7 @@ int main()
     if (devInst.init())
     {
         size_t streamNum = devInst.getStreamNum();
-        for (int i = 0; i < streamNum; i++)
+        for (size_t i = 0; i < streamNum; i++)
         {
             PDstream streamInst(devInst, i);
             streamInst.init();
@@ -32,7 +32,9 @@ int main()
                 print_extrinsics(&extrin);
             }
         }
+#ifdef WIN_32
         return system("pause");
+#endif
     }
     return 0;
 }

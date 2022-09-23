@@ -9,6 +9,7 @@
 ### 
 BASEDIR=$(dirname "$0")
 cd "$BASEDIR"
+chmod +x SDKbin/*
 echo "set cam driver..."
 cd camdriver
 chmod +x installDriver.sh
@@ -31,17 +32,19 @@ fi
 sudo sh -c "echo ${DYVCAM_GENTL64_PATH} > /etc/ld.so.conf.d/DYV_SDK.conf"
 sudo ldconfig
 echo "intsall libglfw3-dev libglm-dev..."
-sudo apt-get install libglfw3-dev libglm-dev 1>/dev/null
+sudo apt-get -y install libglfw3-dev libglm-dev 1>/dev/null
+sudo apt-get -y install locate 1>/dev/null
+sudo apt-get -y install libtbb2 1>/dev/null
 if locate OpenCVConfig.cmake 1>/dev/null
 then
 echo "opencv has been installed"
 else
 echo "opencv install..." 
-sudo apt-get install libopencv-dev python-opencv 1>/dev/null
+sudo apt-get -y install libopencv-dev python3-opencv 1>/dev/null
 fi
 
 if [ "$EUID" -ne 0 ]; then
- echo 'rember to execute "source ~/.bashrc"'
+ echo 'remember to execute "source ~/.bashrc"'
 else
-  echo "relogin for changes to take effect"
+ echo "relogin for changes to take effect"
 fi

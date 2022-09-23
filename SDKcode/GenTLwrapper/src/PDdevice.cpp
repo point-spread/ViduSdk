@@ -144,7 +144,7 @@ bool PDdevice::init()
                 return false;
             };
             PD_INFO("deviceID %s \n", id_tmp);
-            if (strtol(id_tmp, nullptr, 16) == deviceID || autoSelectDevice)
+            if (static_cast<uint64_t>(strtol(id_tmp, nullptr, 16)) == deviceID || autoSelectDevice)
             {
                 PDHandle dev;
                 if (GenTL::IFOpenDevice(pifh->getIFh(), id_tmp, GenTL::DEVICE_ACCESS_CONTROL, &dev) !=
