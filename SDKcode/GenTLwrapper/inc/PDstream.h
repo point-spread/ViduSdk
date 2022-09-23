@@ -9,15 +9,15 @@
 
 #include "sPDstream.h"
 /**
- * @brief Proxy class of sPDstream. PCL stream depends on RGB & ToF stream, it cannot work independently.
- * This class let you use the PCL stream as RGB & ToF. When PCL start, RGB & ToF are inhibited at the same time, since
- * PDstream only supports RGB & ToF stream grabbing simultaneously. It's highly recommended to use PDstream other than
- * sPDstream. It's more convient to get PCL stream by PDstream and the PDbuffer of PCL has already contained point
- * cloud, cofidence and aligned RGB data.
+ * @brief Proxy class of sPDstream. PCL stream depends on RGB & ToF stream, and cannot work independently.
+ * This class let you use the PCL same as RGB & ToF. When PCL start, RGB & ToF are inhibited at the same time,
+ * since PDstream only supports RGB & ToF stream grabbing simultaneously, it's highly recommended to use PDstream other
+ * than sPDstream. It's more convient to get PCL stream by PDstream, and the PDbuffer of PCL has already contained point
+ * cloud (Mat[0]), cofidence (Mat[1]) and aligned RGB (Mat[2]) data.
  */
-class PDstream : public PDport // proxy class
+class PDstream : public PDport
 {
-    std::shared_ptr<sPDstream> pStream;
+    std::shared_ptr<sPDstream> pStream; // proxy class
 
   public:
     /**

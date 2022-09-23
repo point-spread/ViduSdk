@@ -5,7 +5,9 @@
     <Category Name="feature_full" NameSpace="Standard">
         <pFeature>PixelFormat</pFeature>
 	</Category>
-
+    <Category Name="feature" NameSpace="Standard">
+		<pFeature>FilterStrength</pFeature>
+	</Category>
     <String Name="MetaData">
 		<Value>Height,"Image Height",t,8;
             Width,"Image Width",t,a;
@@ -17,16 +19,6 @@
             Range,"Detect range (m)",f,48;
         </Value>
 	</String>
-    <Category Name="Property" NameSpace="Standard">
-        <pFeature>DevSyncRegValue</pFeature>
-        <pFeature>DevSyncRegAddr</pFeature>
-	</Category>
-    <Integer Name="DevSyncRegValue">
-        <Value>16</Value>
-    </Integer> 
-    <Integer Name="DevSyncRegAddr">
-        <Value>0x44a20008</Value>
-    </Integer> 
     <Enumeration Name="PixelFormat" NameSpace="Standard">
         <ToolTip>Pixel Format defined in PFNC</ToolTip>
         <DisplayName>Pixel Format</DisplayName>
@@ -39,6 +31,12 @@
 	<Integer Name="StreamAnnounceBufferMinimum">
 		<Value>2</Value>
 	</Integer>
+    <Integer Name="AcquisitionEnabledValue">
+        <Value>1</Value>
+    </Integer>
+    <Integer Name="AcquisitionDisabledValue">
+        <Value>0</Value>
+    </Integer>
 	<Enumeration Name="StreamType">
 		<EnumEntry Name="Custom">
 			<Value>1</Value>
@@ -57,7 +55,7 @@
 	</IntReg>
 	<IntReg Name="WidthReg">
         <Visibility>Guru</Visibility>
-        <Address>0XC00003C4</Address>
+        <Address>0XC00001DC</Address>
         <Length>2</Length>
         <AccessMode>RW</AccessMode>
         <pPort>StreamPort</pPort>
@@ -66,7 +64,7 @@
     </IntReg>
     <IntReg Name="HeightReg">
         <Visibility>Guru</Visibility>
-        <Address>0XC00003C6</Address>
+        <Address>0XC00001DE</Address>
         <Length>2</Length>
         <AccessMode>RW</AccessMode>
         <pPort>StreamPort</pPort>
@@ -75,7 +73,7 @@
     </IntReg>
     <IntReg Name="PixelFormatReg">
         <Visibility>Guru</Visibility>
-        <Address>0XC00003C8</Address>
+        <Address>0XC00001E0</Address>
         <Length>4</Length>
         <AccessMode>RO</AccessMode>
         <pPort>StreamPort</pPort>
@@ -94,15 +92,22 @@
         <Sign>Unsigned</Sign>
         <Endianess>LittleEndian</Endianess>
     </IntReg>
-    <IntReg Name="AcquisitionEnabledReg">
+    <FloatReg Name="FilterStrengthReg">
+        <Visibility>Guru</Visibility>
+        <Address>0x604</Address>
+        <Length>4</Length>
+        <AccessMode>RW</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </FloatReg>
+    <FloatReg Name="AcquisitionEnabledReg">
 		<Visibility>Guru</Visibility>
-		<Address>0x44a20008</Address>
+		<Address>0x608</Address>
 		<Length>4</Length>
 		<AccessMode>RW</AccessMode>
 		<pPort>StreamPort</pPort>
-		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
-	</IntReg>
+	</FloatReg>
     <Integer Name="Width" NameSpace="Standard">
         <ToolTip>Width of the image in pixels</ToolTip>
         <Visibility>Beginner</Visibility>
@@ -129,8 +134,16 @@
         <pValue>PayloadSizeReg</pValue>
         <Representation>Linear</Representation>
     </Integer>
+    <Float Name="FilterStrength">
+		<ToolTip>filter Strength of the ToF</ToolTip>
+		<pValue>FilterStrengthReg</pValue>
+		<Min>0</Min>
+		<Max>20.0</Max>
+		<Inc>0.1</Inc>
+		<Representation>Linear</Representation>
+	</Float>
     <StringReg Name="ModuleNameReg">
-		<Address>0XC00003BC</Address>
+		<Address>0XC00001D4</Address>
 		<Length>7</Length>
 		<AccessMode>RO</AccessMode>
 		<pPort>StreamPort</pPort>
@@ -142,7 +155,7 @@
 		<DisplayName>Acquisition Start</DisplayName>
 		<Visibility>Beginner</Visibility>
 		<pValue>AcquisitionEnabledReg</pValue>
-		<CommandValue>4</CommandValue>
+		<pCommandValue>AcquisitionEnabledValue</pCommandValue>
 	</Command>
 	<Command Name="AcquisitionStop" NameSpace="Standard">
 		<ToolTip>Stops the acquisition in the camera.</ToolTip>
@@ -150,7 +163,7 @@
 		<DisplayName>Acquisition Stop</DisplayName>
 		<Visibility>Beginner</Visibility>
 		<pValue>AcquisitionEnabledReg</pValue>
-		<CommandValue>4</CommandValue>
+		<pCommandValue>AcquisitionDisabledValue</pCommandValue>
 	</Command>
 
   <Port Name="StreamPort">

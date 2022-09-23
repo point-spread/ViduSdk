@@ -10,7 +10,9 @@
 #include "basic/inc/getCvMatFromBuffer.h"
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <string>
+#include <thread>
 
 bool sPDstream::init()
 {
@@ -75,7 +77,6 @@ bool sPDstream::init()
     };
 
     destructFuncs.emplace_back([this] { GenTL::GCUnregisterEvent(getPort(), GenTL::EVENT_NEW_BUFFER); });
-
     return PDport::init();
 }
 
@@ -86,6 +87,7 @@ bool sPDstream::startStream()
         PD_ERROR("failed DSStartAcquisition!\n");
         return false;
     };
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     destructFuncs.emplace_back([this] { GenTL::DSStopAcquisition(getPort(), GenTL::ACQ_STOP_FLAGS_DEFAULT); });
     return true;
 }
@@ -160,14 +162,14 @@ bool sPDstream::getCamPara(intrinsics &intr, extrinsics &extr)
         {
             PD_WARNING("this stream doesn't have camera para!\n");
         }
-        PD_ERROR("failed PDDSCamIntPara!\n");
+        PD_ERROR("failed CamIntPara!\n");
         return false;
     }
     size = sizeof(extr);
     if (GenTL::DSGetInfo(getPort(), GenTL::STREAM_INFO_CMD_LIST::STREAM_CAM_EXT_PARA, nullptr, &extr, &size) !=
         GenTL::GC_ERR_SUCCESS)
     {
-        PD_ERROR("failed PDDSCamIntPara!\n");
+        PD_ERROR("failed CamIntPara!\n");
         return false;
     }
     return true;

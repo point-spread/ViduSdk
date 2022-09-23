@@ -123,15 +123,30 @@ bool PDport::get(const char *name, bool &value)
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_BOOL8);
 }
 
+#define GET_ERR_STRING()                                                                                               \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        GenTL::GC_ERROR retTmp;                                                                                        \
+        char errString[200];                                                                                           \
+        size_t size = 200;                                                                                             \
+        GenTL::GCGetLastError(&retTmp, errString, &size);                                                              \
+        PD_WARNING("err_code : %d , %s\n", (int)retTmp, errString);                                                    \
+    } while (0)
+
 bool PDport::set(const char *name, const void *value, size_t size, int32_t dataType)
 {
     GenTL::INFO_DATATYPE dataTypeTmp = (GenTL::INFO_DATATYPE)dataType;
-    bool ret = GenTL::GCWritePortByName(port, name, &dataTypeTmp, value, &size);
+    GenTL::GC_ERROR ret = GenTL::GCWritePortByName(port, name, &dataTypeTmp, value, &size);
     if ((int32_t)dataTypeTmp != dataType)
     {
         PD_WARNING("data type not match\n");
     }
-    return ret;
+    if (ret != GenTL::GC_ERR_SUCCESS)
+    {
+        GET_ERR_STRING();
+        return false;
+    }
+    return true;
 }
 
 bool PDport::get(const char *name, void *value, size_t size, int32_t dataType)
@@ -142,5 +157,10 @@ bool PDport::get(const char *name, void *value, size_t size, int32_t dataType)
     {
         PD_WARNING("data type not match\n");
     }
-    return ret;
+    if (ret != GenTL::GC_ERR_SUCCESS)
+    {
+        GET_ERR_STRING();
+        return false;
+    }
+    return true;
 }

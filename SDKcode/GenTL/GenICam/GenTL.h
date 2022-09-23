@@ -1240,7 +1240,7 @@ extern "C"
     GC_API DSQueueBuffer(DS_HANDLE hDataStream, BUFFER_HANDLE hBuffer);
 
     /**
-     * @brief
+     * @brief Get some information of the buffer
      *
      * @param hDataStream handle of the GenTL stream module
      * @param hBuffer handle of the GenTL buffer
@@ -1255,22 +1255,102 @@ extern "C"
                            INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
 
     // start customize
+    /**
+     * @brief Read the var of the GenTL object with var name
+     *
+     * @param hPort handle of the GenTL object,such as system/interface/device/stream,
+                    notice that buffer is not implemented as common GenTL module
+     * @param varName name of the specific register
+     * @param piType type of the data
+     * @param pBuffer data storaged
+     * @param piSize size of the data filled
+     * @return GC_ERR_SUCCESS or other errcode
+     */
     GC_API GCReadPortByName(PORT_HANDLE hPort, const char *varName, INFO_DATATYPE *piType, void *pBuffer,
                             size_t *piSize);
+    /**
+     * @brief Write the var of the GenTL object with var name
+     *
+     * @param hPort handle of the GenTL object,such as system/interface/device/stream,
+                    notice that buffer is not implemented as common GenTL module
+     * @param varName name of the specific register
+     * @param piType type of the data
+     * @param pBuffer data storaged
+     * @param piSize size of the data filled
+     * @return GC_ERR_SUCCESS or other errcode
+     */
     GC_API GCWritePortByName(PORT_HANDLE hPort, const char *varName, INFO_DATATYPE *piType, const void *pBuffer,
                              size_t *piSize);
 
+    /**
+     * @brief Get some information of the buffer (Simplified version compared with the standard GenTL version:
+     * DSGetBufferInfo)
+     *
+     * @param hBuffer handle of the GenTL buffer
+     * @param iInfoCmd BUFFER_INFO_CMD enum
+     * @param piType type of the data
+     * @param pBuffer data storaged
+     * @param piSize size of the data filled
+     * @return GC_ERR_SUCCESS or other errcode
+     */
     GC_API PDBufferGetInfo(BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer,
                            size_t *piSize);
-    GC_API PDBufferGetMeta(BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize,
-                           INFO_DATATYPE *piType);
-    GC_API PDBufferGetMetaByName(BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize,
-                                 INFO_DATATYPE *piType);
+    /**
+     * @brief Get stream metadata information of the buffer
+     *
+     * @param hBuffer handle of the GenTL buffer
+     * @param index index of the metadata item
+     * @param piType type of the data
+     * @param pBuffer data storaged
+     * @param piSize size of the data filled
+     * @return GC_ERR_SUCCESS or other errcode
+     */
+    GC_API PDBufferGetMeta(BUFFER_HANDLE hBuffer, uint32_t index, INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
+
+    /**
+     * @brief Get stream metadata information of the buffer
+     *
+     * @param hBuffer handle of the GenTL buffer
+     * @param varName name of the specific metadata var
+     * @param piType type of the data
+     * @param pBuffer data storaged
+     * @param piSize size of the data filled
+     * @return GC_ERR_SUCCESS or other errcode
+     */
+    GC_API PDBufferGetMetaByName(BUFFER_HANDLE hBuffer, const char *varName, INFO_DATATYPE *piType, void *pBuffer,
+                                 size_t *piSize);
+
+    /**
+     * @brief Get name and the describe information of the metadata item
+     *
+     * @param hBuffer handle of the GenTL buffer
+     * @param index index of the metadata item
+     * @param ppVarName pointer will be assigned to point to the name of the metadata item
+     * @param ppDescName pointer will be assigned to point to the description of the metadata item
+     * @return GC_ERR_SUCCESS or other errcode
+     */
     GC_API PDBufferGetMetaDesc(BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName, const char **ppDescName);
+
+    /**
+     * @brief Get number of the metadata items
+     *
+     * @param hBuffer handle of the GenTL buffer
+     * @param pMetaItemNum number of the metadata items
+     * @return GC_ERR_SUCCESS or other errcode
+     */
     GC_API PDBufferGetMetaNum(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
-    GC_API PDBufferSave(BUFFER_HANDLE hBuffer, const char *name);
-    GC_API PDPlySave(BUFFER_HANDLE hBufferXYZ, uint32_t XYZpartID, BUFFER_HANDLE hBufferColor, uint32_t ColorpartID,
-                     const char *name);
+
+    /**
+     * @brief Write the buffer to disk
+     *
+     * @param hBuffer handle of the GenTL buffer
+     * @param filesName save as filesName.suffix, suffix is determined by SDK. Nullptr is also accepted, and then
+     *  name will be constructed by SDK itself.
+     * @param opt 0: save seperate; 1: save ply with color if color exist; others: reserved
+     * @return GC_ERR_SUCCESS or other errcode
+     */
+
+    GC_API PDBufferSave(BUFFER_HANDLE hBuffer, const char *filesName, int opt = 0);
     // end customize
 
     /* GenTL v1.1 */
@@ -1310,6 +1390,7 @@ extern "C"
      * @return GC_ERR_SUCCESS or other errcode
      */
     GC_API GCReadPortStacked(PORT_HANDLE hPort, PORT_REGISTER_STACK_ENTRY *pEntries, size_t *piNumEntries);
+
     /**
      * @brief A set of GCWritePort operations
      *
@@ -1502,15 +1583,13 @@ extern "C"
     GC_API_P(PPDBufferGetInfo)
     (BUFFER_HANDLE hBuffer, BUFFER_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
     GC_API_P(PPDBufferGetMeta)
-    (BUFFER_HANDLE hBuffer, uint32_t index, void *buffer, size_t *pBufferSize, INFO_DATATYPE *piType);
+    (BUFFER_HANDLE hBuffer, uint32_t index, INFO_DATATYPE *piType, void *buffer, size_t *piSize);
     GC_API_P(PPDBufferGetMetaByName)
-    (BUFFER_HANDLE hBuffer, const char *name, void *buffer, size_t *pBufferSize, INFO_DATATYPE *piType);
+    (BUFFER_HANDLE hBuffer, const char *name, INFO_DATATYPE *piType, void *buffer, size_t *piSize);
     GC_API_P(PPDBufferGetMetaDesc)
     (BUFFER_HANDLE hBuffer, uint32_t index, const char **ppVarName, const char **ppDescName);
     GC_API_P(PPDBufferGetMetaNum)(BUFFER_HANDLE hBuffer, size_t *pMetaItemNum);
-    GC_API_P(PPDBufferSave)(BUFFER_HANDLE hBuffer, const char *name);
-    GC_API_P(PPDPlySave)
-    (BUFFER_HANDLE hBufferXYZ, uint32_t XYZpartID, BUFFER_HANDLE hBufferColor, uint32_t ColorpartID, const char *name);
+    GC_API_P(PPDBufferSave)(BUFFER_HANDLE hBuffer, const char *name, int opt);
     // end customize
 
     /* GenTL v1.1 */

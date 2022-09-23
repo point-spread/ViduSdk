@@ -1,0 +1,33 @@
+v0.1
+    1.update readme.md
+    2.license announcement
+    3.add opencv4.2 compiled dynamic library
+    4.other minor modify
+v0.2
+    1.okulo_viewer distance setting & infrared mapping
+    2.intsall.sh
+    3.some bugs remove
+    4.python 3.6~3.9 dynamic lib provided
+v0.3:
+    1.remove nosie point & show texture value
+v0.4:(not public)
+    1.camera control & get metadata
+v0.5:
+    1.show streamName
+    2.show viewer version
+    3.add update.txt
+v0.6:
+    1.enhance flying pixel removal
+    2.jetson support
+    3.other minor modify
+v0.7:
+    1.update viewer
+    2.enhance depth filter
+    3.other minor modify
+v0.8:
+    1.rename api with stream meta
+    2.show depth in pcl demo
+    3.other minor modify
+    4.windows support
+v1.0:
+    1.first release for formal version of the camera

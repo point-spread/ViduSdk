@@ -88,7 +88,7 @@ int tofDemo()
                     if (DistRange < 1e-5) // DistRange should be inited
                     {
                         size_t varSize = sizeof(varSize);
-                        GenTL::PDBufferGetMetaByName(frame->getPort(), "Range", &DistRange, &varSize, nullptr);
+                        GenTL::PDBufferGetMetaByName(frame->getPort(), "Range", nullptr, &DistRange, &varSize);
                         printf("max distance %f for distanceMap", DistRange);
                     }
                     const cv::Mat &pha = frame->getMat(0);
@@ -139,9 +139,11 @@ int pclDemo()
             pclstream.set("ToF::Distance", 7.5f);
             pclstream.set("ToF::StreamFps", 50.0f);
             pclstream.set("ToF::Threshold", 100);
+            pclstream.set("ToF::RemoveStrength", 1);
             pclstream.set("ToF::Exposure", 1.0f);
             pclstream.set("RGB::Exposure", 10.0f);
             pclstream.set("RGB::Gain", 20.0f);
+            pclstream.set("PCL::FilterStrength", 0.0f);
 
             bool saveReq = false;
             int count = 0;
@@ -163,28 +165,29 @@ int pclDemo()
                     if (DistRange < 1e-5) // DistRange should be inited
                     {
                         size_t varSize = sizeof(varSize);
-                        GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "Range", &DistRange, &varSize, nullptr);
+                        GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "Range", nullptr, &DistRange, &varSize);
                         printf("max distance %f for distanceMap\n", DistRange);
                     }
                     const cv::Mat &xyz = pPclFrame->getMat(0);
                     const cv::Mat &infrared = pPclFrame->getMat(1);
                     const cv::Mat &color = pPclFrame->getMat(2);
 
+                    std::vector<cv::Mat> channels(3);
+                    cv::split(xyz, channels);
+                    const cv::Mat &depth = channels[2];
+                    cv::Mat u16Depth;
+                    depth.convertTo(u16Depth, CV_16UC1, 65535.0 / DistRange);
+
                     cv::imshow("xyz", xyz);
                     cv::imshow("infrared", infrared);
                     cv::imshow("color", color);
+                    cv::imshow("depth", depth);
+
                     if (saveReq)
                     {
                         saveReq = false;
                         GenTL::PDBufferSave(*pPclFrame, nullptr);
-
-                        std::vector<cv::Mat> channels(3);
-                        cv::split(xyz, channels);
-                        const cv::Mat &depth = channels[2];
-                        cv::Mat u16Depth;
-                        depth.convertTo(u16Depth, CV_16UC1, 65535.0 / DistRange);
                         cv::imwrite(stringFormat("depth-%d.png", count), u16Depth);
-
                         printf("saved  \n");
                         count++;
                     }

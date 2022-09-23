@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Stelz (STEMMER IMAGING GmbH) -->
+<?xml-stylesheet type="text/xsl" href="C:\Projects\VC_GigE\GenApi\GenApi.xsl"?>
+<RegisterDescription
+	xmlns="http://www.genicam.org/GenApi/Version_1_0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ModelName="TLDYV" VendorName="STEMMERIMAGING" ToolTip="GenICam TL DataStream Interface" StandardNameSpace="None" SchemaMajorVersion="1" SchemaMinorVersion="0" SchemaSubMinorVersion="1" MajorVersion="1" MinorVersion="0" SubMinorVersion="8" ProductGuid="1F3C6A72-7842-4edd-9130-E2E90A2058BA" VersionGuid="7645D2A1-A41E-4ac6-B486-1531FB7BECE6" xsi:schemaLocation="http://www.genicam.org/GenApi/Version_1_0 W:\Source\ImageManager\GenICam\genicam_v1_0\xml\GenApi\GenApiSchema_Version_1_0.xsd">
+	<!-- Register Port =============================================================== -->
+	<Category Name="Root">
+		<ToolTip> TL DataStream</ToolTip>
+		<pFeature>StreamParameter</pFeature>
+		<pFeature>Info</pFeature>
+		<pFeature>ImageFormatControl</pFeature>
+		<pFeature>AcquisitionControl</pFeature>
+		<pFeature>TransportLayerControl</pFeature>
+		<pFeature>feature</pFeature>
+		<pFeature>cameraPara</pFeature>
+	</Category>
+	<Category Name="feature" NameSpace="Standard">
+		<pFeature>Distance</pFeature>
+		<pFeature>StreamFps</pFeature>
+		<pFeature>AutoExposure</pFeature>  
+		<pFeature>Exposure</pFeature>
+		<pFeature>Gain</pFeature>
+		<pFeature>Threshold</pFeature>
+		<pFeature>FlyingPixelRemoval</pFeature>
+		<pFeature>FilterStrength</pFeature>
+		<pFeature>DepthCompletion</pFeature>
+		<pFeature>BorderRemove</pFeature>
+	</Category>
+	<String Name="MetaData">
+		<Value>Height,"Image Height",t,8;
+			Width,"Image Width",t,a;
+			FrameCount,"Image FrameCount",j,14;
+			TimeStamp,"Image TimeStamp",j,18;
+			CurFps,"Current Fps",f,1c;
+			TransferFps,"Transfer Fps",f,28;
+			PixelFormat,"PixelFormat",j,10;
+			ExpoTime,"Exposure Time (s)",f,40,f0002080;
+			Threshold,"Confidence Threshold",t,94;
+            Gain,"Gain of Confidence",f,98;
+			TempSensor,"TofSensor Temperature (C)",f,4c;
+			TempSenBrd,"TofSenBrd Temperature (C)",f,50;
+			TempProcessor,"Processor Temperature (C)",f,54;
+			TempVcsel,"Laser Temperature (C)",f,58;
+			TempImu,"IMU Temperature (C)",f,5c;
+			AccX,"AccX",f,64;
+			AccY,"AccY",f,68;
+			AccZ,"AccZ",f,6c;
+			GyroX,"GyroX",f,70;
+			GyroY,"GyroY",f,74;
+			GyroZ,"GyroZ",f,78;
+			ModulateFreq,"Modulation Freq (Hz)",f,84;
+			Range,"Detect Range (m)",f,90;
+			</Value>
+		</String>
+	<Category Name="cameraPara" NameSpace="Standard">
+		<pFeature>distortTypeReg</pFeature>
+		<pFeature>distortReg</pFeature>
+		<pFeature>fxReg</pFeature>
+		<pFeature>fyReg</pFeature>
+		<pFeature>cxReg</pFeature>
+		<pFeature>cyReg</pFeature>
+	</Category>
+	<Category Name="Init" NameSpace="Standard">
+	<pFeature>IExposure</pFeature>
+	<pFeature>IStreamFps</pFeature>
+	<pFeature>IGain</pFeature>
+	</Category>  
+	<Float Name="IExposure">
+		<Value>1</Value>
+	</Float>
+	<Float Name="IStreamFps">
+		<Value>60</Value>
+	</Float>
+	<Float Name="IGain">
+		<Value>10</Value>
+	</Float>	
+	<Integer Name="AcquisitionEnabledValue">
+        <Value>1</Value>
+    </Integer>
+    <Integer Name="AcquisitionDisabledValue">
+        <Value>0</Value>
+    </Integer>
+	<Enumeration Name="Distance">
+        <ToolTip>Max distance the sensor can detetct</ToolTip>
+        <DisplayName>Distance (m)</DisplayName> 
+        <EnumEntry Name="1.5" NameSpace="Standard">
+            <Value>0x1000100</Value>
+        </EnumEntry>
+        <EnumEntry Name="2.5" NameSpace="Standard">
+            <Value>0x1020001</Value>
+        </EnumEntry>
+        <!-- <EnumEntry Name="3" NameSpace="Standard">
+            <Value>0x1000003</Value>
+        </EnumEntry> -->
+        <EnumEntry Name="7.5" NameSpace="Standard">
+            <Value>0x2020100</Value>
+        </EnumEntry>
+		<EnumEntry Name="15" NameSpace="Standard">
+            <Value>0x2000200</Value>
+        </EnumEntry>
+        <pValue>ModFreqReg</pValue>
+    </Enumeration>
+
+	<Category Name="FlyingPixelRemoval" NameSpace="Standard">
+		<pFeature>Medblur</pFeature>
+		<pFeature>RemoveStrength</pFeature>
+	</Category>
+
+	<Boolean Name="Medblur">
+		<ToolTip>Remove the possible flying pixels</ToolTip>
+		<pValue>MedBlurReg</pValue>
+		<OnValue>0</OnValue>
+		<OffValue>3</OffValue>
+	</Boolean>
+	<Integer Name="Threshold">
+		<ToolTip>Threshold of the Confidence</ToolTip>
+		<pValue>ConfidenceReg</pValue>
+		<Min>0</Min>
+		<Max>1000</Max>
+		<Inc>1</Inc>
+		<Representation>Linear</Representation>
+	</Integer>
+	<Integer Name="ExposureThreshold">
+		<ToolTip>Threshold of the Exposure</ToolTip>
+		<pValue>ExposureThresholdReg</pValue>
+		<Min>10000</Min>
+		<Max>25000</Max>
+		<Inc>1</Inc>
+		<Representation>Linear</Representation>
+	</Integer>
+	<Float Name="Gain">
+		<ToolTip>Gain of the ToF</ToolTip>
+		<pValue>GainReg</pValue>
+		<Min>1</Min>
+		<Max>100.0</Max>
+		<Inc>1</Inc>
+		<Representation>Linear</Representation>
+	</Float>
+    <Boolean Name="AutoExposure" NameSpace="Standard">
+        <ToolTip>Auto Exposure</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>AutoExposureReg</pValue>
+        <OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
+    <IntSwissKnife Name="AutoExposureLocked">
+        <ToolTip>Locks if Auto Exposure is enabled</ToolTip>
+        <Visibility>Invisible</Visibility>
+        <pVariable Name="AE">AutoExposure</pVariable>
+        <Formula>(AE = 1) ? 1 : 0</Formula>
+    </IntSwissKnife>
+	<SwissKnife Name="ExposureLimit">
+		<pVariable Name="FPS">StreamFps</pVariable>
+		<Formula>(0.25833 / FPS - 0.00227)</Formula>
+	</SwissKnife>
+	<SwissKnife Name="ExposureMax">
+		<pVariable Name="LIMIT">ExposureLimit</pVariable>
+		<Formula><![CDATA[(LIMIT < 0.001205)?LIMIT:0.001205]]></Formula>
+	</SwissKnife>
+	<Converter Name="Exposure">
+        <ToolTip>Exposure of the sensor</ToolTip>
+		<FormulaTo> FROM / 1000.0 </FormulaTo>
+		<FormulaFrom> TO * 1000.0 </FormulaFrom>
+		<pValue>ExposureH</pValue>
+		<Slope>Increasing</Slope>
+		<IsLinear>Yes</IsLinear>
+	</Converter>
+	<Float Name="ExposureH" NameSpace="Standard">
+		<ToolTip>Exposure of the sensor</ToolTip>
+		<pValue>ExposureReg</pValue>
+		<Min>8e-5</Min>
+		<pMax>ExposureMax</pMax>
+		<Inc>8e-5</Inc>
+		<Unit>ms</Unit>
+		<Representation>Linear</Representation>
+	</Float>
+	<Integer Name="FilterStrength" NameSpace="Standard">
+		<ToolTip>Filter strength of the spatial filter</ToolTip>
+		<pValue>DepthFilterReg</pValue>
+		<Min>0</Min>
+        <Max>3</Max>
+        <Inc>1</Inc>
+		<Representation>Linear</Representation>
+	</Integer>
+	<Integer Name="RemoveStrength" NameSpace="Standard">
+        <ToolTip>Level of flying pixel removal strength</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>FlyingPixelRemovalLevelReg</pValue>
+        <Min>0</Min>
+        <Max>20</Max>
+        <Inc>1</Inc>
+    <Representation>Linear</Representation>
+    </Integer>
+	<Boolean Name="DepthCompletion" NameSpace="Standard">
+        <ToolTip>Depth Completion</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>DepthCompletionReg</pValue>
+        <OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
+	<Boolean Name="BorderRemove" NameSpace="Standard">
+        <ToolTip>Border Remove</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>BorderRemoveReg</pValue>
+        <OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
+	<Category Name="TransportLayerControl" NameSpace="Standard">
+		<DisplayName>Transport Layer Control</DisplayName>
+		<pFeature>PayloadSize</pFeature>
+	</Category>
+	<Category Name="Info">
+		<pFeature>ModuleNameReg</pFeature>
+	</Category>
+	<Category Name="StreamParameter">
+		<ToolTip>TL Datastream information</ToolTip>
+		<pFeature>StreamAnnounceBufferMinimum</pFeature>
+		<pFeature>StreamType</pFeature>
+		<pFeature>StreamFps</pFeature>
+	</Category>
+	<Category Name="ImageFormatControl">
+		<ToolTip>Features to control the size of the transmitted image.</ToolTip>
+		<DisplayName>Image Format Control</DisplayName>
+		<pFeature>Width</pFeature>
+		<pFeature>Height</pFeature>
+		<pFeature>PixelFormat</pFeature>
+	</Category>
+	<Category Name="AcquisitionControl">
+		<ToolTip>Features related to actual image acquisition including trigger mode.</ToolTip>
+		<DisplayName>Acquisition Control</DisplayName>
+		<pFeature>AcquisitionMode</pFeature>
+		<pFeature>AcquisitionStart</pFeature>
+		<pFeature>AcquisitionStop</pFeature>
+		<pFeature>StreamReg</pFeature>
+	</Category>
+	<IntReg Name="StreamReg">
+		<Description>Addr of datastream</Description>
+		<Streamable>Yes</Streamable>
+		<Address>0x400</Address>
+		<Length>4</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<IntReg Name="AcquisitionEnabledReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x408</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<Integer Name="AcquisitionEnabled">
+        <Visibility>Invisible</Visibility>
+        <pValue>AcquisitionEnabledReg</pValue>
+        <pMin>AcquisitionEnabledReg</pMin>
+        <pMax>AcquisitionEnabledReg</pMax>
+    </Integer>
+	<IntSwissKnife Name="StreamOnLocked">
+        <ToolTip>Locks if Stream is On</ToolTip>
+        <Visibility>Invisible</Visibility>
+        <pVariable Name="ACQENABLE">AcquisitionEnabled</pVariable>
+        <Formula>(ACQENABLE = 1) ? 1 : 0</Formula>
+    </IntSwissKnife>
+	<MaskedIntReg Name="rStreamReg">
+		<Visibility>Guru</Visibility>
+		<Address>0XC000045A</Address>
+		<Length>1</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+        <Bit>1</Bit>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</MaskedIntReg>
+	<Integer Name="StreamAnnounceBufferMinimum">
+		<Value>2</Value>
+	</Integer>
+	<Enumeration Name="StreamType">
+		<EnumEntry Name="Custom">
+			<Value>1</Value>
+		</EnumEntry>
+		<Value>1</Value>
+	</Enumeration>
+	<Float Name="StreamFps" NameSpace="Standard">
+        <ToolTip>Stream FPS; If PCL on, it will sync with RGB.</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>StreamFpsReg</pValue>
+        <Min>10.0</Min>
+        <Max>100.0</Max>
+        <Inc>5e-2</Inc>
+        <Representation>Linear</Representation>
+    </Float>
+	<FloatReg Name="StreamFpsReg">
+        <Visibility>Guru</Visibility>
+        <pIsLocked>StreamOnLocked</pIsLocked>
+		<Streamable>No</Streamable>
+		<Address>0xf0002140</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Cachable>NoCache</Cachable>
+		<PollingTime>2000</PollingTime>
+		<Endianess>LittleEndian</Endianess>
+	</FloatReg>
+	<StringReg Name="ModuleNameReg">
+		<Address>0XC00001E4</Address>
+		<Length>7</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+	</StringReg>
+	
+	<IntReg Name="ConfidenceReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x480</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+
+	<IntReg Name="ExposureThresholdReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x488</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+
+	<FloatReg Name="GainReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x484</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Endianess>LittleEndian</Endianess>
+	</FloatReg>
+
+	<IntReg Name="FlyingPixelRemovalLevelReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x500</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+
+	<MaskedIntReg Name="DepthCompletionReg">
+		<Visibility>Guru</Visibility>
+		<Address>0X502</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+        <Bit>0</Bit>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</MaskedIntReg>
+
+	<MaskedIntReg Name="BorderRemoveReg">
+		<Visibility>Guru</Visibility>
+		<Address>0X506</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+        <Bit>0</Bit>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</MaskedIntReg>
+
+	<IntReg Name="DepthFilterReg">
+		<Visibility>Guru</Visibility>
+		<Address>0X504</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+
+	<IntReg Name="MedBlurReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x44a70000</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+
+    <MaskedIntReg Name="AutoExposureReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x44A70004</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+        <Bit>0</Bit>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</MaskedIntReg>
+	<FloatReg Name="ExposureReg">
+		<Visibility>Guru</Visibility>
+		<pIsLocked>AutoExposureLocked</pIsLocked>
+		<Address>0xf0002080</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Cachable>NoCache</Cachable>
+		<PollingTime>2000</PollingTime>
+		<Endianess>LittleEndian</Endianess>
+	</FloatReg>
+    <IntReg Name="distortTypeReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC000021C</Address>
+        <Length>4</Length>
+        <AccessMode>RO</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+    <Register Name="distortReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC0000230</Address>
+        <Length>20</Length>
+        <AccessMode>RO</AccessMode>
+        <pPort>StreamPort</pPort>
+    </Register>
+    <FloatReg Name="fxReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC0000220</Address>
+        <Length>4</Length>
+        <AccessMode>RO</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </FloatReg>
+    <FloatReg Name="fyReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC0000224</Address>
+        <Length>4</Length>
+        <AccessMode>RO</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </FloatReg>
+    <FloatReg Name="cxReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC0000228</Address>
+        <Length>4</Length>
+        <AccessMode>RO</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </FloatReg>
+    <FloatReg Name="cyReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC000022C</Address>
+        <Length>4</Length>
+        <AccessMode>RO</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </FloatReg>
+	<IntReg Name="WidthReg">
+		<Visibility>Guru</Visibility>
+		<Address>0XC00001EC</Address>
+		<Length>2</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<IntReg Name="HeightReg">
+		<Visibility>Guru</Visibility>
+		<Address>0XC00001EE</Address>
+		<Length>2</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<IntReg Name="PixelFormatReg">
+		<Visibility>Guru</Visibility>
+		<Address>0XC00001F0</Address>
+		<Length>4</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<IntReg Name="PayloadSizeReg">
+		<Visibility>Guru</Visibility>
+		<Address>0x45C</Address>
+		<Length>4</Length>
+		<AccessMode>RO</AccessMode>
+		<pPort>StreamPort</pPort>
+		<pInvalidator>WidthReg</pInvalidator>
+		<pInvalidator>HeightReg</pInvalidator>
+		<pInvalidator>PixelFormatReg</pInvalidator>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</IntReg>
+	<IntReg Name="ModFreqReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC0000298</Address>
+        <Length>4</Length>
+        <AccessMode>RW</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+	<Enumeration Name="PixelFormat" NameSpace="Standard">
+		<ToolTip>Pixel Format as specified in GigE Vision standard</ToolTip>
+		<Description>Refer to the Pixel format section (p. 117)</Description>
+		<DisplayName>Pixel Format</DisplayName>
+		<Visibility>Beginner</Visibility>
+		<EnumEntry Name="Confidence16" NameSpace="Standard">
+			<Value>17825991</Value>
+		</EnumEntry>
+		<EnumEntry Name="Coord3D_C16" NameSpace="Standard">
+			<Value>17825976</Value>
+		</EnumEntry>
+		<pValue>PixelFormatReg</pValue>
+	</Enumeration>
+	<Enumeration Name="AcquisitionMode" NameSpace="Standard">
+		<ToolTip>Sets the acquisition mode of the device.</ToolTip>
+		<DisplayName>Acquisition Mode</DisplayName>
+		<!--<pIsLocked>IsAcquisitionBusy</pIsLocked>-->
+		<Streamable>Yes</Streamable>
+		<EnumEntry Name="Continuous" NameSpace="Standard">
+			<ToolTip>Frames are captured continuously until stopped with the AcquisitionStop command.</ToolTip>
+			<DisplayName>Continuous</DisplayName>
+			<Value>0</Value>
+		</EnumEntry>
+		<EnumEntry Name="SingleFrame" NameSpace="Standard">
+			<ToolTip>One frame is captured</ToolTip>
+			<DisplayName>Single Frame</DisplayName>
+			<Value>1</Value>
+		</EnumEntry>
+		<Value>0</Value>
+	</Enumeration>    
+
+	<Command Name="AcquisitionStart" NameSpace="Standard">
+		<ToolTip>Starts the acquisition in the camera.</ToolTip>
+		<Description>Issues start command to the camera.</Description>
+		<DisplayName>Acquisition Start</DisplayName>
+		<Visibility>Beginner</Visibility>
+		<pValue>AcquisitionEnabledReg</pValue>
+		<pCommandValue>AcquisitionEnabledValue</pCommandValue>
+	</Command>
+	<Command Name="AcquisitionStop" NameSpace="Standard">
+		<ToolTip>Stops the acquisition in the camera.</ToolTip>
+		<Description>Issues stop command to the camera.</Description>
+		<DisplayName>Acquisition Stop</DisplayName>
+		<Visibility>Beginner</Visibility>
+		<pValue>AcquisitionEnabledReg</pValue>
+		<pCommandValue>AcquisitionDisabledValue</pCommandValue>
+	</Command>
+	<Integer Name="Width" NameSpace="Standard">
+		<ToolTip>Width of the image in pixels</ToolTip>
+		<Visibility>Beginner</Visibility>
+		<pValue>WidthReg</pValue>
+		<Min>640</Min>
+		<Max>640</Max>
+		<Inc>4</Inc>
+		<Representation>Linear</Representation>
+	</Integer>
+	<Integer Name="Height" NameSpace="Standard">
+		<ToolTip>Height of the image in pixels</ToolTip>
+		<Visibility>Beginner</Visibility>
+		<pValue>HeightReg</pValue>
+		<Min>480</Min>
+		<Max>480</Max>
+		<Inc>4</Inc>
+		<Representation>Linear</Representation>
+	</Integer>
+	<Integer Name="PayloadSize" NameSpace="Standard">
+		<ToolTip>Number of bytes per Image</ToolTip>
+		<Description>Image PayloadSize</Description>
+		<DisplayName>Payload Size</DisplayName>
+		<Visibility>Guru</Visibility>
+		<pValue>PayloadSizeReg</pValue>
+		<Representation>Linear</Representation>
+	</Integer>
+	<Integer Name="TLParamsLocked">
+		<ToolTip>Indicates whether the TLC locks features affecting image or packet size.</ToolTip>
+		<Visibility>Invisible</Visibility>
+		<Value>0</Value>
+		<Min>0</Min>
+		<Max>1</Max>
+	</Integer>
+	<Port Name="StreamPort">
+		<ToolTip> Port giving access to one DataStream. </ToolTip>
+	</Port>
+</RegisterDescription>   

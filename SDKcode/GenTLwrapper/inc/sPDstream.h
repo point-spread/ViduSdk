@@ -80,7 +80,7 @@ class sPDstream : public PDport
      * @return true : get the para recorded at the camera
      * @return false  : cannot get the valid para from the camera
      */
-    bool getCamPara(intrinsics &intr, extrinsics &extr);
+    virtual bool getCamPara(intrinsics &intr, extrinsics &extr);
 
     /**
      * @brief Init the PDstream objects, must be called once bdfore using the object,
