@@ -9,11 +9,11 @@
 ### 
 BASEDIR=$(dirname "$0")
 cd "$BASEDIR"
-chmod +x SDKbin/*
+sudo chmod +x SDKbin/*
 echo "set cam driver..."
 cd camdriver
-chmod +x installDriver.sh
-./installDriver.sh 1>/dev/null
+sudo chmod +x installDriver.sh
+sudo ./installDriver.sh 1>/dev/null
 cd -
 echo "set SDK running env..." 
 export DYVCAM_GENTL64_PATH=${PWD}/SDKlib

@@ -9,6 +9,7 @@
         <pFeature>AutoExposure</pFeature>  
 		<pFeature>Exposure</pFeature>
 		<pFeature>Gain</pFeature>
+        <pFeature>StreamNpha</pFeature>
 	</Category>
     <Category Name="feature_full" NameSpace="Standard">
         <pFeature>PixelFormat</pFeature>
@@ -29,16 +30,19 @@
         <Value>60</Value>
     </Float>
     <Float Name="IExposure">
-        <Value>1</Value>
+        <Value>0.001</Value>
     </Float>
     <Float Name="IGain">
         <Value>1</Value>
     </Float>
+    <Float Name="IStreamNpha">
+		<Value>0.0</Value>
+	</Float>
     <Integer Name="IAcquisitionEnabled">
         <Value>0</Value>
     </Integer>
     <Integer Name="AcquisitionEnabledValue">
-        <Value>1</Value>
+        <Value>2</Value>
     </Integer>
     <Integer Name="AcquisitionDisabledValue">
         <Value>0</Value>
@@ -111,6 +115,7 @@
             Width,"Image Width",t,a;
             FrameCount,"Image FrameCount",j,14;
             TimeStamp,"Image TimeStamp",j,18;
+            ##LT##TimeStampUSSE,"Time sync with Epoch",m,20;
             CurFps,"Current Fps",f,1c;
             TransferFps,"Transfer Fps",f,28;
             PixelFormat,"PixelFormat",j,10;
@@ -238,7 +243,7 @@
 	</IntReg>
     <IntReg Name="AcquisitionEnabledReg">
         <Visibility>Guru</Visibility>
-        <Address>0x208</Address>
+        <Address>0xf00041C0</Address>
         <Length>4</Length>
         <AccessMode>RW</AccessMode>
         <pPort>StreamPort</pPort>
@@ -347,12 +352,30 @@
         <ToolTip>Locks if Stream is On</ToolTip>
         <Visibility>Invisible</Visibility>
         <pVariable Name="ACQENABLE">AcquisitionEnabled</pVariable>
-        <Formula>(ACQENABLE = 1) ? 1 : 0</Formula>
+        <Formula>(ACQENABLE > 0) ? 1 : 0</Formula>
     </IntSwissKnife>
     <FloatReg Name="StreamFpsReg">
         <Visibility>Guru</Visibility>
         <pIsLocked>StreamOnLocked</pIsLocked>
-		<Address>0xf0004140</Address>
+		<Address>0XC0000730</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Endianess>LittleEndian</Endianess>
+	</FloatReg>
+    <Float Name="StreamNpha" NameSpace="Standard">
+        <ToolTip>StreamNpha.</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>StreamNphaReg</pValue>
+        <Min>0.0</Min>
+        <Max>1.0</Max>
+        <Inc>5e-2</Inc>
+        <Representation>Linear</Representation>
+    </Float>
+    <FloatReg Name="StreamNphaReg">
+        <Visibility>Guru</Visibility>
+        <pIsLocked>StreamOnLocked</pIsLocked>
+		<Address>0XC0000734</Address>
 		<Length>4</Length>
 		<AccessMode>RW</AccessMode>
 		<pPort>StreamPort</pPort>

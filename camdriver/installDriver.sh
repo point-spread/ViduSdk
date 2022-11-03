@@ -13,7 +13,7 @@ fi
 BASEDIR=$(dirname "$0") 
 cd "$BASEDIR"
 
-[ ! -f "/usr/lib/libftd3xx.so*" ] && sudo rm /usr/lib/libftd3xx.so*
+[ -f "/usr/lib/libftd3xx.so*" ] && sudo rm /usr/lib/libftd3xx.so*
 
 if [  "${MACHINE_IS_ARM}" = 'yes' ]; then
 echo "Arm architecture"

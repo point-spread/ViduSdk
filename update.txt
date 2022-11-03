@@ -31,3 +31,6 @@ v0.8:
     4.windows support
 v1.0:
     1.first release for formal version of the camera
+v1.1: Firmware: 1.60 is wanted!!!
+    1.multi-device sync on usb is supported
+    2.other minor changes

@@ -144,6 +144,7 @@ int pclDemo()
             pclstream.set("RGB::Exposure", 10.0f);
             pclstream.set("RGB::Gain", 20.0f);
             pclstream.set("PCL::FilterStrength", 0.0f);
+            pclstream.set("PCL::EnableRgbAttach", true);
 
             bool saveReq = false;
             int count = 0;
@@ -170,7 +171,9 @@ int pclDemo()
                     }
                     const cv::Mat &xyz = pPclFrame->getMat(0);
                     const cv::Mat &infrared = pPclFrame->getMat(1);
-                    const cv::Mat &color = pPclFrame->getMat(2);
+                    const cv::Mat &alignedColor = pPclFrame->getMat(2);
+                    const cv::Mat &originColor =
+                        pPclFrame->getMat(3); // should pclstream.set("PCL::EnableRgbAttach", true);
 
                     std::vector<cv::Mat> channels(3);
                     cv::split(xyz, channels);
@@ -180,8 +183,9 @@ int pclDemo()
 
                     cv::imshow("xyz", xyz);
                     cv::imshow("infrared", infrared);
-                    cv::imshow("color", color);
+                    cv::imshow("alignedColor", alignedColor);
                     cv::imshow("depth", depth);
+                    cv::imshow("originColor", originColor);
 
                     if (saveReq)
                     {

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Stelz (STEMMER IMAGING GmbH) -->
 <?xml-stylesheet type="text/xsl" href="C:\Projects\VC_GigE\GenApi\GenApi.xsl"?>
 <RegisterDescription
 	xmlns="http://www.genicam.org/GenApi/Version_1_0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ModelName="TLDYV" VendorName="STEMMERIMAGING" ToolTip="GenICam TL DataStream Interface" StandardNameSpace="None" SchemaMajorVersion="1" SchemaMinorVersion="0" SchemaSubMinorVersion="1" MajorVersion="1" MinorVersion="0" SubMinorVersion="8" ProductGuid="1F3C6A72-7842-4edd-9130-E2E90A2058BA" VersionGuid="7645D2A1-A41E-4ac6-B486-1531FB7BECE6" xsi:schemaLocation="http://www.genicam.org/GenApi/Version_1_0 W:\Source\ImageManager\GenICam\genicam_v1_0\xml\GenApi\GenApiSchema_Version_1_0.xsd">
-	<!-- Register Port =============================================================== -->
 	<Category Name="Root">
-		<ToolTip> TL DataStream</ToolTip>
 		<pFeature>StreamParameter</pFeature>
 		<pFeature>Info</pFeature>
 		<pFeature>ImageFormatControl</pFeature>
@@ -26,18 +23,21 @@
 		<pFeature>FilterStrength</pFeature>
 		<pFeature>DepthCompletion</pFeature>
 		<pFeature>BorderRemove</pFeature>
+		<pFeature>DistortRemove</pFeature>
+		<pFeature>StreamNpha</pFeature>
 	</Category>
 	<String Name="MetaData">
 		<Value>Height,"Image Height",t,8;
 			Width,"Image Width",t,a;
 			FrameCount,"Image FrameCount",j,14;
 			TimeStamp,"Image TimeStamp",j,18;
+			##LT##TimeStampUSSE,"Time sync with Epoch",m,20;
 			CurFps,"Current Fps",f,1c;
 			TransferFps,"Transfer Fps",f,28;
 			PixelFormat,"PixelFormat",j,10;
 			ExpoTime,"Exposure Time (s)",f,40,f0002080;
 			Threshold,"Confidence Threshold",t,94;
-            Gain,"Gain of Confidence",f,98;
+            Gain,"Gain of Confidence",f,1f4;
 			TempSensor,"TofSensor Temperature (C)",f,4c;
 			TempSenBrd,"TofSenBrd Temperature (C)",f,50;
 			TempProcessor,"Processor Temperature (C)",f,54;
@@ -50,7 +50,8 @@
 			GyroY,"GyroY",f,74;
 			GyroZ,"GyroZ",f,78;
 			ModulateFreq,"Modulation Freq (Hz)",f,84;
-			Range,"Detect Range (m)",f,90;
+			Range,"Detect range (m)",f,1ec;
+            Undistorted,"Image If Distorted",b,1f2;
 			</Value>
 		</String>
 	<Category Name="cameraPara" NameSpace="Standard">
@@ -67,16 +68,19 @@
 	<pFeature>IGain</pFeature>
 	</Category>  
 	<Float Name="IExposure">
-		<Value>1</Value>
+		<Value>0.001</Value>
 	</Float>
 	<Float Name="IStreamFps">
 		<Value>60</Value>
 	</Float>
 	<Float Name="IGain">
 		<Value>10</Value>
-	</Float>	
+	</Float>
+	<Float Name="IStreamNpha">
+		<Value>0.0</Value>
+	</Float>		
 	<Integer Name="AcquisitionEnabledValue">
-        <Value>1</Value>
+        <Value>2</Value>
     </Integer>
     <Integer Name="AcquisitionDisabledValue">
         <Value>0</Value>
@@ -90,9 +94,6 @@
         <EnumEntry Name="2.5" NameSpace="Standard">
             <Value>0x1020001</Value>
         </EnumEntry>
-        <!-- <EnumEntry Name="3" NameSpace="Standard">
-            <Value>0x1000003</Value>
-        </EnumEntry> -->
         <EnumEntry Name="7.5" NameSpace="Standard">
             <Value>0x2020100</Value>
         </EnumEntry>
@@ -101,12 +102,10 @@
         </EnumEntry>
         <pValue>ModFreqReg</pValue>
     </Enumeration>
-
 	<Category Name="FlyingPixelRemoval" NameSpace="Standard">
 		<pFeature>Medblur</pFeature>
 		<pFeature>RemoveStrength</pFeature>
 	</Category>
-
 	<Boolean Name="Medblur">
 		<ToolTip>Remove the possible flying pixels</ToolTip>
 		<pValue>MedBlurReg</pValue>
@@ -121,6 +120,12 @@
 		<Inc>1</Inc>
 		<Representation>Linear</Representation>
 	</Integer>
+	<Boolean Name="FPPNcomp">
+		<ToolTip>let FPPNcomp</ToolTip>
+		<pValue>FPPNScaleReg</pValue>
+		<OnValue>16384</OnValue>
+		<OffValue>0</OffValue>
+	</Boolean>
 	<Integer Name="ExposureThreshold">
 		<ToolTip>Threshold of the Exposure</ToolTip>
 		<pValue>ExposureThresholdReg</pValue>
@@ -206,6 +211,13 @@
         <OnValue>1</OnValue>
 		<OffValue>0</OffValue>
     </Boolean>
+	<Boolean Name="DistortRemove" NameSpace="Standard">
+        <ToolTip>Distort Remove</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>DistortRemoveReg</pValue>
+        <OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
 	<Category Name="TransportLayerControl" NameSpace="Standard">
 		<DisplayName>Transport Layer Control</DisplayName>
 		<pFeature>PayloadSize</pFeature>
@@ -220,14 +232,12 @@
 		<pFeature>StreamFps</pFeature>
 	</Category>
 	<Category Name="ImageFormatControl">
-		<ToolTip>Features to control the size of the transmitted image.</ToolTip>
 		<DisplayName>Image Format Control</DisplayName>
 		<pFeature>Width</pFeature>
 		<pFeature>Height</pFeature>
 		<pFeature>PixelFormat</pFeature>
 	</Category>
 	<Category Name="AcquisitionControl">
-		<ToolTip>Features related to actual image acquisition including trigger mode.</ToolTip>
 		<DisplayName>Acquisition Control</DisplayName>
 		<pFeature>AcquisitionMode</pFeature>
 		<pFeature>AcquisitionStart</pFeature>
@@ -246,7 +256,7 @@
 	</IntReg>
 	<IntReg Name="AcquisitionEnabledReg">
 		<Visibility>Guru</Visibility>
-		<Address>0x408</Address>
+		<Address>0xf00021C0</Address>
 		<Length>4</Length>
 		<AccessMode>RW</AccessMode>
 		<pPort>StreamPort</pPort>
@@ -263,7 +273,7 @@
         <ToolTip>Locks if Stream is On</ToolTip>
         <Visibility>Invisible</Visibility>
         <pVariable Name="ACQENABLE">AcquisitionEnabled</pVariable>
-        <Formula>(ACQENABLE = 1) ? 1 : 0</Formula>
+        <Formula>(ACQENABLE > 0) ? 1 : 0</Formula>
     </IntSwissKnife>
 	<MaskedIntReg Name="rStreamReg">
 		<Visibility>Guru</Visibility>
@@ -293,16 +303,44 @@
         <Inc>5e-2</Inc>
         <Representation>Linear</Representation>
     </Float>
+	<Float Name="StreamNpha" NameSpace="Standard">
+        <ToolTip>StreamNpha.</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>StreamNphaReg</pValue>
+        <Min>0.0</Min>
+        <Max>1.0</Max>
+        <Inc>5e-2</Inc>
+        <Representation>Linear</Representation>
+    </Float>
 	<FloatReg Name="StreamFpsReg">
         <Visibility>Guru</Visibility>
         <pIsLocked>StreamOnLocked</pIsLocked>
 		<Streamable>No</Streamable>
-		<Address>0xf0002140</Address>
+		<Address>0XC0000770</Address>
 		<Length>4</Length>
 		<AccessMode>RW</AccessMode>
 		<pPort>StreamPort</pPort>
 		<Cachable>NoCache</Cachable>
 		<PollingTime>2000</PollingTime>
+		<Endianess>LittleEndian</Endianess>
+	</FloatReg>
+	<FloatReg Name="StreamNphaReg">
+        <Visibility>Guru</Visibility>
+        <pIsLocked>StreamOnLocked</pIsLocked>
+		<Streamable>No</Streamable>
+		<Address>0XC0000774</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+		<Endianess>LittleEndian</Endianess>
+	</FloatReg>
+	<FloatReg Name="SyncNphaReg">
+        <Visibility>Guru</Visibility>
+		<Streamable>No</Streamable>
+		<Address>0XC0000734</Address>
+		<Length>4</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
 		<Endianess>LittleEndian</Endianess>
 	</FloatReg>
 	<StringReg Name="ModuleNameReg">
@@ -311,7 +349,6 @@
 		<AccessMode>RO</AccessMode>
 		<pPort>StreamPort</pPort>
 	</StringReg>
-	
 	<IntReg Name="ConfidenceReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x480</Address>
@@ -321,7 +358,6 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
-
 	<IntReg Name="ExposureThresholdReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x488</Address>
@@ -331,7 +367,6 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
-
 	<FloatReg Name="GainReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x484</Address>
@@ -340,7 +375,6 @@
 		<pPort>StreamPort</pPort>
 		<Endianess>LittleEndian</Endianess>
 	</FloatReg>
-
 	<IntReg Name="FlyingPixelRemovalLevelReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x500</Address>
@@ -350,7 +384,6 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
-
 	<MaskedIntReg Name="DepthCompletionReg">
 		<Visibility>Guru</Visibility>
 		<Address>0X502</Address>
@@ -361,7 +394,6 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</MaskedIntReg>
-
 	<MaskedIntReg Name="BorderRemoveReg">
 		<Visibility>Guru</Visibility>
 		<Address>0X506</Address>
@@ -372,7 +404,16 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</MaskedIntReg>
-
+	<MaskedIntReg Name="DistortRemoveReg">
+		<Visibility>Guru</Visibility>
+		<Address>0X508</Address>
+		<Length>2</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+        <Bit>0</Bit>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</MaskedIntReg>
 	<IntReg Name="DepthFilterReg">
 		<Visibility>Guru</Visibility>
 		<Address>0X504</Address>
@@ -382,7 +423,6 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
-
 	<IntReg Name="MedBlurReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x44a70000</Address>
@@ -392,7 +432,6 @@
 		<Sign>Unsigned</Sign>
 		<Endianess>LittleEndian</Endianess>
 	</IntReg>
-
     <MaskedIntReg Name="AutoExposureReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x44A70004</Address>
@@ -508,9 +547,15 @@
         <pPort>StreamPort</pPort>
         <Endianess>LittleEndian</Endianess>
     </IntReg>
+	<IntReg Name="FPPNScaleReg">
+        <Visibility>Guru</Visibility>
+        <Address>0XC00003E6</Address>
+        <Length>2</Length>
+        <AccessMode>RW</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
 	<Enumeration Name="PixelFormat" NameSpace="Standard">
-		<ToolTip>Pixel Format as specified in GigE Vision standard</ToolTip>
-		<Description>Refer to the Pixel format section (p. 117)</Description>
 		<DisplayName>Pixel Format</DisplayName>
 		<Visibility>Beginner</Visibility>
 		<EnumEntry Name="Confidence16" NameSpace="Standard">
@@ -522,9 +567,7 @@
 		<pValue>PixelFormatReg</pValue>
 	</Enumeration>
 	<Enumeration Name="AcquisitionMode" NameSpace="Standard">
-		<ToolTip>Sets the acquisition mode of the device.</ToolTip>
 		<DisplayName>Acquisition Mode</DisplayName>
-		<!--<pIsLocked>IsAcquisitionBusy</pIsLocked>-->
 		<Streamable>Yes</Streamable>
 		<EnumEntry Name="Continuous" NameSpace="Standard">
 			<ToolTip>Frames are captured continuously until stopped with the AcquisitionStop command.</ToolTip>
@@ -538,9 +581,7 @@
 		</EnumEntry>
 		<Value>0</Value>
 	</Enumeration>    
-
 	<Command Name="AcquisitionStart" NameSpace="Standard">
-		<ToolTip>Starts the acquisition in the camera.</ToolTip>
 		<Description>Issues start command to the camera.</Description>
 		<DisplayName>Acquisition Start</DisplayName>
 		<Visibility>Beginner</Visibility>
@@ -556,7 +597,6 @@
 		<pCommandValue>AcquisitionDisabledValue</pCommandValue>
 	</Command>
 	<Integer Name="Width" NameSpace="Standard">
-		<ToolTip>Width of the image in pixels</ToolTip>
 		<Visibility>Beginner</Visibility>
 		<pValue>WidthReg</pValue>
 		<Min>640</Min>
@@ -565,7 +605,6 @@
 		<Representation>Linear</Representation>
 	</Integer>
 	<Integer Name="Height" NameSpace="Standard">
-		<ToolTip>Height of the image in pixels</ToolTip>
 		<Visibility>Beginner</Visibility>
 		<pValue>HeightReg</pValue>
 		<Min>480</Min>

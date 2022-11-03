@@ -10,7 +10,7 @@
 #include <string>
 std::string stringFormat(const std::string fmt_str, ...);
 
-template <typename I> std::string n2hexstr(I w, size_t hex_len = sizeof(I) << 1)
+template <typename I> std::string n2hexstr(const I &w, size_t hex_len = sizeof(I) << 1)
 {
     static const char *digits = "0123456789ABCDEF";
     std::string rc(hex_len, '0');

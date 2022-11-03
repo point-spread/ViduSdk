@@ -32,7 +32,7 @@
 		<Value>2</Value>
 	</Integer>
     <Integer Name="AcquisitionEnabledValue">
-        <Value>1</Value>
+        <Value>3</Value>
     </Integer>
     <Integer Name="AcquisitionDisabledValue">
         <Value>0</Value>
@@ -100,14 +100,22 @@
         <pPort>StreamPort</pPort>
         <Endianess>LittleEndian</Endianess>
     </FloatReg>
-    <FloatReg Name="AcquisitionEnabledReg">
+    <IntReg Name="EnableWrgbReg">
+        <Visibility>Guru</Visibility>
+        <Address>0x60C</Address>
+        <Length>2</Length>
+        <AccessMode>RW</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+    <IntReg Name="AcquisitionEnabledReg">
 		<Visibility>Guru</Visibility>
 		<Address>0x608</Address>
 		<Length>4</Length>
 		<AccessMode>RW</AccessMode>
 		<pPort>StreamPort</pPort>
 		<Endianess>LittleEndian</Endianess>
-	</FloatReg>
+	</IntReg>
     <Integer Name="Width" NameSpace="Standard">
         <ToolTip>Width of the image in pixels</ToolTip>
         <Visibility>Beginner</Visibility>
@@ -142,6 +150,12 @@
 		<Inc>0.1</Inc>
 		<Representation>Linear</Representation>
 	</Float>
+    <Boolean Name="EnableRgbAttach" NameSpace="Standard">
+        <ToolTip>attach origin rgb data to stream</ToolTip>
+        <pValue>EnableWrgbReg</pValue>
+		<OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
     <StringReg Name="ModuleNameReg">
 		<Address>0XC00001D4</Address>
 		<Length>7</Length>
