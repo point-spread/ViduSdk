@@ -1,36 +1,36 @@
 v0.1
-    1.update readme.md
-    2.license announcement
-    3.add opencv4.2 compiled dynamic library
-    4.other minor modify
+    1. update README.MD
+    2. license announcement
+    3. add opencv4.2 compiled dynamic library
+    4. other minor modify
 v0.2
-    1.okulo_viewer distance setting & infrared mapping
-    2.intsall.sh
-    3.some bugs remove
-    4.python 3.6~3.9 dynamic lib provided
+    1. okulo_viewer distance setting & infrared mapping
+    2. use install.sh
+    3. some bugs remove
+    4. python 3.6~3.9 dynamic lib provided
 v0.3:
-    1.remove nosie point & show texture value
+    1. remove noise points and show texture values
 v0.4:(not public)
-    1.camera control & get metadata
+    1. camera control & get metadata
 v0.5:
-    1.show streamName
-    2.show viewer version
-    3.add update.txt
+    1. show streamName
+    2. show viewer version
+    3. add update.txt
 v0.6:
-    1.enhance flying pixel removal
-    2.jetson support
-    3.other minor modify
+    1. enhance flying pixel removal
+    2. Jetson support
+    3. other minor modify
 v0.7:
-    1.update viewer
-    2.enhance depth filter
-    3.other minor modify
+    1. update the viewer
+    2. enhance depth filter
+    3. other minor modify
 v0.8:
-    1.rename api with stream meta
-    2.show depth in pcl demo
-    3.other minor modify
-    4.windows support
+    1. rename API with stream meta
+    2. show depth in PCL demo
+    3. other minor modify
+    4. windows support
 v1.0:
-    1.first release for formal version of the camera
+    1. first release for the formal version of the camera
 v1.1: Firmware: 1.60 is wanted!!!
-    1.multi-device sync on usb is supported
-    2.other minor changes
+    1. multi-device sync on usb is supported
+    2. other minor changes

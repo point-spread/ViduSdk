@@ -1,7 +1,3 @@
-# import os
-# import sys
-# print(sys.path)
-# from ...build.lib import pydyv as dyv
 import pyokulo as okulo
 import cv2 as cv
 
