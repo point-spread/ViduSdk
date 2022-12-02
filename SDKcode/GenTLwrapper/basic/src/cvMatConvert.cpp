@@ -8,7 +8,7 @@
  */
 
 #include "../inc/getCvMatFromBuffer.h"
-#include "GenICam/PFNC.h"
+#include "GenICam/PFNC_Supplement.h"
 #include "debug.h"
 
 bool cvMatConvert(cv::Mat &mat, uint32_t width, uint32_t height, void *data, uint64_t pixelFormat)
@@ -21,6 +21,7 @@ bool cvMatConvert(cv::Mat &mat, uint32_t width, uint32_t height, void *data, uin
         break;
     case PFNC_Confidence16:
     case PFNC_Coord3D_C16:
+    case PFNC_Coord3D_DC16:
         mat = cv::Mat(shape, CV_16UC1, data);
         break;
     case PFNC_RGB8:
@@ -49,6 +50,9 @@ std::string getFriendlyName(uint64_t format)
         break;
     case PFNC_Coord3D_C16:
         partName = "Depth";
+        break;
+    case PFNC_Coord3D_DC16:
+        partName = "Distance";
         break;
     case PFNC_RGB8:
     case PFNC_YUV422_8:

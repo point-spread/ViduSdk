@@ -25,7 +25,7 @@ enum distortion
 
     DISTORTION_COUNT = 6, /**< Number of enumeration values. Not a valid input: intended to be used in for-loops. */
 };
-
+#pragma pack(push, 1)
 typedef struct stream_intrinsics
 {
     int width;        /**< Width of the image in pixels */
@@ -61,6 +61,7 @@ typedef struct stream_extrinsics
     float rotation[9];    /**< Row-major 3x3 rotation matrix */
     float translation[3]; /**< Three-element translation vector, in meters */
 } extrinsics;
+#pragma pack(pop)
 
 void print_intrinsics(intrinsics *pIntrin);
 void print_extrinsics(extrinsics *pExtrin);

@@ -156,7 +156,7 @@ bool PDdevice::init()
                 setPort(dev);
                 deviceID = strtol(id_tmp, nullptr, 16);
                 pIfhUsed = std::move(pifh);
-                return true;
+                break;
             }
         }
     }

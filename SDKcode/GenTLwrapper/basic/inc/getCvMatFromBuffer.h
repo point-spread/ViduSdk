@@ -38,8 +38,8 @@ bool cvMatConvert(cv::Mat &mat, uint32_t width, uint32_t height, void *data, uin
 /**
  * @brief Convert the pixelFormat (PFNC definded, include customed defined) to a simple friendly name
  *
- * @param format the pixelFormat of raw data : only PFNC_Coord3D_ABC32f (3D), PFNC_Coord3D_C16 (Depth), PFNC_RGB8 (RGB),
- * PFNC_YUV422_8 (RGB), PFNC_Confidence16 (infrared) supported
+ * @param format the pixelFormat of raw data : only PFNC_Coord3D_ABC32f (3D), PFNC_Coord3D_C16 (Depth)(or
+ * PFNC_Coord3D_DC16 (Distance)), PFNC_RGB8 (RGB), PFNC_YUV422_8 (RGB), PFNC_Confidence16 (infrared) supported
  * @return std::string
  */
 std::string getFriendlyName(uint64_t format);

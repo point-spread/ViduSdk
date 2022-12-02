@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Stelz (STEMMER IMAGING GmbH) -->
 <RegisterDescription xmlns="http://www.genicam.org/GenApi/Version_1_1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ModelName="TLDYV" VendorName="STEMMMERIMAGING" ToolTip="GenTL Simulator" StandardNameSpace="None" SchemaMajorVersion="1" SchemaMinorVersion="1" SchemaSubMinorVersion="0" MajorVersion="2" MinorVersion="0" SubMinorVersion="0" ProductGuid="193CBC2C-5755-4ada-AA67-F118D004A74D" VersionGuid="321DAFF5-A243-42ae-8B5D-B5BD18C31488" xsi:schemaLocation="http://www.genicam.org/GenApi/Version_1_1 ../../GenApi/GenApiSchema_Version_1_1.xsd">  
   <Category Name="Root"> 
@@ -21,13 +20,12 @@
     <pFeature>DevCmdStartAddr</pFeature>
     <pFeature>DevCmdFlagAddr</pFeature>
     <pFeature>DevCmdReg</pFeature>    
-    <pFeature>DevSyncFpsRegAddr</pFeature>
     <pFeature>DevSyncEnRegAddr</pFeature>
     <pFeature>DevStream0EnAddr</pFeature>
     <pFeature>DevStream1EnAddr</pFeature>
-    <pFeature>DevStream0SysFpsAddr</pFeature>
-    <pFeature>DevStream1SysFpsAddr</pFeature>
-	</Category>  
+	</Category>
+  <Category Name="Init" NameSpace="Standard">
+  </Category>
   <Integer Name="DevSyncFpsRegAddr">
     <Value>0xf0004140</Value>
   </Integer> 
@@ -35,16 +33,10 @@
     <Value>0x608</Value>
   </Integer>
   <Integer Name="DevStream0EnAddr">
-    <Value>0x208</Value>
+    <Value>0xf00041C0</Value>
   </Integer> 
   <Integer Name="DevStream1EnAddr">
-    <Value>0x408</Value>
-  </Integer> 
-  <Integer Name="DevStream0SysFpsAddr">
-    <Value>0xf0004140</Value>
-  </Integer> 
-  <Integer Name="DevStream1SysFpsAddr">
-    <Value>0xf0002140</Value>
+    <Value>0xf00021C0</Value>
   </Integer> 
   <Integer Name="DevCmdArgSize">
     <Value>24</Value>
@@ -112,13 +104,16 @@
     <pPort>Device</pPort>  
     <Sign>Unsigned</Sign>  
     <Endianess>LittleEndian</Endianess> 
-  </IntReg>  
+  </IntReg>
+  <Integer Name="syncStream">
+		<Value>1</Value>
+	</Integer>
   <StringReg Name="DeviceVendorName" NameSpace="Standard"> 
     <ToolTip>Manufacturer name</ToolTip>  
     <Description>Manufacturer name from bootstrap.</Description>  
     <DisplayName>Device Vendor Name</DisplayName>  
     <Visibility>Beginner</Visibility>  
-    <Address>0x50</Address>  
+    <Address>0x50</Address>
     <Length>16</Length>  
     <AccessMode>RO</AccessMode>  
     <pPort>Device</pPort> 
