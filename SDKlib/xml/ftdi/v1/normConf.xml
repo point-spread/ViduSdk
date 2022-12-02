@@ -9,7 +9,7 @@
         <pFeature>AutoExposure</pFeature>  
 		<pFeature>Exposure</pFeature>
 		<pFeature>Gain</pFeature>
-        <pFeature>StreamNpha</pFeature>
+        <pFeature>ExpoNpha</pFeature>
 	</Category>
     <Category Name="feature_full" NameSpace="Standard">
         <pFeature>PixelFormat</pFeature>
@@ -35,7 +35,7 @@
     <Float Name="IGain">
         <Value>1</Value>
     </Float>
-    <Float Name="IStreamNpha">
+    <Float Name="IExpoNpha">
 		<Value>0.0</Value>
 	</Float>
     <Integer Name="IAcquisitionEnabled">
@@ -47,7 +47,9 @@
     <Integer Name="AcquisitionDisabledValue">
         <Value>0</Value>
     </Integer>
-    
+    <Integer Name="ExpoPattern">
+        <Value>0</Value>
+    </Integer>
     <Enumeration Name="StreamFps">
         <ToolTip>frame rate of the sensor</ToolTip>
         <DisplayName>StreamFps</DisplayName>
@@ -363,16 +365,16 @@
 		<pPort>StreamPort</pPort>
 		<Endianess>LittleEndian</Endianess>
 	</FloatReg>
-    <Float Name="StreamNpha" NameSpace="Standard">
-        <ToolTip>StreamNpha.</ToolTip>
+    <Float Name="ExpoNpha" NameSpace="Standard">
+        <ToolTip>ExpoNpha.</ToolTip>
         <Visibility>Beginner</Visibility>
-        <pValue>StreamNphaReg</pValue>
+        <pValue>ExpoNphaReg</pValue>
         <Min>0.0</Min>
         <Max>1.0</Max>
         <Inc>5e-2</Inc>
         <Representation>Linear</Representation>
     </Float>
-    <FloatReg Name="StreamNphaReg">
+    <FloatReg Name="ExpoNphaReg">
         <Visibility>Guru</Visibility>
         <pIsLocked>StreamOnLocked</pIsLocked>
 		<Address>0XC0000734</Address>
@@ -498,7 +500,7 @@
     <Float Name="ExposureH" NameSpace="Standard">
         <Visibility>Beginner</Visibility>
         <pValue>ExposureReg</pValue>
-        <Min>5e-5</Min>
+        <Min>1e-3</Min>
         <pMax>Exposure_Max</pMax>
         <Inc>5e-5</Inc>
         <Unit>ms</Unit>

@@ -24,7 +24,8 @@
 		<pFeature>DepthCompletion</pFeature>
 		<pFeature>BorderRemove</pFeature>
 		<pFeature>DistortRemove</pFeature>
-		<pFeature>StreamNpha</pFeature>
+		<pFeature>DistanceMode</pFeature>
+		<pFeature>ExpoNpha</pFeature>
 	</Category>
 	<String Name="MetaData">
 		<Value>Height,"Image Height",t,8;
@@ -76,7 +77,7 @@
 	<Float Name="IGain">
 		<Value>10</Value>
 	</Float>
-	<Float Name="IStreamNpha">
+	<Float Name="IExpoNpha">
 		<Value>0.0</Value>
 	</Float>		
 	<Integer Name="AcquisitionEnabledValue">
@@ -85,6 +86,17 @@
     <Integer Name="AcquisitionDisabledValue">
         <Value>0</Value>
     </Integer>
+
+	<Float Name="ExpoInterval">
+		<Value>1.75</Value>
+	</Float>
+	<Float Name="ExpoSafeInterval">
+		<Value>0.1</Value>
+	</Float>
+	<Integer Name="ExpoPattern">
+        <Value>1</Value>
+    </Integer>
+
 	<Enumeration Name="Distance">
         <ToolTip>Max distance the sensor can detetct</ToolTip>
         <DisplayName>Distance (m)</DisplayName> 
@@ -218,6 +230,13 @@
         <OnValue>1</OnValue>
 		<OffValue>0</OffValue>
     </Boolean>
+	<Boolean Name="DistanceMode" NameSpace="Standard">
+        <ToolTip>Distort Remove</ToolTip>
+        <Visibility>Beginner</Visibility>
+        <pValue>DistanceModeReg</pValue>
+        <OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
 	<Category Name="TransportLayerControl" NameSpace="Standard">
 		<DisplayName>Transport Layer Control</DisplayName>
 		<pFeature>PayloadSize</pFeature>
@@ -294,19 +313,33 @@
 		</EnumEntry>
 		<Value>1</Value>
 	</Enumeration>
-	<Float Name="StreamFps" NameSpace="Standard">
-        <ToolTip>Stream FPS; If PCL on, it will sync with RGB.</ToolTip>
-        <Visibility>Beginner</Visibility>
+	<Enumeration Name="StreamFps">
+        <ToolTip>frame rate of the sensor</ToolTip>
+        <DisplayName>StreamFps</DisplayName>
+        <EnumEntry Name="25" NameSpace="Standard">
+            <Value>25</Value>
+        </EnumEntry>
+        <EnumEntry Name="30" NameSpace="Standard">
+            <Value>30</Value>
+        </EnumEntry>
+        <EnumEntry Name="50" NameSpace="Standard">
+            <Value>50</Value>
+        </EnumEntry>
+        <EnumEntry Name="60" NameSpace="Standard">
+            <Value>60</Value>
+        </EnumEntry>
+        <EnumEntry Name="80" NameSpace="Standard">
+            <Value>80</Value>
+        </EnumEntry>
+        <EnumEntry Name="100" NameSpace="Standard">
+            <Value>100</Value>
+        </EnumEntry>
         <pValue>StreamFpsReg</pValue>
-        <Min>10.0</Min>
-        <Max>100.0</Max>
-        <Inc>5e-2</Inc>
-        <Representation>Linear</Representation>
-    </Float>
-	<Float Name="StreamNpha" NameSpace="Standard">
-        <ToolTip>StreamNpha.</ToolTip>
+    </Enumeration>
+	<Float Name="ExpoNpha" NameSpace="Standard">
+        <ToolTip>ExpoNpha.</ToolTip>
         <Visibility>Beginner</Visibility>
-        <pValue>StreamNphaReg</pValue>
+        <pValue>ExpoNphaReg</pValue>
         <Min>0.0</Min>
         <Max>1.0</Max>
         <Inc>5e-2</Inc>
@@ -324,20 +357,11 @@
 		<PollingTime>2000</PollingTime>
 		<Endianess>LittleEndian</Endianess>
 	</FloatReg>
-	<FloatReg Name="StreamNphaReg">
+	<FloatReg Name="ExpoNphaReg">
         <Visibility>Guru</Visibility>
         <pIsLocked>StreamOnLocked</pIsLocked>
 		<Streamable>No</Streamable>
 		<Address>0XC0000774</Address>
-		<Length>4</Length>
-		<AccessMode>RW</AccessMode>
-		<pPort>StreamPort</pPort>
-		<Endianess>LittleEndian</Endianess>
-	</FloatReg>
-	<FloatReg Name="SyncNphaReg">
-        <Visibility>Guru</Visibility>
-		<Streamable>No</Streamable>
-		<Address>0XC0000734</Address>
 		<Length>4</Length>
 		<AccessMode>RW</AccessMode>
 		<pPort>StreamPort</pPort>
@@ -407,7 +431,17 @@
 	<MaskedIntReg Name="DistortRemoveReg">
 		<Visibility>Guru</Visibility>
 		<Address>0X508</Address>
-		<Length>2</Length>
+		<Length>1</Length>
+		<AccessMode>RW</AccessMode>
+		<pPort>StreamPort</pPort>
+        <Bit>0</Bit>
+		<Sign>Unsigned</Sign>
+		<Endianess>LittleEndian</Endianess>
+	</MaskedIntReg>
+	<MaskedIntReg Name="DistanceModeReg">
+		<Visibility>Guru</Visibility>
+		<Address>0X50C</Address>
+		<Length>1</Length>
 		<AccessMode>RW</AccessMode>
 		<pPort>StreamPort</pPort>
         <Bit>0</Bit>

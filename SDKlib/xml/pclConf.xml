@@ -7,6 +7,8 @@
 	</Category>
     <Category Name="feature" NameSpace="Standard">
 		<pFeature>FilterStrength</pFeature>
+        <pFeature>EnableOcculusion</pFeature>
+        <pFeature>DepthAlign2Tex</pFeature>
 	</Category>
     <String Name="MetaData">
 		<Value>Height,"Image Height",t,8;
@@ -103,7 +105,23 @@
     <IntReg Name="EnableWrgbReg">
         <Visibility>Guru</Visibility>
         <Address>0x60C</Address>
-        <Length>2</Length>
+        <Length>1</Length>
+        <AccessMode>RW</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+    <IntReg Name="EnableOcculusionReg">
+        <Visibility>Guru</Visibility>
+        <Address>0x610</Address>
+        <Length>1</Length>
+        <AccessMode>RW</AccessMode>
+        <pPort>StreamPort</pPort>
+        <Endianess>LittleEndian</Endianess>
+    </IntReg>
+    <IntReg Name="DepthAlign2TexReg">
+        <Visibility>Guru</Visibility>
+        <Address>0x614</Address>
+        <Length>1</Length>
         <AccessMode>RW</AccessMode>
         <pPort>StreamPort</pPort>
         <Endianess>LittleEndian</Endianess>
@@ -153,6 +171,18 @@
     <Boolean Name="EnableRgbAttach" NameSpace="Standard">
         <ToolTip>attach origin rgb data to stream</ToolTip>
         <pValue>EnableWrgbReg</pValue>
+		<OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
+    <Boolean Name="EnableOcculusion" NameSpace="Standard">
+        <ToolTip>attach origin rgb data to stream</ToolTip>
+        <pValue>EnableOcculusionReg</pValue>
+		<OnValue>1</OnValue>
+		<OffValue>0</OffValue>
+    </Boolean>
+    <Boolean Name="DepthAlign2Tex" NameSpace="Standard">
+        <ToolTip>attach origin rgb data to stream</ToolTip>
+        <pValue>DepthAlign2TexReg</pValue>
 		<OnValue>1</OnValue>
 		<OffValue>0</OffValue>
     </Boolean>

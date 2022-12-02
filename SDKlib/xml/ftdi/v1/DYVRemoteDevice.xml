@@ -25,20 +25,7 @@
     <pFeature>DevStream1EnAddr</pFeature>
 	</Category>
   <Category Name="Init" NameSpace="Standard">
-    <pFeature>IMiscInfo</pFeature>
   </Category>
-  <Integer Name="IMiscInfo">
-      <Value>0X00004000</Value>
-  </Integer>
-  <IntReg Name="MiscInfoReg">
-    <Visibility>Guru</Visibility>
-    <Address>0xff000010</Address>
-    <Length>4</Length>
-    <AccessMode>RO</AccessMode>
-    <pPort>Device</pPort>
-    <Sign>Unsigned</Sign>
-    <Endianess>LittleEndian</Endianess>
-  </IntReg>
   <Integer Name="DevSyncFpsRegAddr">
     <Value>0xf0004140</Value>
   </Integer> 
@@ -118,61 +105,9 @@
     <Sign>Unsigned</Sign>  
     <Endianess>LittleEndian</Endianess> 
   </IntReg>
-  <Integer Name="fps">
-		<ToolTip>Threshold of the Confidence</ToolTip>
-		<pValue>fpsReg</pValue>
-		<Min>0</Min>
-		<Max>1000</Max>
-		<Inc>1</Inc>
-		<Representation>Linear</Representation>
+  <Integer Name="syncStream">
+		<Value>1</Value>
 	</Integer>
-  <Float Name="ExpoTime">
-		<ToolTip>ExpoTime</ToolTip>
-		<pValue>ExpoTimeReg</pValue>
-		<Min>0.0</Min>
-		<Max>1.205</Max>
-		<Inc>0.001</Inc>
-		<Representation>Linear</Representation>
-	</Float>
-  <Float Name="ExpoPha">
-		<ToolTip>ExpoPha</ToolTip>
-		<pValue>ExpoPhaReg</pValue>
-		<Min>0.0</Min>
-		<Max>6.283</Max>
-		<Inc>0.001</Inc>
-		<Representation>Linear</Representation>
-	</Float>
-  <IntReg Name="fpsReg"> 
-    <Visibility>Expert</Visibility>  
-    <Address>0x140</Address>  
-    <Length>4</Length>  
-    <AccessMode>RO</AccessMode>  
-    <!-- <Cachable>NoCache</Cachable>
-		<PollingTime>2000</PollingTime> -->
-    <pPort>Device</pPort>  
-    <Sign>Unsigned</Sign>  
-    <Endianess>LittleEndian</Endianess> 
-  </IntReg>
-  <FloatReg Name="ExpoTimeReg"> 
-    <Visibility>Expert</Visibility>  
-    <Address>0x144</Address>  
-    <Length>4</Length>  
-    <AccessMode>RW</AccessMode>  
-    <!-- <Cachable>NoCache</Cachable>
-		<PollingTime>2000</PollingTime> -->
-    <pPort>Device</pPort>  
-    <Endianess>LittleEndian</Endianess> 
-  </FloatReg>
-  <FloatReg Name="ExpoPhaReg"> 
-    <Visibility>Expert</Visibility>  
-    <Address>0x148</Address>  
-    <Length>4</Length>  
-    <AccessMode>RW</AccessMode>  
-    <!-- <Cachable>NoCache</Cachable>
-		<PollingTime>2000</PollingTime> -->
-    <pPort>Device</pPort>  
-    <Endianess>LittleEndian</Endianess> 
-  </FloatReg>     
   <StringReg Name="DeviceVendorName" NameSpace="Standard"> 
     <ToolTip>Manufacturer name</ToolTip>  
     <Description>Manufacturer name from bootstrap.</Description>  

@@ -5,7 +5,7 @@
  # @LastEditTime: 2022-06-09 12:40:40
  # @LastEditors: Kian Liu
  # @Description: 
- # @FilePath: /OkuloSdk_Internal/install.sh
+ # @FilePath: /OkuloSdk/install.sh
 ### 
 BASEDIR=$(dirname "$0")
 cd "$BASEDIR"
