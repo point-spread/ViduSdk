@@ -1,27 +1,26 @@
-# OkuloSdk
+# ViduSdk
 
-#### 1. System Requirement
+### 1. System Requirement
 
-Windows 10 x86-64bit system; For the Ubuntu system, please checkout [main branch](https://github.com/point-spread/OkuloSdk).
+Windows 10 x86-64bit system; For the Ubuntu system, please checkout [main branch](https://github.com/point-spread/ViduSdk).
 
-#### 2. Installation
+### 2. Installation
 
 * Extract `camdriver/FTD3XXDriver_WHQLCertified_v1.3.0.4_Installer.exe.zip`
   and then execute the program `FTD3XXDriver_WHQLCertified_v1.3.0.4_Installer.exe`
 * Double click `./install.bat`
+* You'd better relogin or reboot the computer to make the environment variant valid.
 
-### 3. Quick Start:
+### 3. Quick Start
 
-* **[SDKbin/okulo_viewer](./SDKbin/okulo_viewer.exe)**
+The ViduSdk provides the following executable tools for you to have a quick taste of the [Okulo Camera](https://www.pointspread.cn/okulo-p1)'s functionality :
+
+* **[SDKbin/vidu_viewer](./SDKbin/vidu_viewer.exe)**
   * show the origin camera stream, point cloud and control the video stream;
-* **[SDKbin/streamShow](./SDKbin/streamShow.exe)**
-  * show the RGB stream, ToF stream and PCL stream
-* **[SDKbin/getCameraPara](./SDKbin/getCameraPara.exe)**
-  * acquire the calibrated parameters recorded in the camera
-* **[SDKpythonLib/okulo_test.py](./SDKpythonLib/okulo_test.py)**
-  * python example, which invokes the ``SDKpythonLib/pyokulo.cpxx-win_amd64.pyd``.
+* **[SDKpythonLib/vidu_test.py](./SDKpythonLib/vidu_test.py)**
+  * python example, which invokes the ``SDKpythonLib/pyvidu.cpxx-win_amd64.pyd``.
 
-### 4. Development:
+### 4. Development
 
 Below we briefly introduce the important folders to the developers. For comprehensive guidance on the software development, please check out our [software developer's guide](http://dev.pointspread.cn:82/Okulo_Software_Developer's_Guide.pdf).
 
@@ -30,7 +29,7 @@ Below we briefly introduce the important folders to the developers. For comprehe
 * **[SDKcode/common](./SDKcode/common)** provides some debug or timing code fragments;
 * **[example](./example)** provides examples of how to get data from the camera. Please see below to compile those examples on your local machine.
 
-### 5. Building Examples Locally:
+### 5. Building Examples Locally
 
 #### 1) Building tools setup:
 
@@ -47,10 +46,26 @@ It's recommended to use MSVC C++ compiler. You need to:
 
 #### 3) Build examples:
 
-```
-cd OkuloSdk/
+```bash
+cd ViduSdk/
 mkdir build
 cd build
 cmake -A x64 ../
 cmake --build . --config Release -j 
 ```
+
+Also you can build your code or move the example outside of the package by adding
+
+```
+find_package(OpenCV REQUIRED)
+find_package(Vidu_SDK_Api REQUIRED HINTS $ENV{DYVCAM_GENTL64_PATH}/../cmake)
+```
+
+and
+
+```
+target_link_libraries(${PROJECT_NAME} Vidu_SDK_Api::GenTLwrapper ${OpenCV_LIBS})
+```
+
+in the CMakeLists.txt file.
+

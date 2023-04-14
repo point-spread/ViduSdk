@@ -293,7 +293,9 @@ extern "C"
             9, /*!< UINT32    Major number of the GenTL spec this producer complies with, GenTL v1.5 */
         TL_INFO_GENTL_VER_MINOR =
             10, /*!< UINT32    Minor number of the GenTL spec this producer complies with, GenTL v1.5 */
-        TL_INFO_CUSTOM_ID = 1000 /*!< Starting value for custom IDs. */
+        TL_INFO_CUSTOM_ID = 1000, /*!< Starting value for custom IDs. */
+        TL_INFO_COMMIT_ID = 1001, /*!< STRING    commiy ID. */
+        TL_INFO_COMPILE = 1002,   /*!< STRING    compile INFO dd/mm/yy compiler. */
     };
     typedef int32_t TL_INFO_CMD;
 
@@ -1346,11 +1348,12 @@ extern "C"
      * @param hBuffer handle of the GenTL buffer
      * @param filesName save as filesName.suffix, suffix is determined by SDK. Nullptr is also accepted, and then
      *  name will be constructed by SDK itself.
-     * @param opt 0: save seperate; 1: save ply with color if color exist; others: reserved
+     * @param opt 0: save part buffers; 1: save ply with color if color exist; 2: save ply patch with color if color
+     * exist; others: reserved
      * @return GC_ERR_SUCCESS or other errcode
      */
 
-    GC_API PDBufferSave(BUFFER_HANDLE hBuffer, const char *filesName, int opt = 0);
+    GC_API PDBufferSave(BUFFER_HANDLE hBuffer, const char *filesName, int opt);
     // end customize
 
     /* GenTL v1.1 */
