@@ -6,7 +6,7 @@
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/src/PDport.cpp
  */
-#include "../inc/PDport.h"
+#include "GenTLwrapper/PDport.h"
 
 void PDport::setPort(PDHandle handle)
 {
@@ -111,6 +111,16 @@ bool PDport::get(const char *name, float &value)
     bool ret = get(name, &dvalue, sizeof(dvalue), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
     value = dvalue;
     return ret;
+}
+
+bool PDport::set(const char *name, double value)
+{
+    return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
+}
+
+bool PDport::get(const char *name, double &value)
+{
+    return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
 }
 
 bool PDport::set(const char *name, bool value)

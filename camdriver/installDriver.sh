@@ -17,14 +17,14 @@ cd "$BASEDIR"
 
 if [  "${MACHINE_IS_ARM}" = 'yes' ]; then
 echo "Arm architecture"
-unzip d3xx_linux-arm-v8.zip
+unzip -o d3xx_linux-arm-v8.zip
 sudo cp d3xx_linux-arm-v8/libftd3xx.so /usr/lib/
 sudo cp d3xx_linux-arm-v8/51-ftd3xx.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules
 rm -rf d3xx_linux-arm-v8
 elif [ "${MACHINE_IS_64BIT}" = 'yes' ]; then
 echo "x86_64 architecture"
-unzip d3xx-driver.zip
+unzip -o d3xx-driver.zip
 sudo cp d3xx-driver/linux-x86_64/libftd3xx.so /usr/lib/
 sudo cp d3xx-driver/linux-x86_64/libftd3xx.so.0.5.21 /usr/lib/
 sudo cp d3xx-driver/linux-x86_64/51-ftd3xx.rules /etc/udev/rules.d/

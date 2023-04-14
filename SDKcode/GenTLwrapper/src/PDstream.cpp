@@ -6,8 +6,8 @@
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/src/PDstream.cpp
  */
-#include "../inc/PDstream.h"
-#include "../inc/PDdevice.h"
+#include "GenTLwrapper/PDstream.h"
+#include "GenTLwrapper/PDdevice.h"
 
 class PCLstream : public sPDstream
 {

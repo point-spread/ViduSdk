@@ -6,8 +6,8 @@
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/src/PDbuffer.cpp
  */
-#include "../inc/PDbuffer.h"
-#include "../inc/sPDstream.h"
+#include "GenTLwrapper/PDbuffer.h"
+#include "GenTLwrapper/sPDstream.h"
 
 static cv::Mat emptyMat;
 

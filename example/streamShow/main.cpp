@@ -6,10 +6,7 @@
  * @Description:
  * @FilePath: /DYV_SDK/utility/streamShow/main.cpp
  */
-#include "inc/PDdevice.h"
-#include "inc/PDstream.h"
-#include "stringFormat.h"
-#include "timeTest.h"
+#include "Vidu_SDK_Api.h"
 #include <chrono>
 #include <thread>
 
@@ -33,15 +30,15 @@ int rgbDemo()
             while (1)
             {
                 auto frame = stream.waitFrames();
-                char key = cv::waitKey(1);
+                char key = 0;
                 if (frame)
                 {
                     const cv::Mat &rgb = frame->getMat(0);
                     cv::imshow("rgb", rgb);
-
+                    key = cv::waitKey(1);
                     if (key == 'c')
                     {
-                        GenTL::PDBufferSave(*frame, nullptr);
+                        GenTL::PDBufferSave(*frame, nullptr, 0);
                         printf("saved  \n");
                     }
                 }
@@ -54,6 +51,14 @@ int rgbDemo()
             }
             return true;
         }
+        else
+        {
+            printf("stream init failed\n");
+        }
+    }
+    else
+    {
+        printf("no valid device\n");
     }
     return false;
 }
@@ -82,7 +87,7 @@ int tofDemo()
             {
                 auto frame = stream.waitFrames();
 
-                char key = cv::waitKey(1);
+                char key = 0;
                 if (frame)
                 {
                     if (DistRange < 1e-5) // DistRange should be inited
@@ -95,13 +100,14 @@ int tofDemo()
                     const cv::Mat &infrared = frame->getMat(1);
                     cv::imshow("pha", pha);
                     cv::imshow("infrared", infrared);
+                    key = cv::waitKey(1);
                     if (key == 'q')
                     {
                         break;
                     }
                     if (key == 'c')
                     {
-                        GenTL::PDBufferSave(*frame, nullptr);
+                        GenTL::PDBufferSave(*frame, nullptr, 0);
                         printf("saved  \n");
                     }
                 }
@@ -109,6 +115,14 @@ int tofDemo()
             }
             return true;
         }
+        else
+        {
+            printf("stream init failed\n");
+        }
+    }
+    else
+    {
+        printf("no valid device\n");
     }
     return false;
 }
@@ -122,7 +136,6 @@ int pclDemo()
 
         if (pclstream)
         {
-
             bool isTofAutoExposure = false;
             bool isRGBAutoExposure = false;
             pclstream.get("ToF::AutoExposure", isTofAutoExposure);
@@ -139,11 +152,11 @@ int pclDemo()
             pclstream.set("ToF::Distance", 7.5f);
             pclstream.set("ToF::StreamFps", 50.0f);
             pclstream.set("ToF::Threshold", 100);
-            pclstream.set("ToF::RemoveStrength", 1);
+            pclstream.set("ToF::DepthFlyingPixelRemoval", 1);
             pclstream.set("ToF::Exposure", 1.0f);
             pclstream.set("RGB::Exposure", 10.0f);
             pclstream.set("RGB::Gain", 20.0f);
-            pclstream.set("PCL::FilterStrength", 0.0f);
+            pclstream.set("PCL::PCLFlyingPixelRemoval", 0.0f);
             pclstream.set("PCL::EnableRgbAttach", true);
 
             bool saveReq = false;
@@ -190,7 +203,8 @@ int pclDemo()
                     if (saveReq)
                     {
                         saveReq = false;
-                        GenTL::PDBufferSave(*pPclFrame, nullptr);
+                        GenTL::PDBufferSave(*pPclFrame, nullptr,
+                                            0); // 1 save ply with color, 2 save ply with color patch
                         cv::imwrite(stringFormat("depth-%d.png", count), u16Depth);
                         printf("saved  \n");
                         count++;
@@ -201,6 +215,14 @@ int pclDemo()
             }
             return true;
         }
+        else
+        {
+            printf("stream init failed\n");
+        }
+    }
+    else
+    {
+        printf("no valid device\n");
     }
     return false;
 }

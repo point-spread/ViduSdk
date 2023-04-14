@@ -6,8 +6,8 @@
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/src/sPDstream.cpp
  */
-#include "inc/sPDstream.h"
-#include "basic/inc/getCvMatFromBuffer.h"
+#include "GenTLwrapper/sPDstream.h"
+#include "GenTLwrapper/basic/getCvMatFromBuffer.h"
 #include <algorithm>
 #include <cctype>
 #include <chrono>

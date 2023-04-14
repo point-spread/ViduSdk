@@ -4,7 +4,7 @@ v0.1
     3. add opencv4.2 compiled dynamic library
     4. other minor modify
 v0.2
-    1. okulo_viewer distance setting & infrared mapping
+    1. vidu_viewer distance setting & infrared mapping
     2. use install.sh
     3. some bugs remove
     4. python 3.6~3.9 dynamic lib provided
@@ -37,3 +37,7 @@ v1.1: Firmware: 1.60 is wanted!!!
 v1.2:
     1. ToF default output depth
     2. other minor changes
+v1.3:
+    1. viewer with notification
+    2. support examples building outside of SDK package
+    3. other minor changes
