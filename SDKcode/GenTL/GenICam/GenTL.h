@@ -433,6 +433,7 @@ extern "C"
         STREAM_INFO_CUSTOM_ID = 1000, /*!< Starting value for GenTL Producer custom IDs. */
         STREAM_CAM_INT_PARA = 1001,   /*!< BUFFER     Intrinsic camera paras of current stream. */
         STREAM_CAM_EXT_PARA = 1002,   /*!< BUFFER     Extrinsic camera paras of current stream. */
+        STREAM_INFO_FOV_Y = 1003,     /*!< FLOAT      The Vertical Field of View of PCL stream. */
     };
     typedef int32_t STREAM_INFO_CMD;
 

@@ -83,9 +83,7 @@ class sPDstream : public PDport
     virtual bool getCamPara(intrinsics &intr, extrinsics &extr);
 
     /**
-     * @brief Init the PDstream objects, must be called once bdfore using the object,
-              user can also implict init it by check the object valid by bool operation,
-              just like if(sPDstream).
+     * @brief Init the sPDstream objects, must be called once before using the object.
      *
      * @return true
      * @return false

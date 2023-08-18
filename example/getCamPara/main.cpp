@@ -20,7 +20,7 @@ static int demo()
             PDdevice devInst(devSN);
             intrinsics intrin;
             extrinsics extrin;
-            if (devInst)
+            if (devInst.init())
             {
                 PD_INFO("device : %s\n", devInst.getDeviceSN().c_str());
                 size_t streamNum = devInst.getStreamNum();

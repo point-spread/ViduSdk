@@ -14,10 +14,10 @@ int rgbDemo()
 {
     PDdevice devInst;
 
-    if (devInst)
+    if (devInst.init())
     {
         auto stream = PDstream(devInst, "RGB");
-        if (stream)
+        if (stream.init())
         {
             bool isAutoExposure = false;
             stream.get("AutoExposure", isAutoExposure);
@@ -66,10 +66,10 @@ int rgbDemo()
 int tofDemo()
 {
     PDdevice devInst;
-    if (devInst)
+    if (devInst.init())
     {
         auto stream = PDstream(devInst, "ToF");
-        if (stream)
+        if (stream.init())
         {
             bool isAutoExposure = false;
             stream.get("AutoExposure", isAutoExposure);
@@ -77,8 +77,8 @@ int tofDemo()
             {
                 stream.set("AutoExposure", false);
             }
-            stream.set("Distance", 7.5f);
-            stream.set("StreamFps", 50.0f);
+            stream.set("Distance", 2.5f);
+            stream.set("StreamFps", 30.0f);
             stream.set("Threshold", 100);
             stream.set("Exposure", 1.0f);
 
@@ -96,6 +96,13 @@ int tofDemo()
                         GenTL::PDBufferGetMetaByName(frame->getPort(), "Range", nullptr, &DistRange, &varSize);
                         printf("max distance %f for distanceMap", DistRange);
                     }
+
+                    // uint64_t usseTimer;
+                    // GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "##LT##TimeStampUSSE", nullptr,
+                    // &DistRange,
+                    //                              &varSize);
+                    // printf("TimeStampUSSE %ld timer from epoch \n", usseTimer);
+
                     const cv::Mat &pha = frame->getMat(0);
                     const cv::Mat &infrared = frame->getMat(1);
                     cv::imshow("pha", pha);
@@ -130,11 +137,11 @@ int tofDemo()
 int pclDemo()
 {
     PDdevice devInst;
-    if (devInst)
+    if (devInst.init())
     {
         auto pclstream = PDstream(devInst, "PCL");
 
-        if (pclstream)
+        if (pclstream.init())
         {
             bool isTofAutoExposure = false;
             bool isRGBAutoExposure = false;
@@ -149,8 +156,8 @@ int pclDemo()
                 pclstream.set("RGB::AutoExposure", false);
             }
 
-            pclstream.set("ToF::Distance", 7.5f);
-            pclstream.set("ToF::StreamFps", 50.0f);
+            pclstream.set("ToF::Distance", 2.5f);
+            pclstream.set("ToF::StreamFps", 30.0f);
             pclstream.set("ToF::Threshold", 100);
             pclstream.set("ToF::DepthFlyingPixelRemoval", 1);
             pclstream.set("ToF::Exposure", 1.0f);
@@ -158,6 +165,9 @@ int pclDemo()
             pclstream.set("RGB::Gain", 20.0f);
             pclstream.set("PCL::PCLFlyingPixelRemoval", 0.0f);
             pclstream.set("PCL::EnableRgbAttach", true);
+            // pclstream.set("PCL::DepthAlign2Color", true);
+
+            // pclstream.set("ToF::DistortRemove", true);
 
             bool saveReq = false;
             int count = 0;
@@ -182,6 +192,13 @@ int pclDemo()
                         GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "Range", nullptr, &DistRange, &varSize);
                         printf("max distance %f for distanceMap\n", DistRange);
                     }
+
+                    // uint64_t usseTimer;
+                    // GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "##LT##TimeStampUSSE", nullptr,
+                    // &DistRange,
+                    //                              &varSize);
+                    // printf("TimeStampUSSE %ld timer from epoch \n", usseTimer);
+
                     const cv::Mat &xyz = pPclFrame->getMat(0);
                     const cv::Mat &infrared = pPclFrame->getMat(1);
                     const cv::Mat &alignedColor = pPclFrame->getMat(2);

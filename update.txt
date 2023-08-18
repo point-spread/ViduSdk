@@ -41,3 +41,10 @@ v1.3:
     1. viewer with notification
     2. support examples building outside of SDK package
     3. other minor changes
+v1.4:
+    1. device node resource optimiztion
+    2. remove wrapper implicit init
+    3. optimize performance and improve frame rate
+    4. linux uvc protocol support
+    5. ros support
+    6. fix some bugs

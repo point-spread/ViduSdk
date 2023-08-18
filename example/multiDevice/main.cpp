@@ -34,12 +34,12 @@ int multiDeviceDemo()
         PDdevice devInst1(devSNlist[0]);
         PDdevice devInst2(devSNlist[1]);
 
-        if (devInst1 && devInst2)
+        if (devInst1.init() && devInst2.init())
         {
             auto tofStream1 = PDstream(devInst1, "ToF");
             auto tofStream2 = PDstream(devInst2, "ToF");
 
-            if (tofStream1 && tofStream2)
+            if (tofStream1.init() && tofStream2.init())
             {
                 tofStream1.set("Distance", 7.5f);
                 tofStream2.set("Distance", 7.5f);

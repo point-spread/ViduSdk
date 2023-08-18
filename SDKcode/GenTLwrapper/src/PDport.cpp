@@ -34,11 +34,6 @@ PDport::operator PDHandle()
     return getPort();
 }
 
-PDport::operator bool()
-{
-    return init();
-}
-
 bool PDport::set(const char *name, int64_t value)
 {
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_INT64);

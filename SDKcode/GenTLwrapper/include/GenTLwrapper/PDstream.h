@@ -59,13 +59,11 @@ class PDstream : public PDport
      */
     std::shared_ptr<PDbuffer> waitFrames(uint64_t timeOut = 1);
     /**
-    * @brief Init the PDstream objects, must be called once bdfore using the object,
-             user can also implict init it by check the object valid by bool operation,
-             just like if(PDstreamObject).
-    *
-    * @return true
-    * @return false
-    */
+     * @brief Init the PDstream objects, must be called once before using the object.
+     *
+     * @return true
+     * @return false
+     */
     bool init() override;
 
     template <typename T> bool set(const char *name, T value)

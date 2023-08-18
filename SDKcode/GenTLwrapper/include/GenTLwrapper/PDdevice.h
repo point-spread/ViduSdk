@@ -57,9 +57,7 @@ class PDdevice : public PDport
     ~PDdevice();
 
     /**
-     * @brief Init the PDdevice objects, must be called once bdfore using the object,
-             user can also implict init it by check the object valid by bool operation,
-             just like if(PDdeviceObject).
+     * @brief Init the PDdevice objects, must be called once before using the object.
      *
      * @return true
      * @return false

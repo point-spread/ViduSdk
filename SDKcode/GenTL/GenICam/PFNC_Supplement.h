@@ -8,6 +8,7 @@
  */
 #pragma once
 #include "../GenICam/PFNC.h"
+#define PFNC_YUV420_8 0x02100033
 #define PFNC_Coord3D_C16Y16 0x011001B8
 #define PFNC_Coord3D_DC16 0x011000B9
 #define PFNC_Coord3D_ABC32f_I16 0x026000C2

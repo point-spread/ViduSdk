@@ -8,7 +8,12 @@ Ubuntu 20.04 or later Ubuntu LTS version x86-64bit system; For Windows system, p
 
 ### 2. Installation
 
-Please execute the following commands in a `bash` terminal:
+If there is no opencv installed, please
+```bash
+sudo apt-get -y install libopencv-dev python3-opencv
+```
+
+Please execute the following commands in a `bash` terminal, **<font color=red>and do not use</font> `sh` <font color=red>execute</font> `install.sh`**:
 
 ```bash
 git clone https://github.com/point-spread/ViduSdk.git
@@ -37,11 +42,8 @@ Below we briefly introduce some important folders to the developers. The compreh
 * **[example](./example)** provides examples on how to get data from the camera. Please execute the following commands to compile those examples on your machine:
 
 
-If there is no opencv installed, please
-```bash
-sudo apt-get -y install libopencv-dev python3-opencv
-```
-Then you can build example in root directory of SDK package
+
+You can build example in root directory of SDK package
 
   ```bash
   cd ViduSdk/

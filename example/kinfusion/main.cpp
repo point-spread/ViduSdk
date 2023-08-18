@@ -85,14 +85,14 @@ int main(int argc, char **argv)
     // open camera
     PDdevice devInst;
     float DistRange;
-    if (!devInst)
+    if (!devInst.init())
     {
         printf("no valid device\n");
         return -1;
     }
 
     PDstream PCLstream = PDstream(devInst, "PCL");
-    if (PCLstream)
+    if (PCLstream.init())
     {
         bool isTofAutoExposure = false;
         bool isRGBAutoExposure = false;
