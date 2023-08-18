@@ -35,6 +35,14 @@ void print_intrinsics(intrinsics *pIntrin)
         pIntrin->model = distortion::DISTORTION_UNKNOWN;
     }
     printf("   model: %s\n", modelName[pIntrin->model]);
-    printf("   distortion k1: %f, k2: %f, k3: %f, p1: %f, p2: %f\n", pIntrin->coeffs[0], pIntrin->coeffs[1],
-           pIntrin->coeffs[4], pIntrin->coeffs[2], pIntrin->coeffs[3]);
+    if (pIntrin->model == distortion::DISTORTION_BROWN_CONRADY)
+    {
+        printf("   distortion k1: %f, k2: %f, k3: %f, p1: %f, p2: %f\n", pIntrin->coeffs[0], pIntrin->coeffs[1],
+               pIntrin->coeffs[4], pIntrin->coeffs[2], pIntrin->coeffs[3]);
+    }
+    else if (pIntrin->model == distortion::DISTORTION_KANNALA_BRANDT4)
+    {
+        printf("   distortion k1: %f, k2: %f, k3: %f, k4: %f\n", pIntrin->coeffs[0], pIntrin->coeffs[1],
+               pIntrin->coeffs[2], pIntrin->coeffs[3]);
+    }
 }

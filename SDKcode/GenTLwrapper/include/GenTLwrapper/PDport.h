@@ -66,13 +66,6 @@ class PDport
      * @return PDHandle GenTL port handle, which then can be used in GenTL function with C interface
      */
     operator PDHandle();
-    /**
-     * @brief return the object is inited
-     *
-     * @return true
-     * @return false
-     */
-    operator bool();
 
     /**
      * @brief Get the GenTL Port handle,

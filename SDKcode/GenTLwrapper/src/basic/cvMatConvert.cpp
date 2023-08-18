@@ -33,6 +33,9 @@ bool cvMatConvert(cv::Mat &mat, uint32_t width, uint32_t height, void *data, uin
     case PFNC_BayerBG8:
         cv::demosaicing(cv::Mat(shape, CV_8UC1, data), mat, cv::COLOR_BayerBG2BGR, 3);
         break;
+    case PFNC_YUV420_8:
+        cv::cvtColor(cv::Mat(cv::Size(width, height * 3 / 2), CV_8UC1, data), mat, cv::COLOR_YUV2BGR_NV12, 3);
+        break;
     default:
         return false;
         break;
@@ -56,6 +59,7 @@ std::string getFriendlyName(uint64_t format)
         break;
     case PFNC_RGB8:
     case PFNC_YUV422_8:
+    case PFNC_YUV420_8:
         partName = "RGB";
         break;
     case PFNC_Confidence16:

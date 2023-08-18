@@ -22,10 +22,9 @@ for i in range(stream_num):
     stream = vidu.PDstream(device, i)
     suc = stream.init()
     streamName = stream.getStreamName()
-    stream.set("Distance", 7.5)
-    distance, ret = stream.get("Distance", 1.0)
+    stream.set("ToF::Distance", 2.5)
+    distance, ret = stream.get("ToF::Distance", 1.0)
     print(distance, ret)
-    break
     if not suc:
         print("stream {} init failed\n".format(i))
     else:

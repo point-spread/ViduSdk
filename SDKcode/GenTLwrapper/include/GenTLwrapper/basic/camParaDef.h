@@ -52,11 +52,34 @@ extern "C"
             width = _width;
             height = _height;
         }
+        stream_intrinsics(int _width, int _height, float _cx, float _cy, float _fx, float _fy, distortion _model,
+                          float k1, float k2, float p1, float p2, float k3)
+            : width(_width), height(_height), cx(_cx), cy(_cy), fx(_fx), fy(_fy), model(_model)
+        {
+            coeffs[0] = k1;
+            coeffs[1] = k2;
+            coeffs[2] = p1;
+            coeffs[3] = p2;
+            coeffs[4] = k3;
+        }
         stream_intrinsics()
         {
             memset(coeffs, 0, 5 * sizeof(float));
         }
+        stream_intrinsics(const stream_intrinsics &intrics)
+        {
+            width = intrics.width;
+            height = intrics.height;
 
+            cx = intrics.cx;
+            cy = intrics.cy;
+            fx = intrics.fx;
+            fy = intrics.fy;
+
+            model = intrics.model;
+
+            memcpy(coeffs, intrics.coeffs, 5 * sizeof(float));
+        }
     } intrinsics;
 
     typedef struct stream_extrinsics

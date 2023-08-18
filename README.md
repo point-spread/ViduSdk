@@ -6,10 +6,28 @@ Windows 10 x86-64bit system; For the Ubuntu system, please checkout [main branch
 
 ### 2. Installation
 
+#### 1) drivers setup:
+
 * Extract `camdriver/FTD3XXDriver_WHQLCertified_v1.3.0.4_Installer.exe.zip`
   and then execute the program `FTD3XXDriver_WHQLCertified_v1.3.0.4_Installer.exe`
-* Double click `./install.bat`
-* You'd better relogin or reboot the computer to make the environment variant valid.
+
+#### 2) Building tools setup:
+
+It's recommended to use MSVC C++ compiler. You need to:
+
+- Install [CMake](https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-windows-x86_64.msi);
+- Install the [Microsoft Visual C++ (MSVC) compiler toolset](https://aka.ms/vs/17/release/vs_BuildTools.exe). Select the Desktop development with C++ workload.
+
+#### 3) Opencv Installation:
+
+* Download [opencv on sourceforge](https://udomain.dl.sourceforge.net/project/opencvlibrary/4.5.5/opencv-4.5.5-vc14_vc15.exe). Double-click it to extract the file.
+* Set environment variable `OpenCV_DIR` pointing to the directory : `opencv/build` (which contains `OpenCVConfig.cmake`).
+* Add `opencv/build/x64/vc14/bin` to the environment variable `path` , which also contains `opencv_world455.dll`, vc14 can be set as vc15 according to your system.
+
+#### 4) SDK Installation:
+
+* Double click `./install.bat` (If you use the power shell, **it is recommended not to use the right mouse button to open it directly in the folder**)
+* You'd better relogin or reboot the computer to make the environment variable valid.
 
 ### 3. Quick Start
 
@@ -30,21 +48,6 @@ Below we briefly introduce the important folders to the developers. For comprehe
 * **[example](./example)** provides examples of how to get data from the camera. Please see below to compile those examples on your local machine.
 
 ### 5. Building Examples Locally
-
-#### 1) Building tools setup:
-
-It's recommended to use MSVC C++ compiler. You need to:
-
-- Install [CMake](https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-windows-x86_64.msi);
-- Install the [Microsoft Visual C++ (MSVC) compiler toolset](https://aka.ms/vs/17/release/vs_BuildTools.exe). Select the Desktop development with C++ workload.
-
-#### 2) Opencv Installation:
-
-* Download [opencv on sourceforge](https://udomain.dl.sourceforge.net/project/opencvlibrary/4.5.5/opencv-4.5.5-vc14_vc15.exe). Double-click it to extract the file.
-* Set environment variable `OpenCV_DIR` pointing to the directory : `opencv/build` (which contains `OpenCVConfig.cmake`).
-* Add `opencv/build/x64/vc14/bin` to the environment variable `path` , which also contains `opencv_world455.dll`, vc14 can be set as vc15 according to your system.
-
-#### 3) Build examples:
 
 ```bash
 cd ViduSdk/

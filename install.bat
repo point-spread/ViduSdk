@@ -14,7 +14,7 @@ if "%SDK_LIB_PATH%"=="" (
 SET USE_ADMIN_ENV=false
 SET "CMAKE_INSTALL_PATH=%~dp0"
 
-echo "start: make and pack GenTLwrapper"
+echo start: make and pack GenTLwrapper
 mkdir "%~dp0SDKcode/GenTLwrapper/build"
 cd SDKcode/GenTLwrapper/build
 cmake ../ -A x64 -DCMAKE_INSTALL_PREFIX="%CMAKE_INSTALL_PATH%"
@@ -22,15 +22,18 @@ cmake --build . --config Release -j
 cmake --install .
 cd ../../../
 @RD /S /Q "%~dp0SDKcode/GenTLwrapper/build"
-echo "end: make and pack GenTLwrapper"
+echo end: make and pack GenTLwrapper
 
 if exist "%CMAKE_INSTALL_PATH%Vidu_SDK_Api/SDKlib/GenTLwrapper.dll" (
-   echo "SDK_LIB_PATH set" 
-   SET "SDK_LIB_PATH=%CMAKE_INSTALL_PATH%Vidu_SDK_Api/SDKlib") else (
+   echo SDK_LIB_PATH set
+   SET "SDK_LIB_PATH=%CMAKE_INSTALL_PATH%Vidu_SDK_Api/SDKlib"
+) else (
    echo "%CMAKE_INSTALL_PATH%SDKlib/GenTLwrapper.dll" not exist
-   echo "GenTLwrapper build failed")
+   echo GenTLwrapper build failed
+)
 echo SDK_LIB_PATH "%SDK_LIB_PATH%"
 setx DYVCAM_GENTL64_PATH "%SDK_LIB_PATH%"
-Powershell.exe -executionpolicy Bypass -Command "& '%~dp0camdriver/setEnvPath.ps1' '%SDK_LIB_PATH%' 'Vidu_SDK_Api\SDKlib;DYV_SDK_Api\SDKlib;ViduSdk\SDKlib;ViduSdk_Internal\SDKlib;DYV_SDK\build;OkuloSdk-windows\SDKlib;OkuloSdk\SDKlib;OkuloSdk_Internal\SDKlib' '%USE_ADMIN_ENV%'"
+Powershell.exe -executionpolicy Bypass -Command "& '%~dp0camdriver/setEnvPath.ps1' '%SDK_LIB_PATH%' 'Vidu_SDK_Api\SDKlib;DYV_SDK_Api\SDKlib;ViduSdk\SDKlib;ViduSdk_Internal\SDKlib;DYV_SDK\build;OkuloSdk-windows\SDKlib;OkuloSdk\SDKlib;OkuloSdk_Internal\SDKlib' 'PATH' '%USE_ADMIN_ENV%'"
+Powershell.exe -executionpolicy Bypass -Command "& '%~dp0camdriver/setEnvPath.ps1' '%SDK_LIB_PATH%\SDKpythonLib' 'Vidu_SDK_Api\SDKlib\SDKpythonLib;ViduSdk\SDKlib\SDKpythonLib;ViduSdk_Internal\SDKlib\SDKpythonLib;DYV_SDK\build' 'PYTHONPATH' '%USE_ADMIN_ENV%'"
 
-echo finish
+echo finish, need to reopen the console window!

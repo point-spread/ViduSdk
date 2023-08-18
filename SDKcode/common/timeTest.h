@@ -32,8 +32,8 @@ class timeTest
     {
         for (size_t i = 1; i < tp.size(); i++)
         {
-            printf("run time sec %zu line %d~line%d: %f ms\n", i, tp[i - 1].first, tp[i].first,
-                   (double)(tp[i].second - tp[i - 1].second) / 1000.0f);
+            // printf("run time sec %zu line %d~line %d: %f ms\n", i, tp[i - 1].first, tp[i].first,
+            //        (double)(tp[i].second - tp[i - 1].second) / 1000.0f);
         }
         tp.clear();
     }
