@@ -96,16 +96,18 @@ bool PDport::get(const char *name, uint16_t &value)
 
 bool PDport::set(const char *name, float value)
 {
-    double dvalue = value;
-    return set(name, &dvalue, sizeof(dvalue), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
+    // double dvalue = value;
+    // return set(name, &dvalue, sizeof(dvalue), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
+    return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT32);
 }
 
 bool PDport::get(const char *name, float &value)
 {
-    double dvalue = 0.0;
-    bool ret = get(name, &dvalue, sizeof(dvalue), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
-    value = dvalue;
-    return ret;
+    // double dvalue = 0.0;
+    // bool ret = get(name, &dvalue, sizeof(dvalue), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
+    // value = dvalue;
+    // return ret;
+    return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT32);
 }
 
 bool PDport::set(const char *name, double value)

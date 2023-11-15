@@ -6,7 +6,9 @@
  * @Description:
  * @FilePath: /DYV_SDK/GenTLwrapper/basic/inc/camParaDef.h
  */
-#pragma once
+#ifndef __CAM_PARA_H__
+#define __CAM_PARA_H__
+
 #include "stdio.h"
 #include "string.h"
 #ifdef __cplusplus
@@ -94,4 +96,5 @@ extern "C"
 
 #ifdef __cplusplus
 }
+#endif
 #endif

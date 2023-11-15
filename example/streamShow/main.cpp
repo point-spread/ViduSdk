@@ -1,8 +1,8 @@
 /*
  * @Author: Kian Liu
  * @Date: 2022-04-13 02:52:01
- * @LastEditTime: 2022-06-06 19:33:51
- * @LastEditors: Kian Liu
+ * @LastEditTime: 2023-08-24 20:05:36
+ * @LastEditors: liyang-leon9 liyang@pointspread.cn
  * @Description:
  * @FilePath: /DYV_SDK/utility/streamShow/main.cpp
  */
@@ -86,7 +86,6 @@ int tofDemo()
             while (1)
             {
                 auto frame = stream.waitFrames();
-
                 char key = 0;
                 if (frame)
                 {
@@ -94,7 +93,7 @@ int tofDemo()
                     {
                         size_t varSize = sizeof(varSize);
                         GenTL::PDBufferGetMetaByName(frame->getPort(), "Range", nullptr, &DistRange, &varSize);
-                        printf("max distance %f for distanceMap", DistRange);
+                        // printf("max distance %f for distanceMap", DistRange);
                     }
 
                     // uint64_t usseTimer;
@@ -143,31 +142,38 @@ int pclDemo()
 
         if (pclstream.init())
         {
-            bool isTofAutoExposure = false;
+            bool has_rgb = false;
             bool isRGBAutoExposure = false;
+            if (devInst.getStreamNum() > 2)
+            {
+                pclstream.get("RGB::AutoExposure", isRGBAutoExposure);
+                if (isRGBAutoExposure)
+                {
+                    pclstream.set("RGB::AutoExposure", false);
+                }
+                pclstream.set("RGB::Exposure", 10.0f);
+                pclstream.set("RGB::Gain", 20.0f);
+
+                has_rgb = true;
+            }
+
+            bool isTofAutoExposure = false;
             pclstream.get("ToF::AutoExposure", isTofAutoExposure);
-            pclstream.get("RGB::AutoExposure", isRGBAutoExposure);
             if (isTofAutoExposure)
             {
                 pclstream.set("ToF::AutoExposure", false);
             }
-            if (isRGBAutoExposure)
-            {
-                pclstream.set("RGB::AutoExposure", false);
-            }
-
             pclstream.set("ToF::Distance", 2.5f);
             pclstream.set("ToF::StreamFps", 30.0f);
             pclstream.set("ToF::Threshold", 100);
             pclstream.set("ToF::DepthFlyingPixelRemoval", 1);
             pclstream.set("ToF::Exposure", 1.0f);
-            pclstream.set("RGB::Exposure", 10.0f);
-            pclstream.set("RGB::Gain", 20.0f);
+            // pclstream.set("ToF::DistortRemove", true);
+
             pclstream.set("PCL::PCLFlyingPixelRemoval", 0.0f);
             pclstream.set("PCL::EnableRgbAttach", true);
-            // pclstream.set("PCL::DepthAlign2Color", true);
-
-            // pclstream.set("ToF::DistortRemove", true);
+            pclstream.set("PCL::EnableOcclusion", false);
+            // pclstream.set("PCL::DepthAlign2Color", false);
 
             bool saveReq = false;
             int count = 0;
@@ -201,9 +207,6 @@ int pclDemo()
 
                     const cv::Mat &xyz = pPclFrame->getMat(0);
                     const cv::Mat &infrared = pPclFrame->getMat(1);
-                    const cv::Mat &alignedColor = pPclFrame->getMat(2);
-                    const cv::Mat &originColor =
-                        pPclFrame->getMat(3); // should pclstream.set("PCL::EnableRgbAttach", true);
 
                     std::vector<cv::Mat> channels(3);
                     cv::split(xyz, channels);
@@ -213,9 +216,16 @@ int pclDemo()
 
                     cv::imshow("xyz", xyz);
                     cv::imshow("infrared", infrared);
-                    cv::imshow("alignedColor", alignedColor);
                     cv::imshow("depth", depth);
-                    cv::imshow("originColor", originColor);
+
+                    if (has_rgb)
+                    {
+                        const cv::Mat &alignedColor = pPclFrame->getMat(2);
+                        const cv::Mat &originColor =
+                            pPclFrame->getMat(3); // should pclstream.set("PCL::EnableRgbAttach", true);
+                        cv::imshow("alignedColor", alignedColor);
+                        cv::imshow("originColor", originColor);
+                    }
 
                     if (saveReq)
                     {
@@ -228,7 +238,7 @@ int pclDemo()
                     }
                 }
                 pPclFrame.reset(); // plz. release frame buffer imediately
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                // std::this_thread::sleep_for();
             }
             return true;
         }

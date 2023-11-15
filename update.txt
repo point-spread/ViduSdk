@@ -48,3 +48,12 @@ v1.4:
     4. linux uvc protocol support
     5. ros support
     6. fix some bugs
+v1.5:
+    1. win uvc protocol support
+    2. viewer font and UI update
+    3. viewer pcl view increase up, down, and roll dimensions
+    4. viewer tof and pcl add adjustable settings for colorize
+    5. SDK can directly use viewer by setting environment variables
+    6. support changing c1 camera resolution
+    7. log module
+    8. fix some bugs

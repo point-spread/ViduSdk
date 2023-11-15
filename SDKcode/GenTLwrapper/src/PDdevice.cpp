@@ -135,7 +135,7 @@ class PDinterface : public std::enable_shared_from_this<PDinterface>
         {
             PD_ERROR("failed IFUpdateDeviceList!\n");
             return false;
-        };
+        }
 
         uint32_t DEVnum = 0;
         if (GenTL::IFGetNumDevices(getIFh(), &DEVnum) != GenTL::GC_ERR_SUCCESS)
@@ -158,8 +158,7 @@ class PDinterface : public std::enable_shared_from_this<PDinterface>
             {
                 PD_ERROR("failed IFGetDeviceID, devIndex : %d\n", devIndex);
                 continue;
-            };
-            // PD_INFO("deviceID %s \n", id_tmp);
+            }
 
             char sn_tmp[256] = "";
             size_t sn_size = sizeof(sn_tmp);
@@ -187,7 +186,7 @@ bool PDdeviceImpl::init()
         }
         PD_ERROR("failed IFOpenDevice %s!\n", deviceSN.c_str());
         return false;
-    };
+    }
     dev = devTmp;
     return true;
 }
@@ -241,7 +240,6 @@ class PDsystem
                 continue;
             }
 
-            // PD_INFO("IF id %s\n", id_tmp);
             ifList.emplace_back(std::make_shared<PDinterface>(tl, id_tmp));
         }
     }

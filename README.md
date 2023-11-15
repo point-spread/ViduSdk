@@ -4,7 +4,13 @@
 
 Windows 10 x86-64bit system; For the Ubuntu system, please checkout [main branch](https://github.com/point-spread/ViduSdk).
 
-### 2. Installation
+### 2. Quick Start
+
+You could execute `set_env.bat` to set environment variable, no installation required to open(need setup drivers):
+* **[SDKbin/vidu_viewer](./SDKbin/vidu_viewer.exe)**
+  * show the origin camera stream, point cloud and control the video stream;
+
+### 3. Installation
 
 #### 1) drivers setup:
 
@@ -29,7 +35,7 @@ It's recommended to use MSVC C++ compiler. You need to:
 * Double click `./install.bat` (If you use the power shell, **it is recommended not to use the right mouse button to open it directly in the folder**)
 * You'd better relogin or reboot the computer to make the environment variable valid.
 
-### 3. Quick Start
+### 4. Start
 
 The ViduSdk provides the following executable tools for you to have a quick taste of the [Okulo Camera](https://www.pointspread.cn/okulo-p1)'s functionality :
 
@@ -38,7 +44,7 @@ The ViduSdk provides the following executable tools for you to have a quick tast
 * **[SDKpythonLib/vidu_test.py](./SDKpythonLib/vidu_test.py)**
   * python example, which invokes the ``SDKpythonLib/pyvidu.cpxx-win_amd64.pyd``.
 
-### 4. Development
+### 5. Development
 
 Below we briefly introduce the important folders to the developers. For comprehensive guidance on the software development, please check out our [software developer's guide](http://dev.pointspread.cn:82/Okulo_Software_Developer's_Guide.pdf).
 
@@ -47,7 +53,7 @@ Below we briefly introduce the important folders to the developers. For comprehe
 * **[SDKcode/common](./SDKcode/common)** provides some debug or timing code fragments;
 * **[example](./example)** provides examples of how to get data from the camera. Please see below to compile those examples on your local machine.
 
-### 5. Building Examples Locally
+### 6. Building Examples Locally
 
 ```bash
 cd ViduSdk/
