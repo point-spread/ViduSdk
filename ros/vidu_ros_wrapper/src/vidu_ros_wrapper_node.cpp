@@ -255,7 +255,7 @@ int main(int argc, char **argv)
             }
             pclstream.set("RGB::StreamFps", 30.0f);
 
-            pclstream.set("ToF::Distance", 7.5f);
+            pclstream.set("ToF::Distance", 2.5f);
             pclstream.set("ToF::StreamFps", 30.0f);
             pclstream.set("ToF::Threshold", 100);
             // pclstream.set("ToF::RemoveStrength", 1);

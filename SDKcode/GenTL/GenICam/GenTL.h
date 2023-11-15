@@ -196,32 +196,32 @@ extern "C"
     0 /* defines the sub minor version of the GenICam GenTL standard version this header is based on */
 
 #define GC_GENTL_HEADER_VERSION_CODE(major, minor, subminor) (((major) << 24) + ((minor) << 16) + (subminor))
-#define GC_GENTL_HEADER_VERSION GC_GENTL_HEADER_VERSION_CODE(GenTLMajorVersion, GenTLMinorVersion, GenTLSubMinorVersion)
+#define GC_GENTL_HEADER_VERSION                              GC_GENTL_HEADER_VERSION_CODE(GenTLMajorVersion, GenTLMinorVersion, GenTLSubMinorVersion)
 
 #endif /* GC_GENTL_HEADER_VERSION */
 
 #ifndef GC_GENTL_DONT_USE_TYPE_DEFINITIONS
-#define TLTypeMixedName "Mixed"       /* Type to use for several supported technologies */
-#define TLTypeCustomName "Custom"     /* Type to use for custom technologies */
-#define TLTypeGEVName "GEV"           /* Type to use for GigE Vision technology */
-#define TLTypeCLName "CL"             /* Type to use for Camera Link technology */
-#define TLTypeIIDCName "IIDC"         /* Type to use for IIDC 1394 technology */
-#define TLTypeUVCName "UVC"           /* Type to use for USB video class devices */
-#define TLTypeCXPName "CXP"           /* Type to use for CoaXPress, V1.3 */
-#define TLTypeCLHSName "CLHS"         /* Type to use for Camera Link HS, V1.3 */
-#define TLTypeU3VName "U3V"           /* Type to use for USB3 Vision Standard, V1.4 */
+#define TLTypeMixedName    "Mixed"    /* Type to use for several supported technologies */
+#define TLTypeCustomName   "Custom"   /* Type to use for custom technologies */
+#define TLTypeGEVName      "GEV"      /* Type to use for GigE Vision technology */
+#define TLTypeCLName       "CL"       /* Type to use for Camera Link technology */
+#define TLTypeIIDCName     "IIDC"     /* Type to use for IIDC 1394 technology */
+#define TLTypeUVCName      "UVC"      /* Type to use for USB video class devices */
+#define TLTypeCXPName      "CXP"      /* Type to use for CoaXPress, V1.3 */
+#define TLTypeCLHSName     "CLHS"     /* Type to use for Camera Link HS, V1.3 */
+#define TLTypeU3VName      "U3V"      /* Type to use for USB3 Vision Standard, V1.4 */
 #define TLTypeETHERNETName "Ethernet" /* Type to use for Ethernet devices, V1.3 */
-#define TLTypePCIName "PCI"           /* Type to use for PCI/PCIe devices, V1.3 */
+#define TLTypePCIName      "PCI"      /* Type to use for PCI/PCIe devices, V1.3 */
 #endif                                /* GC_GENTL_DONT_USE_TYPE_DEFINITIONS */
 
 #ifndef GC_GENTL_DONT_USE_MODULE_NAMES
-#define TLSystemModuleName "TLSystem"         /* Name to identify a system module */
-#define TLInterfaceModuleName "TLInterface"   /* Name to identify a interface module */
-#define TLDeviceModuleName "TLDevice"         /* Name to identify a device module */
-#define TLDataStreamModuleName "TLDataStream" /* Name to identify a data stream module */
-#define TLBufferModuleName "TLBuffer"         /* Name to identify a buffer module */
-#define TLRemoteDeviceModuleName "Device"     /* Name to identify a remote device module */
-#endif                                        /* GC_GENTL_DONT_USE_MODULE_NAMES */
+#define TLSystemModuleName       "TLSystem"     /* Name to identify a system module */
+#define TLInterfaceModuleName    "TLInterface"  /* Name to identify a interface module */
+#define TLDeviceModuleName       "TLDevice"     /* Name to identify a device module */
+#define TLDataStreamModuleName   "TLDataStream" /* Name to identify a data stream module */
+#define TLBufferModuleName       "TLBuffer"     /* Name to identify a buffer module */
+#define TLRemoteDeviceModuleName "Device"       /* Name to identify a remote device module */
+#endif                                          /* GC_GENTL_DONT_USE_MODULE_NAMES */
 
     /* Handles */
     typedef void *TL_HANDLE;   /*!< Transport Layer handle, obtained through the TLOpen */
@@ -240,8 +240,8 @@ extern "C"
                          /* IF_HANDLE, DEV_HANDLE, DS_HANDLE, BUFFER_HANDLE */
     typedef void *EVENT_HANDLE; /* Event handle, obtained through the ::GCRegisterEvent */
 
-#define GENTL_INVALID_HANDLE NULL            /* Invalid handle value, V1.4 */
-#define GENTL_INFINITE 0xFFFFFFFFFFFFFFFFULL /* Infinite value to be used in various function calls, V1.4 */
+#define GENTL_INVALID_HANDLE NULL                  /* Invalid handle value, V1.4 */
+#define GENTL_INFINITE       0xFFFFFFFFFFFFFFFFULL /* Infinite value to be used in various function calls, V1.4 */
 
     /*! Defines the data type possible for the various Info functions. */
     enum INFO_DATATYPE_LIST
@@ -752,6 +752,11 @@ extern "C"
 
     /* C API Interface Functions */
 #define GC_API GC_IMPORT_EXPORT GC_ERROR GC_CALLTYPE
+    /**
+     * @brief Enable Debug logger level of DYV SDK
+     */
+    GC_API GCEnableDebugLoggerLevel(void);
+
     /**
      * @brief Get an infomation of the GenTL system object
      *
@@ -1481,6 +1486,8 @@ extern "C"
 
     /* typedefs for dynamic loading */
 #define GC_API_P(function) typedef GC_ERROR(GC_CALLTYPE *function)
+    GC_API_P(PGCEnableDebugLoggerLevel)
+    (void);
     GC_API_P(PGCGetInfo)
     (TL_INFO_CMD iInfoCmd, INFO_DATATYPE *piType, void *pBuffer, size_t *piSize);
     GC_API_P(PGCGetLastError)

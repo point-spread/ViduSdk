@@ -74,13 +74,19 @@ class PCLstream : public sPDstream
 PCLstream::PCLstream(PDdevice &device, uint32_t _streamID) : sPDstream(device, _streamID)
 {
     streamVec.emplace_back(std::make_shared<sPDstream>(device, "ToF"));
-    streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
+    if (device.getStreamNum() > 2)
+    {
+        streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
+    }
 }
 
 PCLstream::PCLstream(PDdevice &device, const char *streamName) : sPDstream(device, streamName)
 {
     streamVec.emplace_back(std::make_shared<sPDstream>(device, "ToF"));
-    streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
+    if (device.getStreamNum() > 2)
+    {
+        streamVec.emplace_back(std::make_shared<sPDstream>(device, "RGB"));
+    }
 }
 
 PCLstream::~PCLstream()

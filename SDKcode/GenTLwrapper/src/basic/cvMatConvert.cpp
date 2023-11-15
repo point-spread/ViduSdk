@@ -38,7 +38,6 @@ bool cvMatConvert(cv::Mat &mat, uint32_t width, uint32_t height, void *data, uin
         break;
     default:
         return false;
-        break;
     }
     return true;
 }

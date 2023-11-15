@@ -6,7 +6,7 @@
 
 ## Step 2: Vidu SDK
 
-* Install Vidu SDK according  to  https://github.com/point-spread/ViduSdk/main/README.md
+* Install Vidu SDK according  to  https://github.com/point-spread/ViduSdk/blob/main/README.md
 * Thus the `find_package(Vidu_SDK_Api REQUIRED HINTS $ENV{DYVCAM_GENTL64_PATH}/../cmake)` is good.
 
 ## Step 3: ROS2 workspace
@@ -18,7 +18,7 @@
   ```
 * Copy the Vidu ROS2 interfaces and wrapper to workspace
   ```bash
-  cd ViduSdk/
+  cd ViduSdk/ros
   cp -rf vidu_ros2_interfaces vidu_ros2_wrapper ~/ros2_ws/src/
   cd ~/ros2_ws/
   ```
