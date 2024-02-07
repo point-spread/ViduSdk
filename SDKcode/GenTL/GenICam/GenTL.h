@@ -264,7 +264,8 @@ extern "C"
         INFO_DATATYPE_PTRDIFF = 14, /*!< Platform dependent signed integer (32 bit on 32 bit platforms). GenTL v1.3 */
 
         INFO_DATATYPE_CUSTOM_ID = 1000, /*!< Starting value for custom IDs. */
-        INFO_DATATYPE_FLOAT32 = 1001,
+        INFO_DATATYPE_FLOAT32 = 1001,   /*!< Signed 32 bit floating point number. */
+        INFO_DATATYPE_UINT8 = 1002      /*!< Unsigned 8 bit integer */
     };
     typedef int32_t INFO_DATATYPE;
 
@@ -430,10 +431,12 @@ extern "C"
         STREAM_INFO_FLOW_TABLE = 14,                /*!< BUFFER     Flow mapping table in GenDC format. GenTL v1.6 */
         STREAM_INFO_GENDC_PREFETCH_DESCRIPTOR = 15, /*!< BUFFER     Prefetch version of GenDC descriptor. GenTL v1.6 */
 
-        STREAM_INFO_CUSTOM_ID = 1000, /*!< Starting value for GenTL Producer custom IDs. */
-        STREAM_CAM_INT_PARA = 1001,   /*!< BUFFER     Intrinsic camera paras of current stream. */
-        STREAM_CAM_EXT_PARA = 1002,   /*!< BUFFER     Extrinsic camera paras of current stream. */
-        STREAM_INFO_FOV_Y = 1003,     /*!< FLOAT      The Vertical Field of View of PCL stream. */
+        STREAM_INFO_CUSTOM_ID = 1000,         /*!< Starting value for GenTL Producer custom IDs. */
+        STREAM_CAM_INT_PARA = 1001,           /*!< BUFFER     Intrinsic camera paras of current stream. */
+        STREAM_CAM_EXT_PARA = 1002,           /*!< BUFFER     Extrinsic camera paras of current stream. */
+        STREAM_INFO_FOV_Y = 1003,             /*!< FLOAT      The Vertical Field of View of PCL stream. */
+        STREAM_CAM_UNDISTORT_INT_PARA = 1004, /*!< BUFFER     Undistrot intrinsic camera paras of current stream. */
+        STREAM_FEATURE_LIST = 1005 /*!< BUFFER     List of supported feature names for the stream, split by char '|'. */
     };
     typedef int32_t STREAM_INFO_CMD;
 
@@ -642,7 +645,9 @@ extern "C"
         EVENT_MODULE = 5, /*!< Notification if the GenTL Producer wants to inform the GenICam GenApi instance of the
              module that a GenApi compatible event was fired.  GenTL v1.4 */
 
-        EVENT_CUSTOM_ID = 1000 /*!< Starting value for GenTL Producer custom IDs. */
+        EVENT_CUSTOM_ID = 1000,       /*!< Starting value for GenTL Producer custom IDs. */
+        EVENT_DETECTION_REMOTE_DEVICE /*!< Notification if the GenTL producer wants to inform the GenICam GenApi
+                                         instance of the remote device that insertion or removal event was fired. */
     };
     typedef int32_t EVENT_TYPE;
 
@@ -748,6 +753,17 @@ extern "C"
         void *pBuffer;                 /*!< Pointer to buffer to hold the info data */
         size_t iSize;                  /*!< Size of the info buffer (in) and the actual info data (out) */
     } DS_BUFFER_PART_INFO_STACKED;
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+    typedef struct S_DS_BUFFER_IMU_DATA
+    {
+        uint64_t AcceTime;
+        float AcceData[3];
+        uint64_t GyroTime;
+        float GyroData[3];
+        uint8_t Reserve[24];
+    } DS_BUFFER_IMU_DATA;
 #pragma pack(pop)
 
     /* C API Interface Functions */

@@ -52,4 +52,6 @@ class PDbuffer
      * @return const cv::Mat&
      */
     const cv::Mat &getMat(uint32_t id = 0);
+
+    void *GetBuffer() const;
 };

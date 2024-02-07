@@ -33,6 +33,7 @@ uint32_t PDbuffer::getMatNum()
 {
     return (uint32_t)Mats.size();
 }
+
 const cv::Mat &PDbuffer::getMat(uint32_t id)
 {
     if (id >= getMatNum())
@@ -40,6 +41,18 @@ const cv::Mat &PDbuffer::getMat(uint32_t id)
         return emptyMat;
     }
     return Mats[id];
+}
+
+void *PDbuffer::GetBuffer() const
+{
+    void *buffer = nullptr;
+    size_t size = sizeof(buffer);
+    auto error_code = GenTL::DSGetBufferInfo(hStream, hBuffer, GenTL::BUFFER_INFO_BASE, nullptr, &buffer, &size);
+    if (error_code != GenTL::GC_ERR_SUCCESS)
+    {
+        PD_WARNING("Get buffer failed, ret: %d\n", error_code);
+    }
+    return buffer;
 }
 
 std::shared_ptr<PDbuffer> sPDstream::waitFrames(uint64_t timeOut)

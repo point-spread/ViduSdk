@@ -57,3 +57,14 @@ v1.5:
     6. support changing c1 camera resolution
     7. log module
     8. fix some bugs
+v1.6:
+     1. SDK event notification and algorithm framework improvement
+     2. viewer supports Rgb/ToF image enlargement
+     3. C1 supports ToF resolution and frame rate switching
+     4. C1 supports metadata
+     5. C1 ToF supports HDR mode
+     6. viewer supports IMU display
+     7. demo code improvement
+     8. support obtaining non distorted camera parameters
+     9. SDK supports get feature list and information
+    10. fix some bugs

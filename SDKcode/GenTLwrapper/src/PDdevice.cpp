@@ -61,7 +61,7 @@ class PDdeviceImpl
             if (GenTL::DevGetNumDataStreams(getPort(), &streamNum) != GenTL::GC_ERR_SUCCESS)
             {
                 PD_ERROR("failed DevGetNumDataStreams!\n");
-            };
+            }
         }
         return streamNum;
     }
@@ -73,7 +73,7 @@ class PDdeviceImpl
 
     ~PDdeviceImpl()
     {
-        // close();
+        pIfhUsed.reset();
     }
 };
 
@@ -265,10 +265,25 @@ class PDsystem
         return pSys;
     }
 
-    ~PDsystem()
+    void Close()
     {
+        for (auto &&dev : devList)
+        {
+            dev.reset();
+        }
+        devList.clear();
+        for (auto &&itf : ifList)
+        {
+            itf.reset();
+        }
+        ifList.clear();
         GenTL::TLClose(tl);
         tl = nullptr;
+    }
+
+    ~PDsystem()
+    {
+        GenTL::GCCloseLib();
     }
 
     void *getTl()
@@ -356,6 +371,7 @@ PDdevice::~PDdevice()
 {
     if (pDevImpl)
         pDevImpl->close();
+    PDsystem::getSystem()->Close();
 }
 
 uint32_t PDdevice::getStreamNum()

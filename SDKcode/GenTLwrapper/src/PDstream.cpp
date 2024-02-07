@@ -9,6 +9,8 @@
 #include "GenTLwrapper/PDstream.h"
 #include "GenTLwrapper/PDdevice.h"
 
+#include <thread>
+
 class PCLstream : public sPDstream
 {
     std::vector<std::shared_ptr<sPDstream>> streamVec;
@@ -20,44 +22,45 @@ class PCLstream : public sPDstream
     bool init() override;
     ~PCLstream();
     bool getCamPara(intrinsics &intr, extrinsics &extr) override;
+    bool getCamPara(intrinsics &undistort_intr) override;
 
-    sPDstream *getStream(const char *name, int &offset)
+    size_t getStreamIndex(const char *name, int &offset) const
     {
         auto nameStr = std::string(name);
         if (nameStr.size() > 5 && nameStr.compare(0, 5, "ToF::") == 0)
         {
             offset = 5;
-            return streamVec[0].get();
+            return 0;
         }
         else if (nameStr.size() > 5 && nameStr.compare(0, 5, "RGB::") == 0)
         {
             offset = 5;
-            return streamVec[1].get();
+            return 1;
         }
         else if (nameStr.size() > 5 && nameStr.compare(0, 5, "PCL::") == 0)
         {
             offset = 5;
-            return this;
+            return SIZE_MAX;
         }
         offset = 0;
-        return this;
+        return SIZE_MAX;
     }
 
 #define SET_GET_OVERRIDE_FUNC(type)                                                                                    \
     bool set(const char *name, type value) override                                                                    \
     {                                                                                                                  \
         int offset = 0;                                                                                                \
-        sPDstream *pSubStream = getStream(name, offset);                                                               \
-        if (pSubStream != this)                                                                                        \
-            return pSubStream->set(&name[offset], value);                                                              \
+        size_t index = getStreamIndex(name, offset);                                                                   \
+        if (index != SIZE_MAX)                                                                                         \
+            return streamVec[index]->set(&name[offset], value);                                                        \
         return sPDstream::set(&name[offset], value);                                                                   \
     }                                                                                                                  \
-    bool get(const char *name, type &value) override                                                                   \
+    bool get(const char *name, type &value) const override                                                             \
     {                                                                                                                  \
         int offset = 0;                                                                                                \
-        sPDstream *pSubStream = getStream(name, offset);                                                               \
-        if (pSubStream != this)                                                                                        \
-            return pSubStream->get(&name[offset], value);                                                              \
+        size_t index = getStreamIndex(name, offset);                                                                   \
+        if (index != SIZE_MAX)                                                                                         \
+            return streamVec[index]->get(&name[offset], value);                                                        \
         return sPDstream::get(&name[offset], value);                                                                   \
     }
 
@@ -69,6 +72,8 @@ class PCLstream : public sPDstream
     SET_GET_OVERRIDE_FUNC(uint16_t)
     SET_GET_OVERRIDE_FUNC(float)
     SET_GET_OVERRIDE_FUNC(bool)
+
+    std::vector<FeatureNodeInfo> GetFeatureList(const char *stream_name) const override;
 };
 
 PCLstream::PCLstream(PDdevice &device, uint32_t _streamID) : sPDstream(device, _streamID)
@@ -99,6 +104,7 @@ bool PCLstream::init()
     bool ret = true;
     for (auto pStream : streamVec)
     {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         ret &= pStream->init();
     }
     ret &= sPDstream::init();
@@ -110,6 +116,11 @@ bool PCLstream::getCamPara(intrinsics &intr, extrinsics &extr)
     return streamVec[0]->getCamPara(intr, extr);
 }
 
+bool PCLstream::getCamPara(intrinsics &undistort_intr)
+{
+    return streamVec[0]->getCamPara(undistort_intr);
+}
+
 std::shared_ptr<PDbuffer> PCLstream::waitFrames(uint64_t timeOut)
 {
     for (auto pStream : streamVec)
@@ -118,6 +129,25 @@ std::shared_ptr<PDbuffer> PCLstream::waitFrames(uint64_t timeOut)
         ret.reset();
     }
     return sPDstream::waitFrames(timeOut);
+}
+
+std::vector<FeatureNodeInfo> PCLstream::GetFeatureList(const char *stream_name) const
+{
+    if (!stream_name || !strcmp(stream_name, "PCL"))
+    {
+        return sPDstream::GetFeatureList(stream_name);
+    }
+    else if (!strcmp(stream_name, "ToF"))
+    {
+        return streamVec[0]->GetFeatureList(stream_name);
+    }
+    else if (!strcmp(stream_name, "RGB") && streamVec.size() > 1)
+    {
+        return streamVec[1]->GetFeatureList(stream_name);
+    }
+
+    PD_WARNING("Stream node has not %s stream\n", stream_name);
+    return {};
 }
 
 PDstream::PDstream(PDdevice &device, const char *streamName)
@@ -149,7 +179,12 @@ PDstream::PDstream(PDdevice &device, uint32_t _streamID)
 
 std::string PDstream::getStreamName()
 {
-    return pStream->getStreamName();
+    if (stream_name_.empty())
+    {
+        stream_name_ = pStream->getStreamName();
+        prefix_name_ = stream_name_ + "::";
+    }
+    return stream_name_;
 }
 
 bool PDstream::getCamPara(intrinsics &intr, extrinsics &extr)
@@ -157,12 +192,37 @@ bool PDstream::getCamPara(intrinsics &intr, extrinsics &extr)
     return pStream->getCamPara(intr, extr);
 }
 
+bool PDstream::getCamPara(intrinsics &undistort_intr)
+{
+    return pStream->getCamPara(undistort_intr);
+}
+
 bool PDstream::init()
 {
-    return pStream->init();
+    if (pStream->init())
+    {
+        getStreamName();
+        return true;
+    }
+    return false;
 }
 
 std::shared_ptr<PDbuffer> PDstream::waitFrames(uint64_t timeOut)
 {
     return pStream->waitFrames(timeOut);
+}
+
+bool PDstream::set(const char *name, const char *value, uint32_t size)
+{
+    return pStream->set(name, value, size);
+}
+
+bool PDstream::get(const char *name, char *value, uint32_t size) const
+{
+    return pStream->get(name, value, size);
+}
+
+std::vector<FeatureNodeInfo> PDstream::GetFeatureList(const char *stream_name) const
+{
+    return pStream->GetFeatureList(stream_name);
 }

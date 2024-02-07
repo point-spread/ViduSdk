@@ -17,6 +17,8 @@
  */
 class PDstream : public PDport
 {
+    std::string prefix_name_;
+    std::string stream_name_;
     std::shared_ptr<sPDstream> pStream; // proxy class
 
   public:
@@ -51,6 +53,14 @@ class PDstream : public PDport
      */
     bool getCamPara(intrinsics &intr, extrinsics &extr);
     /**
+     * @brief Get the cam undistort intrinsic param
+     *
+     * @param[out] intrinsics & undistort intrinsic paras of the camera (tof & rgb are different from each other)
+     *
+     * @return bool return true if get the para success, otherwise return false
+     */
+    bool getCamPara(intrinsics &undistort_intr);
+    /**
      * @brief to grab a set of frames
      *
      * @param timeOut try times to get the frames
@@ -68,11 +78,25 @@ class PDstream : public PDport
 
     template <typename T> bool set(const char *name, T value)
     {
+        if (!strncmp(name, prefix_name_.c_str(), prefix_name_.size()))
+        {
+            name = name + prefix_name_.size();
+        }
         return pStream->set(name, value);
     }
 
-    template <typename T> bool get(const char *name, T &value)
+    template <typename T> bool get(const char *name, T &value) const
     {
+        if (!strncmp(name, prefix_name_.c_str(), prefix_name_.size()))
+        {
+            name = name + prefix_name_.size();
+        }
         return pStream->get(name, value);
     }
+
+    bool set(const char *name, const char *value, uint32_t size) override;
+
+    bool get(const char *name, char *value, uint32_t size) const override;
+
+    std::vector<FeatureNodeInfo> GetFeatureList(const char *stream_name = nullptr) const;
 };
