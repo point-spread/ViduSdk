@@ -64,7 +64,7 @@ extern "C"
             coeffs[3] = p2;
             coeffs[4] = k3;
         }
-        stream_intrinsics()
+        stream_intrinsics() : width(0), height(0), cx(0.0f), cy(0.0f), fx(0.0f), fy(0.0f), model(DISTORTION_UNKNOWN)
         {
             memset(coeffs, 0, 5 * sizeof(float));
         }
@@ -88,6 +88,15 @@ extern "C"
     {
         float rotation[9];    /**< Row-major 3x3 rotation matrix */
         float translation[3]; /**< Three-element translation vector, in meters */
+
+        stream_extrinsics()
+        {
+            memset(rotation, 0, sizeof(rotation));
+            memset(translation, 0, sizeof(translation));
+            rotation[0] = 1.0f;
+            rotation[4] = 1.0f;
+            rotation[8] = 1.0f;
+        }
     } extrinsics;
 #pragma pack(pop)
 

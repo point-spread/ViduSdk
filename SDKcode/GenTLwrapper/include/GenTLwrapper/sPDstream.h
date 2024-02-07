@@ -25,6 +25,7 @@
 class sPDstream : public PDport
 {
   private:
+    bool no_image_ = false;
     bool inited = false;
     PDHandle hEvent = nullptr;
     std::string streamIDstr;
@@ -60,7 +61,7 @@ class sPDstream : public PDport
      *
      * @return std::string
      */
-    std::string getStreamName();
+    std::string getStreamName() const;
 
     /**
      * @brief to grab a set of frames
@@ -81,6 +82,14 @@ class sPDstream : public PDport
      * @return false  : cannot get the valid para from the camera
      */
     virtual bool getCamPara(intrinsics &intr, extrinsics &extr);
+    /**
+     * @brief Get the cam undistort intrinsic param
+     *
+     * @param[out] intrinsics & undistort intrinsic paras of the camera (tof & rgb are different from each other)
+     *
+     * @return bool return true if get the para success, otherwise return false
+     */
+    virtual bool getCamPara(intrinsics &undistort_intr);
 
     /**
      * @brief Init the sPDstream objects, must be called once before using the object.
@@ -95,4 +104,6 @@ class sPDstream : public PDport
      *
      */
     virtual ~sPDstream();
+
+    virtual std::vector<FeatureNodeInfo> GetFeatureList(const char *stream_name) const;
 };

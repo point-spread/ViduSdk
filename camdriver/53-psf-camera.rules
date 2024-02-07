@@ -1,0 +1,6 @@
+SUBSYSTEM=="usb", ATTRS{idVendor}=="367a", ATTRS{idProduct}=="adbd", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="367a", ATTRS{idProduct}=="fab0", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="367a", ATTRS{idProduct}=="c101", MODE="0666"
+
+KERNEL=="iio*", ATTRS{idVendor}=="367a", ATTRS{idProduct}=="c101", MODE:="0777", GROUP:="plugdev", RUN+="/bin/sh -c 'chmod -R 0777 /sys/%p'"
+DRIVER=="hid_sensor*", ATTRS{idVendor}=="367a", ATTRS{idProduct}=="c101", RUN+="/bin/sh -c ' chmod -R 0777 /sys/%p && chmod 0777 /dev/%k'"

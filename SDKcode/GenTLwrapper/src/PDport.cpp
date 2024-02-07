@@ -24,7 +24,7 @@ bool PDport::init()
     return true;
 }
 
-PDHandle PDport::getPort()
+PDHandle PDport::getPort() const
 {
     return port;
 }
@@ -39,7 +39,7 @@ bool PDport::set(const char *name, int64_t value)
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_INT64);
 }
 
-bool PDport::get(const char *name, int64_t &value)
+bool PDport::get(const char *name, int64_t &value) const
 {
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_INT64);
 }
@@ -49,7 +49,7 @@ bool PDport::set(const char *name, uint64_t value)
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_UINT64);
 }
 
-bool PDport::get(const char *name, uint64_t &value)
+bool PDport::get(const char *name, uint64_t &value) const
 {
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_UINT64);
 }
@@ -59,7 +59,7 @@ bool PDport::set(const char *name, int32_t value)
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_INT32);
 }
 
-bool PDport::get(const char *name, int32_t &value)
+bool PDport::get(const char *name, int32_t &value) const
 {
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_INT32);
 }
@@ -69,7 +69,7 @@ bool PDport::set(const char *name, uint32_t value)
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_UINT32);
 }
 
-bool PDport::get(const char *name, uint32_t &value)
+bool PDport::get(const char *name, uint32_t &value) const
 {
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_UINT32);
 }
@@ -79,7 +79,7 @@ bool PDport::set(const char *name, int16_t value)
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_INT16);
 }
 
-bool PDport::get(const char *name, int16_t &value)
+bool PDport::get(const char *name, int16_t &value) const
 {
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_INT16);
 }
@@ -89,24 +89,18 @@ bool PDport::set(const char *name, uint16_t value)
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_UINT16);
 }
 
-bool PDport::get(const char *name, uint16_t &value)
+bool PDport::get(const char *name, uint16_t &value) const
 {
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_UINT16);
 }
 
 bool PDport::set(const char *name, float value)
 {
-    // double dvalue = value;
-    // return set(name, &dvalue, sizeof(dvalue), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT32);
 }
 
-bool PDport::get(const char *name, float &value)
+bool PDport::get(const char *name, float &value) const
 {
-    // double dvalue = 0.0;
-    // bool ret = get(name, &dvalue, sizeof(dvalue), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
-    // value = dvalue;
-    // return ret;
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT32);
 }
 
@@ -115,7 +109,7 @@ bool PDport::set(const char *name, double value)
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
 }
 
-bool PDport::get(const char *name, double &value)
+bool PDport::get(const char *name, double &value) const
 {
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_FLOAT64);
 }
@@ -125,9 +119,19 @@ bool PDport::set(const char *name, bool value)
     return set(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_BOOL8);
 }
 
-bool PDport::get(const char *name, bool &value)
+bool PDport::get(const char *name, bool &value) const
 {
     return get(name, &value, sizeof(value), GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_BOOL8);
+}
+
+bool PDport::set(const char *name, const char *value, uint32_t size)
+{
+    return set(name, value, size, GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_STRING);
+}
+
+bool PDport::get(const char *name, char *value, uint32_t size) const
+{
+    return get(name, value, size, GenTL::INFO_DATATYPE_LIST::INFO_DATATYPE_STRING);
 }
 
 #define GET_ERR_STRING()                                                                                               \
@@ -156,7 +160,7 @@ bool PDport::set(const char *name, const void *value, size_t size, int32_t dataT
     return true;
 }
 
-bool PDport::get(const char *name, void *value, size_t size, int32_t dataType)
+bool PDport::get(const char *name, void *value, size_t size, int32_t dataType) const
 {
     GenTL::INFO_DATATYPE dataTypeTmp = (GenTL::INFO_DATATYPE)dataType;
     bool ret = GenTL::GCReadPortByName(port, name, &dataTypeTmp, value, &size);

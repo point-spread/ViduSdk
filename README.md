@@ -29,9 +29,21 @@ chmod +x ./install.sh
 source ~/.bashrc
 ```
 
+If you want to obtain accurate metadata, linux driver patch is required, please execute the following commands:  
+**Before you execute, you need to disconnect the connected camera.**
+```
+./camdriver/patch-okulo-ubuntu-lts-hwe.sh
+```
+
+If you need to open the hid device to obtain imu data, please execute the following commands:
+```bash
+sudo cp camdriver/53-psf-camera.rules /etc/udev/rules.d/ 
+sudo udevadm control --reload-rules && sudo udevadm trigger 
+```
+
 ### 4. Start
 
-The ViduSdk provides the following executable tools for you to have a quick taste of the [Okulo Camera](https://www.pointspread.cn/okulo-p1)'s functionality :
+The ViduSdk provides the following executable tools for you to have a quick taste of the functionality of [Okulo P1 Camera](https://www.pointspread.cn/okulo-p1) and [Okulo C1 Camera](https://www.pointspread.cn/okulo-c1):
 
 * **[SDKbin/vidu_viewer](./SDKbin/vidu_viewer)**
   * show the origin camera stream, point cloud and control the video stream;
@@ -40,7 +52,7 @@ The ViduSdk provides the following executable tools for you to have a quick tast
 
 ### 5. Development
 
-Below we briefly introduce some important folders to the developers. The comprehensive guidance on the usage of the software development for the Okulo camera is [here](http://dev.pointspread.cn:82/Okulo_Software_Developer's_Guide.pdf)
+Below we briefly introduce some important folders to the developers. The comprehensive guidance on the usage of the software development for the Okulo camera is [here](https://fv9fikyv7kp.feishu.cn/drive/folder/K4KSfXzwUl5FnIdXq1Dca5IFnWo)
 
 * **[SDKcode/GenTL](./SDKcode/GenTL)** provides ``C`` headers by which the developer can directly invoke the ``SDKlib/libDYVGenTL.cti``  using  ``C`` interface according to the **[GenTL](https://www.emva.org/wp-content/uploads/GenICam_GenTL_1_5.pdf)** standard.
 * **[SDKcode/wrapper](./SDKcode/wrapper)** provides a ``C++`` wrapper of the ``SDKlib/libDYVGenTL.cti``, which makes the coding with okulo camera more conciser and ``C++`` tone.
