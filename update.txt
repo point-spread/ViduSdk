@@ -68,3 +68,5 @@ v1.6:
      8. support obtaining non distorted camera parameters
      9. SDK supports get feature list and information
     10. fix some bugs
+v1.6.1:
+    1. Fix SDK extrinsics acquisition error and PCL color misalignment
