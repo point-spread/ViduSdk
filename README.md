@@ -11,6 +11,8 @@ You could execute `set_env.bat` to set environment variable, no installation req
 * **[SDKbin/vidu_viewer](./SDKbin/vidu_viewer.exe)**
   * show the origin camera stream, point cloud and control the video stream;
 
+PS: **If get "Search for app in the Store?" while executing bat or exe, you can right-click > properties > general > security > Choose to unlock solve it**
+
 ### 3. Installation
 
 #### 1) drivers setup:
@@ -56,7 +58,7 @@ The ViduSdk provides the following executable tools for you to have a quick tast
 
 * **[SDKbin/vidu_viewer](./SDKbin/vidu_viewer.exe)**
   * show the origin camera stream, point cloud and control the video stream;
-* **[SDKpythonLib/vidu_test.py](./SDKpythonLib/vidu_test.py)**
+* **[python/vidu_test.py](./python/vidu_test.py)**
   * python example, which invokes the ``SDKpythonLib/pyvidu.cpxx-win_amd64.pyd``.
 
 ### 5. Development
@@ -64,7 +66,7 @@ The ViduSdk provides the following executable tools for you to have a quick tast
 Below we briefly introduce the important folders to the developers. For comprehensive guidance on the software development, please check out our [software developer's guide](https://fv9fikyv7kp.feishu.cn/drive/folder/K4KSfXzwUl5FnIdXq1Dca5IFnWo).
 
 * **[SDKcode/GenTL](./SDKcode/GenTL)** provides ``C`` headers of the ``SDKlib/libDYVGenTL.cti`` lib that follows the **[GenTL](https://www.emva.org/wp-content/uploads/GenICam_GenTL_1_5.pdf)** standard;
-* **[SDKcode/wrapper](./SDKcode/wrapper)** provides a ``C++`` wrapper of the ``SDKlib/libDYVGenTL.cti``;
+* **[SDKcode/GenTLwrapper](./SDKcode/GenTLwrapper)** provides a ``C++`` wrapper of the ``SDKlib/libDYVGenTL.cti``;
 * **[SDKcode/common](./SDKcode/common)** provides some debug or timing code fragments;
 * **[example](./example)** provides examples of how to get data from the camera. Please see below to compile those examples on your local machine.
 

@@ -73,6 +73,10 @@ class PCLstream : public sPDstream
     SET_GET_OVERRIDE_FUNC(float)
     SET_GET_OVERRIDE_FUNC(bool)
 
+    bool set(const char *name, const char *value, uint32_t size) override;
+
+    bool get(const char *name, char *value, uint32_t size) const override;
+
     std::vector<FeatureNodeInfo> GetFeatureList(const char *stream_name) const override;
 };
 
@@ -129,6 +133,24 @@ std::shared_ptr<PDbuffer> PCLstream::waitFrames(uint64_t timeOut)
         ret.reset();
     }
     return sPDstream::waitFrames(timeOut);
+}
+
+bool PCLstream::set(const char *name, const char *value, uint32_t size)
+{
+    int offset = 0;
+    size_t index = getStreamIndex(name, offset);
+    if (index != SIZE_MAX)
+        return streamVec[index]->set(&name[offset], value, size);
+    return sPDstream::set(&name[offset], value, size);
+}
+
+bool PCLstream::get(const char *name, char *value, uint32_t size) const
+{
+    int offset = 0;
+    size_t index = getStreamIndex(name, offset);
+    if (index != SIZE_MAX)
+        return streamVec[index]->get(&name[offset], value, size);
+    return sPDstream::get(&name[offset], value, size);
 }
 
 std::vector<FeatureNodeInfo> PCLstream::GetFeatureList(const char *stream_name) const
@@ -214,11 +236,19 @@ std::shared_ptr<PDbuffer> PDstream::waitFrames(uint64_t timeOut)
 
 bool PDstream::set(const char *name, const char *value, uint32_t size)
 {
+    if (!strncmp(name, prefix_name_.c_str(), prefix_name_.size()))
+    {
+        name = name + prefix_name_.size();
+    }
     return pStream->set(name, value, size);
 }
 
 bool PDstream::get(const char *name, char *value, uint32_t size) const
 {
+    if (!strncmp(name, prefix_name_.c_str(), prefix_name_.size()))
+    {
+        name = name + prefix_name_.size();
+    }
     return pStream->get(name, value, size);
 }
 
