@@ -10,6 +10,8 @@ if [ "${MACHINE_TYPE}" = 'arm' -o "${MACHINE_TYPE}" = 'armv7l' -o "${MACHINE_TYP
 	MACHINE_IS_ARM='yes'
 fi
 
+sudo apt-get install libtbb2
+
 BASEDIR=$(dirname "$0") 
 cd "$BASEDIR"
 

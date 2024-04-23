@@ -283,6 +283,7 @@ class PDsystem
 
     ~PDsystem()
     {
+        Close();
         GenTL::GCCloseLib();
     }
 
@@ -371,7 +372,6 @@ PDdevice::~PDdevice()
 {
     if (pDevImpl)
         pDevImpl->close();
-    PDsystem::getSystem()->Close();
 }
 
 uint32_t PDdevice::getStreamNum()

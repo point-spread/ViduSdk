@@ -70,3 +70,12 @@ v1.6:
     10. fix some bugs
 v1.6.1:
     1. Fix SDK extrinsics acquisition error and PCL color misalignment
+v1.7:
+    1. Display of camera algorithm results
+    2. Recording of camera startup time and data stream opening time
+    3. Log optimization and window display
+    4. Fix RGB manual exposure not reaching maximum value
+    5. Fix switching ToF frame rate causing PCL no images
+    6. Delete Viewer open web page alert information
+    7. Fix C1 communicate version acquisition failure issue
+    8. Fix IMU write correction matrix issue

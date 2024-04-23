@@ -182,7 +182,12 @@ extern "C"
         GC_ERR_BUSY = -1022, /*!< busy */                             /* GenTL v1.5 */
         GC_ERR_AMBIGUOUS = -1023, /*!< ambiguous */                   /* GenTL v1.6 */
 
-        GC_ERR_CUSTOM_ID = -10000
+        GC_ERR_CUSTOM_ID = -10000,
+        GC_ERR_FT_OPEN_SDEV_FAILED = -10001, /*!< can not open p1 camera by ftdi */
+        GC_ERR_HID_SDEV_EMPTY = -10002,      /*!< can not open c1 camera, has not imu stream */
+        GC_ERR_COMMUNICATE_ERROR = -10003,   /*!< can not open c1 camera, get communicate version failed */
+        GC_ERR_MF_ACTIVATE_FAILED = -10004,  /*!< can not open c1 camera, can not get source by mf */
+        GC_ERR_FT_CONFIGURE_FAILED = -10005  /*!< can not use ftdi */
     };
     typedef int32_t GC_ERROR;
 
@@ -436,7 +441,11 @@ extern "C"
         STREAM_CAM_EXT_PARA = 1002,           /*!< BUFFER     Extrinsic camera paras of current stream. */
         STREAM_INFO_FOV_Y = 1003,             /*!< FLOAT      The Vertical Field of View of PCL stream. */
         STREAM_CAM_UNDISTORT_INT_PARA = 1004, /*!< BUFFER     Undistrot intrinsic camera paras of current stream. */
-        STREAM_FEATURE_LIST = 1005 /*!< BUFFER     List of supported feature names for the stream, split by char '|'. */
+        STREAM_FEATURE_LIST =
+            1005, /*!< BUFFER     List of supported feature names for the stream, split by char '|'. */
+        STREAM_UNDISTORT_POINT =
+            1006 /*!< BUFFER     Point data that needs to be undistorted, float data arranged in order of x and y,
+                    distortion coefficient and intrinsics usage correspond to the data stream */
     };
     typedef int32_t STREAM_INFO_CMD;
 

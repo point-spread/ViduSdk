@@ -6,9 +6,53 @@
  * @Description:
  * @FilePath: /DYV_SDK/utility/streamShow/main.cpp
  */
-#include "Vidu_SDK_Api.h"
 #include <chrono>
+#include <cstdint>
 #include <thread>
+
+#include "Vidu_SDK_Api.h"
+
+void FeatureListPrint(std::vector<FeatureNodeInfo> &feature_list)
+{
+    for (auto &&feature : feature_list)
+    {
+        std::cout << "\t" << feature.name_;
+        switch (feature.type_)
+        {
+        case GenTL::INFO_DATATYPE_BOOL8: {
+            std::cout << ", bool type, no min and max value" << std::endl;
+            break;
+        }
+        case GenTL::INFO_DATATYPE_INT16: {
+            std::cout << ", 16 bit int type, min: " << feature.min_.i16_val_ << ", max: " << feature.max_.i16_val_
+                      << std::endl;
+            break;
+        }
+        case GenTL::INFO_DATATYPE_INT32: {
+            std::cout << ", 32 bit int type, min: " << feature.min_.i32_val_ << ", max: " << feature.max_.i32_val_
+                      << std::endl;
+            break;
+        }
+        case GenTL::INFO_DATATYPE_FLOAT32: {
+            std::cout << ", float type, min: " << feature.min_.flt_val_ << ", max: " << feature.max_.flt_val_
+                      << std::endl;
+            break;
+        }
+        case GenTL::INFO_DATATYPE_STRING: {
+            std::cout << ", enumeration type, entry size: " << feature.enum_entry_.size() << ", entry: " << std::endl;
+            for (auto &&entry : feature.enum_entry_)
+            {
+                std::cout << "\t\t" << entry << std::endl;
+            }
+            break;
+        }
+        default: {
+            std::cout << ", unknow data type: " << feature.type_ << std::endl;
+            break;
+        }
+        }
+    }
+}
 
 int rgbDemo()
 {
@@ -37,9 +81,11 @@ int rgbDemo()
     }
     // Obtain the list of all features supported by RGB data flow control
     auto feature_list = stream.GetFeatureList();
+    std::cout << "RGB feature: " << std::endl;
+    FeatureListPrint(feature_list);
+
     for (auto &&feature : feature_list)
     {
-        std::cout << feature.name_ << std::endl;
         // support with prefix "RGB::", set exposure to half the maximum value
         if (feature.name_.compare("Exposure") == 0)
         {
@@ -116,45 +162,11 @@ int tofDemo()
 
     // support get stream feature list, type, value range and enum entry
     auto feature_list = stream.GetFeatureList();
+    std::cout << "ToF feature: " << std::endl;
+    FeatureListPrint(feature_list);
+
     for (auto &&feature : feature_list)
     {
-        std::cout << "name: " << feature.name_ << ", type: " << feature.type_ << std::endl;
-        switch (feature.type_)
-        {
-        case GenTL::INFO_DATATYPE_BOOL8: {
-            std::cout << "\tbool type has not min or max value and element entry" << std::endl;
-            break;
-        }
-        case GenTL::INFO_DATATYPE_INT16: {
-            std::cout << "\tmin: " << feature.min_.i16_val_ << ", max: " << feature.max_.i16_val_ << std::endl;
-            break;
-        }
-        case GenTL::INFO_DATATYPE_INT32: {
-            std::cout << "\tmin: " << feature.min_.i32_val_ << ", max: " << feature.max_.i32_val_ << std::endl;
-            break;
-        }
-        case GenTL::INFO_DATATYPE_FLOAT32: {
-            std::cout << "\tmin: " << feature.min_.flt_val_ << ", max: " << feature.max_.flt_val_ << std::endl;
-            break;
-        }
-        case GenTL::INFO_DATATYPE_STRING: {
-            std::cout << "entry size: " << feature.enum_entry_.size() << std::endl;
-            break;
-        }
-        default: {
-            printf("Unknow data type");
-            break;
-        }
-        }
-        if (feature.enum_entry_.size())
-        {
-            std::cout << "\tenum entry: " << std::endl;
-            for (auto &&entry : feature.enum_entry_)
-            {
-                std::cout << "\t\t" << entry << std::endl;
-            }
-        }
-
         // support without prefix
         if (feature.name_.compare("Exposure") == 0)
         {
@@ -326,9 +338,11 @@ int pclDemo()
 
         // Obtain the list of RGB features supported for control in the PCL data stream
         auto feature_list_rgb = pclstream.GetFeatureList("RGB");
+        std::cout << "RGB feature: " << std::endl;
+        FeatureListPrint(feature_list_rgb);
+
         for (auto &&feature_rgb : feature_list_rgb)
         {
-            std::cout << "RGB feature " << feature_rgb.name_ << std::endl;
             // Set RGB exposure time to half the maximum value
             if (feature_rgb.name_.compare("Exposure") == 0)
             {
@@ -378,9 +392,11 @@ int pclDemo()
 
     // Obtain the list of ToF features supported for control in the PCL data stream
     auto feature_list_tof = pclstream.GetFeatureList("ToF");
+    std::cout << "ToF feature: " << std::endl;
+    FeatureListPrint(feature_list_tof);
+
     for (auto &&feature_tof : feature_list_tof)
     {
-        std::cout << "ToF feature " << feature_tof.name_ << std::endl;
         // Set ToF exposure time to half the maximum value
         if (feature_tof.name_.compare("Exposure") == 0)
         {
@@ -399,10 +415,8 @@ int pclDemo()
     }
     // Obtain the list of PCL features supported for control in the PCL data stream
     auto feature_list = pclstream.GetFeatureList();
-    for (auto &&feature : feature_list)
-    {
-        std::cout << "feature " << feature.name_ << std::endl;
-    }
+    std::cout << "PCL feature: " << std::endl;
+    FeatureListPrint(feature_list);
 
     bool saveReq = false;
     int count = 0;

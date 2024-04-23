@@ -29,11 +29,14 @@ chmod +x ./install.sh
 source ~/.bashrc
 ```
 
+**The following actions have been merged into the `set_env.sh` and `install.sh` script**
+
 If you want to obtain accurate metadata, linux driver patch is required, please execute the following commands:  
 **Before you execute, you need to disconnect the connected camera.**
 ```
 ./camdriver/patch-okulo-ubuntu-lts-hwe.sh
 ```
+PS: If your system has been updated, it needs to be patched again.
 
 If you need to open the hid device to obtain imu data, please execute the following commands:
 ```bash
@@ -47,7 +50,7 @@ The ViduSdk provides the following executable tools for you to have a quick tast
 
 * **[SDKbin/vidu_viewer](./SDKbin/vidu_viewer)**
   * show the origin camera stream, point cloud and control the video stream;
-* **[SDKpythonLib/vidu_test.py](./SDKpythonLib/vidu_test.py)**
+* **[python/vidu_test.py](./python/vidu_test.py)**
   * python example, which invokes the ``SDKpythonLib/pyvidu.cpython-xx-x86_64-linux-gnu.so``.
 
 ### 5. Development
@@ -55,7 +58,7 @@ The ViduSdk provides the following executable tools for you to have a quick tast
 Below we briefly introduce some important folders to the developers. The comprehensive guidance on the usage of the software development for the Okulo camera is [here](https://fv9fikyv7kp.feishu.cn/drive/folder/K4KSfXzwUl5FnIdXq1Dca5IFnWo)
 
 * **[SDKcode/GenTL](./SDKcode/GenTL)** provides ``C`` headers by which the developer can directly invoke the ``SDKlib/libDYVGenTL.cti``  using  ``C`` interface according to the **[GenTL](https://www.emva.org/wp-content/uploads/GenICam_GenTL_1_5.pdf)** standard.
-* **[SDKcode/wrapper](./SDKcode/wrapper)** provides a ``C++`` wrapper of the ``SDKlib/libDYVGenTL.cti``, which makes the coding with okulo camera more conciser and ``C++`` tone.
+* **[SDKcode/GenTLwrapper](./SDKcode/GenTLwrapper)** provides a ``C++`` wrapper of the ``SDKlib/libDYVGenTL.cti``, which makes the coding with okulo camera more conciser and ``C++`` tone.
 * **[SDKcode/common](./SDKcode/common)** provides some debug or timing code fragment.
 * **[example](./example)** provides examples on how to get data from the camera. Please execute the following commands to compile those examples on your machine:
 

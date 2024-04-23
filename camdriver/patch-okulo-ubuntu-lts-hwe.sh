@@ -44,7 +44,7 @@ done
 if [ $con_dev -ne 0 ];
 then
 	echo -e "\e[32m"
-	read -p "Remove all Okulo cameras attached. Hit any key when ready"
+	read -p "Remove all cameras attached. Hit any key when ready"
 	echo -e "\e[0m"
 fi
 
