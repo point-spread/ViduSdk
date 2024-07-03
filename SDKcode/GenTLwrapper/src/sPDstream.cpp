@@ -186,7 +186,7 @@ std::vector<FeatureNodeInfo> sPDstream::GetFeatureList(const char *stream_name) 
                 break;
             }
             default: {
-                PD_WARNING("Unknow data type %d\n", node_info.type_);
+                PD_WARNING("Unknown data type %d\n", node_info.type_);
                 continue;
             }
             }

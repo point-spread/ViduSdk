@@ -21,8 +21,6 @@ class PCLstream : public sPDstream
     virtual std::shared_ptr<PDbuffer> waitFrames(uint64_t timeOut = 1) override;
     bool init() override;
     ~PCLstream();
-    bool getCamPara(intrinsics &intr, extrinsics &extr) override;
-    bool getCamPara(intrinsics &undistort_intr) override;
 
     size_t getStreamIndex(const char *name, int &offset) const
     {
@@ -113,16 +111,6 @@ bool PCLstream::init()
     }
     ret &= sPDstream::init();
     return ret;
-}
-
-bool PCLstream::getCamPara(intrinsics &intr, extrinsics &extr)
-{
-    return streamVec[0]->getCamPara(intr, extr);
-}
-
-bool PCLstream::getCamPara(intrinsics &undistort_intr)
-{
-    return streamVec[0]->getCamPara(undistort_intr);
 }
 
 std::shared_ptr<PDbuffer> PCLstream::waitFrames(uint64_t timeOut)

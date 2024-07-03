@@ -187,7 +187,11 @@ extern "C"
         GC_ERR_HID_SDEV_EMPTY = -10002,      /*!< can not open c1 camera, has not imu stream */
         GC_ERR_COMMUNICATE_ERROR = -10003,   /*!< can not open c1 camera, get communicate version failed */
         GC_ERR_MF_ACTIVATE_FAILED = -10004,  /*!< can not open c1 camera, can not get source by mf */
-        GC_ERR_FT_CONFIGURE_FAILED = -10005  /*!< can not use ftdi */
+        GC_ERR_FT_CONFIGURE_FAILED = -10005, /*!< can not use ftdi */
+
+        // The starting position of the camera error code
+        GC_ERR_CAMERA_ALGO_LIST_CHANGED =
+            -20126 /*!< the algorithm list has been updated and needs to be retrieved again */
     };
     typedef int32_t GC_ERROR;
 
@@ -309,10 +313,11 @@ extern "C"
      * module. */
     enum INTERFACE_INFO_CMD_LIST
     {
-        INTERFACE_INFO_ID = 0,          /*!< STRING     Unique ID of the interface. */
-        INTERFACE_INFO_DISPLAYNAME = 1, /*!< STRING     User readable name of the interface. */
-        INTERFACE_INFO_TLTYPE = 2,      /*!< STRING     Transport layer technology that is supported. */
-        INTERFACE_INFO_CUSTOM_ID = 1000 /*!< Starting value for GenTL Producer custom IDs. */
+        INTERFACE_INFO_ID = 0,            /*!< STRING     Unique ID of the interface. */
+        INTERFACE_INFO_DISPLAYNAME = 1,   /*!< STRING     User readable name of the interface. */
+        INTERFACE_INFO_TLTYPE = 2,        /*!< STRING     Transport layer technology that is supported. */
+        INTERFACE_INFO_CUSTOM_ID = 1000,  /*!< Starting value for GenTL Producer custom IDs. */
+        INTERFACE_INFO_CUSTOM_TYPE = 1001 /*!< INT32      Interface type. */
     };
     typedef int32_t INTERFACE_INFO_CMD;
 
@@ -444,8 +449,11 @@ extern "C"
         STREAM_FEATURE_LIST =
             1005, /*!< BUFFER     List of supported feature names for the stream, split by char '|'. */
         STREAM_UNDISTORT_POINT =
-            1006 /*!< BUFFER     Point data that needs to be undistorted, float data arranged in order of x and y,
-                    distortion coefficient and intrinsics usage correspond to the data stream */
+            1006, /*!< BUFFER     Point data that needs to be undistorted, float data arranged in order of x and y,
+                    distortion coefficient and intrinsics usage correspond to the data stream. */
+        STREAM_PCL_FRUSTUM_POINT =
+            1007 /*!< BUFFER     Input depth and output the corresponding four vertices of the
+                     frustum, float point type. When inputting, the first float of buffer is depth. */
     };
     typedef int32_t STREAM_INFO_CMD;
 
@@ -489,7 +497,8 @@ extern "C"
         BUFFER_INFO_CONTAINS_CHUNKDATA = 30,         /*!< BOOL8  contains chunk data    GenTL v1.4 */
         BUFFER_INFO_IS_COMPOSITE = 31,               /*!< BOOL8  Is composite    GenTL v1.6 */
 
-        BUFFER_INFO_CUSTOM_ID = 1000 /*!< Starting value for GenTL Producer custom IDs. */
+        BUFFER_INFO_CUSTOM_ID = 1000,   /*!< Starting value for GenTL Producer custom IDs. */
+        BUFFER_INFO_ALGO_RESULTS = 1001 /*!< STRING Getting the algorithmic processing results of an image */
     };
     typedef int32_t BUFFER_INFO_CMD;
 
