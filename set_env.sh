@@ -2,6 +2,11 @@
 sudo cp camdriver/53-psf-camera.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules && sudo udevadm trigger
 
+if [ ! "$(command -v adb)" ]; then
+    echo "[Info] need to install adb!"
+    sudo apt-get install android-tools-adb
+fi
+
 export DYVCAM_GENTL64_PATH=${PWD}/SDKlib
 SCREEN_PYTHONPATH="PSF_TEMP_PYTHONPATH=(\${PYTHONPATH//:/ })\nfor index in \${!PSF_TEMP_PYTHONPATH[@]}\ndo\n  if [[ \${PSF_TEMP_PYTHONPATH[\$index]} == *ViduSdk* ]]; then\n    PSF_TEMP_PYTHONPATH[\$index]=\"\"\n  fi\ndone\nPSF_TEMP_PYTHONPATH=(\${PSF_TEMP_PYTHONPATH[*]/})\nPYTHONPATH=\$(IFS=:; echo \"\${PSF_TEMP_PYTHONPATH[*]}\")"
 if [ "$EUID" -ne 0 ]; then

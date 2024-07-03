@@ -95,15 +95,15 @@ then
 fi
 
 # Get the linux kernel and change into source tree
-if [ ! -d ${kernel_name} ]; then
-	mkdir ${kernel_name}
-	cd ${kernel_name}
+if [ ! -d ~/.Vidu/${kernel_name} ]; then
+	sudo mkdir -p ~/.Vidu/${kernel_name}
+	cd ~/.Vidu/${kernel_name}
 	git init
 	git remote add origin https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/${ubuntu_codename}
-	cd ..
+	cd -
 fi
 
-cd ${kernel_name}
+cd ~/.Vidu/${kernel_name}
 
 if [ $rebuild_ko -eq 0 ];
 then
@@ -150,35 +150,35 @@ then
 		# Patching kernel for Okulo devices
 		echo -e "\e[32mApplying patches for \e[36m${ubuntu_codename}-${kernel_branch}\e[32m line\e[0m"
 		echo -e "\e[32mApplying Okulo-metadata patch\e[0m"
-		patch -p1 < ../camdriver/okulo-metadata-${ubuntu_codename}-${kernel_branch}.patch || patch -p1 < ../camdriver/okulo-metadata-${ubuntu_codename}-master.patch
+		patch -p1 < ${OLDPWD}/camdriver/okulo-metadata-${ubuntu_codename}-${kernel_branch}.patch || patch -p1 < ${OLDPWD}/camdriver/okulo-metadata-${ubuntu_codename}-master.patch
 		# Applying 3rd-party patch that affects USB2 behavior
 		# See reference https://patchwork.kernel.org/patch/9907707/
 		if [ ${k_maj_min} -lt 418 ];
 		then
 			echo -e "\e[32mRetrofit UVC bug fix rectified in 4.18+\e[0m"
-			if patch -N --dry-run -p1 < ../camdriver/v1-media-uvcvideo-mark-buffer-error-where-overflow.patch; then
-				patch -N -p1 < ../camdriver/v1-media-uvcvideo-mark-buffer-error-where-overflow.patch
+			if patch -N --dry-run -p1 < ${OLDPWD}/camdriver/v1-media-uvcvideo-mark-buffer-error-where-overflow.patch; then
+				patch -N -p1 < ${OLDPWD}/camdriver/v1-media-uvcvideo-mark-buffer-error-where-overflow.patch
 			else
 				echo -e "\e[36m  Skip the patch - it is already found in the source tree\e[0m"
 			fi
 		fi
 		if [ $xhci_patch -eq 1 ]; then
 			echo -e "\e[32mApplying streamoff hotfix patch in videobuf2-core\e[0m"
-			patch -p1 < ../camdriver/01-Backport-streamoff-vb2-core-hotfix.patch
+			patch -p1 < ${OLDPWD}/camdriver/01-Backport-streamoff-vb2-core-hotfix.patch
 			echo -e "\e[32mApplying 01-xhci-Add-helper-to-get-hardware-dequeue-pointer-for patch\e[0m"
-			patch -p1 < ../camdriver/01-xhci-Add-helper-to-get-hardware-dequeue-pointer-for.patch
+			patch -p1 < ${OLDPWD}/camdriver/01-xhci-Add-helper-to-get-hardware-dequeue-pointer-for.patch
 			echo -e "\e[32mApplying 02-xhci-Add-stream-id-to-to-xhci_dequeue_state-structur patch\e[0m"
-			patch -p1 < ../camdriver/02-xhci-Add-stream-id-to-to-xhci_dequeue_state-structur.patch
+			patch -p1 < ${OLDPWD}/camdriver/02-xhci-Add-stream-id-to-to-xhci_dequeue_state-structur.patch
 			echo -e "\e[32mApplying 03-xhci-Find-out-where-an-endpoint-or-stream-stopped-fr patch\e[0m"
-			patch -p1 < ../camdriver/03-xhci-Find-out-where-an-endpoint-or-stream-stopped-fr.patch
+			patch -p1 < ${OLDPWD}/camdriver/03-xhci-Find-out-where-an-endpoint-or-stream-stopped-fr.patch
 			echo -e "\e[32mApplying 04-xhci-remove-unused-stopped_td-pointer patch\e[0m"
-			patch -p1 < ../camdriver/04-xhci-remove-unused-stopped_td-pointer.patch
+			patch -p1 < ${OLDPWD}/camdriver/04-xhci-remove-unused-stopped_td-pointer.patch
 		fi
 		echo -e "\e[32mIncrease UVC_URBs in uvcvideo\e[0m"
-		patch -p1 < ../camdriver/uvcvideo_increase_UVC_URBS.patch
+		patch -p1 < ${OLDPWD}/camdriver/uvcvideo_increase_UVC_URBS.patch
 		if [ $debug_uvc -eq 1 ]; then
 			echo -e "\e[32mApplying uvcvideo and videobuf2 debug patch\e[0m"
-			patch -p1 < ../camdriver/uvc_debug.patch
+			patch -p1 < ${OLDPWD}/camdriver/uvc_debug.patch
 		fi
 	fi
 

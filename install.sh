@@ -19,9 +19,9 @@ cd -
 sudo cp camdriver/53-psf-camera.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules && sudo udevadm trigger
 
-echo "install libglfw3-dev libglm-dev..."
-sudo apt-get -y install libglfw3-dev libglm-dev 1>/dev/null
-sudo apt-get -y install libtbb2 1>/dev/null
+# echo "install libglfw3-dev libglm-dev..."
+# sudo apt-get -y install libglfw3-dev libglm-dev 1>/dev/null
+# sudo apt-get -y install libtbb2 1>/dev/null
 
 if [ ! -z "$SDK_INSTALL_DIR" -a "$SDK_INSTALL_DIR" != " " ]; then
   echo SDK_INSTALL_DIR specified at ${SDK_INSTALL_DIR}

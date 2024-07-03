@@ -11,6 +11,10 @@ if [ "${MACHINE_TYPE}" = 'arm' -o "${MACHINE_TYPE}" = 'armv7l' -o "${MACHINE_TYP
 fi
 
 sudo apt-get install libtbb2
+if [ ! "$(command -v adb)" ]; then
+    echo "[Info] need to install adb!"
+    sudo apt-get install android-tools-adb
+fi
 
 BASEDIR=$(dirname "$0") 
 cd "$BASEDIR"

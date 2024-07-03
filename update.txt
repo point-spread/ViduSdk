@@ -79,3 +79,15 @@ v1.7:
     6. Delete Viewer open web page alert information
     7. Fix C1 communicate version acquisition failure issue
     8. Fix IMU write correction matrix issue
+v1.8:
+     1. Dynamic update of Viewer algorithm list
+     2. Viewer supports C1 multi machine synchronization
+     3. Support enabling DepthAlign2Color function when RGB data stream is not enabled
+     4. Viewer upload algorithm file optimization
+     5. Add RGB and Tof image alignment demo
+     6. Add camera model and frustum to the Viewer PCL window(Optimize IMU window camera model)
+     7. Viewer supports switching C1 resolution and frame rate when data stream is turned on
+     8. Support Python wrapper access to internal and external parameter property variables
+     9. Viewer log window optimization
+    10. Dynamically limit Viewer refresh frame rate
+    11. Fix the issue of distortion reduction affecting PCL after enabling DepthAlign2Color

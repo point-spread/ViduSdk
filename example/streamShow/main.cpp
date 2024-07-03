@@ -47,7 +47,7 @@ void FeatureListPrint(std::vector<FeatureNodeInfo> &feature_list)
             break;
         }
         default: {
-            std::cout << ", unknow data type: " << feature.type_ << std::endl;
+            std::cout << ", unknown data type: " << feature.type_ << std::endl;
             break;
         }
         }
