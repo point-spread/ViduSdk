@@ -91,3 +91,5 @@ v1.8:
      9. Viewer log window optimization
     10. Dynamically limit Viewer refresh frame rate
     11. Fix the issue of distortion reduction affecting PCL after enabling DepthAlign2Color
+v1.8.1:
+    1. Fix the issue of stuck caused by no input during linux installation
