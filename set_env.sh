@@ -2,10 +2,11 @@
 sudo cp camdriver/53-psf-camera.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules && sudo udevadm trigger
 
-if [ ! "$(command -v adb)" ]; then
-    echo "[Info] need to install adb!"
-    sudo apt-get install android-tools-adb
-fi
+echo "set cam driver..."
+cd camdriver
+sudo chmod +x installDriver.sh
+sudo ./installDriver.sh 1>/dev/null
+cd -
 
 export DYVCAM_GENTL64_PATH=${PWD}/SDKlib
 SCREEN_PYTHONPATH="PSF_TEMP_PYTHONPATH=(\${PYTHONPATH//:/ })\nfor index in \${!PSF_TEMP_PYTHONPATH[@]}\ndo\n  if [[ \${PSF_TEMP_PYTHONPATH[\$index]} == *ViduSdk* ]]; then\n    PSF_TEMP_PYTHONPATH[\$index]=\"\"\n  fi\ndone\nPSF_TEMP_PYTHONPATH=(\${PSF_TEMP_PYTHONPATH[*]/})\nPYTHONPATH=\$(IFS=:; echo \"\${PSF_TEMP_PYTHONPATH[*]}\")"
@@ -33,9 +34,9 @@ sudo ldconfig
 
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
-echo -e "${YELLOW} Do you need to install patches to obtain more accurate metadata? (y/N), default is not install. ${NC}"
+echo -e "${YELLOW} Do you need to install patches to obtain more accurate metadata? [y/N] Press 'y' within 3 seconds to install. ${NC}"
 echo -e "${YELLOW} If it has already been installed, please ignore this message. If your system has been updated, it needs to be patched again. ${NC}"
-read answer
+read -n 1 -t 3 -r answer
 if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
     sudo bash ./camdriver/patch-okulo-ubuntu-lts-hwe.sh
 fi

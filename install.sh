@@ -74,9 +74,9 @@ sudo ldconfig
 
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
-echo -e "${YELLOW} Do you need to install patches to obtain more accurate metadata? (y/N), default is not install. ${NC}"
+echo -e "${YELLOW} Do you need to install patches to obtain more accurate metadata? [y/N] Press 'y' within 3 seconds to install. ${NC}"
 echo -e "${YELLOW} If it has already been installed, please ignore this message. If your system has been updated, it needs to be patched again. ${NC}"
-read answer
+read -n 1 -t 3 -r answer
 if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
   sudo bash ./camdriver/patch-okulo-ubuntu-lts-hwe.sh
 fi
