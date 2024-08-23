@@ -275,14 +275,16 @@ int main(int argc, char **argv)
                         GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "Range", nullptr, &DistRange, &varSize);
                         // printf("max distance %f for distanceMap\n", DistRange);
                     }
-                    const cv::Mat &xyz = pPclFrame->getMat(0);
-                    const cv::Mat &infrared = pPclFrame->getMat(1);
-                    const cv::Mat &alignedColor = pPclFrame->getMat(2);
-                    const cv::Mat &originColor =
-                        pPclFrame->getMat(3); // should pclstream.set("PCL::EnableRgbAttach", true);
+                    const PDimage &xyz = pPclFrame->getImage(0);
+                    const PDimage &infrared = pPclFrame->getImage(1);
+                    const PDimage &alignedColor = pPclFrame->getImage(2);
+                    // should pclstream.set("PCL::EnableRgbAttach", true);
+                    const PDimage &originColor = pPclFrame->getImage(3);
 
+                    cv::Mat xyz_mat = cv::Mat(cv::Size(xyz.GetImageWidth(), xyz.GetImageHeight()), xyz.GetImageCVType(),
+                                              xyz.GetImageData());
                     std::vector<cv::Mat> channels(3);
-                    cv::split(xyz, channels);
+                    cv::split(xyz_mat, channels);
                     const cv::Mat &depth = channels[2];
                     cv::Mat u16Depth;
                     depth.convertTo(u16Depth, CV_16UC1, 65535.0 / DistRange);
@@ -292,6 +294,14 @@ int main(int argc, char **argv)
                     // cv::imshow("alignedColor", alignedColor);
                     // cv::imshow("depth", depth);
                     // cv::imshow("originColor", originColor);
+                    cv::Mat originColor_mat =
+                        cv::Mat(cv::Size(originColor.GetImageWidth(), originColor.GetImageHeight()),
+                                originColor.GetImageCVType(), originColor.GetImageData());
+                    cv::Mat infrared_mat = cv::Mat(cv::Size(infrared.GetImageWidth(), infrared.GetImageHeight()),
+                                                   infrared.GetImageCVType(), infrared.GetImageData());
+                    cv::Mat alignedColor_mat =
+                        cv::Mat(cv::Size(alignedColor.GetImageWidth(), alignedColor.GetImageHeight()),
+                                alignedColor.GetImageCVType(), alignedColor.GetImageData());
 
                     auto frame_get_time = rclcpp::Clock().now();
                     std_msgs::msg::Header header_color;
@@ -299,27 +309,29 @@ int main(int argc, char **argv)
                     header_color.frame_id = "camera_color_frame";
 
                     header_color.stamp = frame_get_time;
-                    cv_bridge::CvImage origin_image(header_color, sensor_msgs::image_encodings::TYPE_8UC3, originColor);
+                    cv_bridge::CvImage origin_image(header_color, sensor_msgs::image_encodings::TYPE_8UC3,
+                                                    originColor_mat);
 
                     std_msgs::msg::Header header_depth;
                     // header_depth.seq = count;
                     header_depth.frame_id = "camera_depth_frame";
                     header_depth.stamp = frame_get_time;
                     cv_bridge::CvImage depth_image(header_depth, sensor_msgs::image_encodings::TYPE_16UC1, u16Depth);
-                    cv_bridge::CvImage infrared_image(header_depth, sensor_msgs::image_encodings::TYPE_16UC1, infrared);
+                    cv_bridge::CvImage infrared_image(header_depth, sensor_msgs::image_encodings::TYPE_16UC1,
+                                                      infrared_mat);
 
                     std_msgs::msg::Header header_aligned_color;
                     // header_aligned_color.seq = count;
                     header_aligned_color.frame_id = "camera_aligned_color_frame";
                     header_aligned_color.stamp = frame_get_time;
                     cv_bridge::CvImage aligned_image(header_aligned_color, sensor_msgs::image_encodings::TYPE_8UC3,
-                                                     alignedColor);
+                                                     alignedColor_mat);
                     // TODO: reorganize xyz, rgb to PointCloud2  msg
                     std_msgs::msg::Header header_pcl;
                     // header_pcl.seq = count;
                     header_pcl.frame_id = "camera_pcl_frame";
                     header_pcl.stamp = frame_get_time;
-                    msg_pointcloud = img_to_cloud(alignedColor, xyz, header_pcl);
+                    msg_pointcloud = img_to_cloud(alignedColor_mat, xyz_mat, header_pcl);
 
                     camera_color_info.header = header_color;
                     camera_depth_info.header = header_depth;
@@ -359,7 +371,6 @@ int main(int argc, char **argv)
                 pPclFrame.reset(); // plz. release frame buffer imediately
                                    // std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }
-            return true;
         }
         else
         {

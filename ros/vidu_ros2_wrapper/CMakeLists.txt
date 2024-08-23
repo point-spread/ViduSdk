@@ -44,7 +44,7 @@ find_package(tf2_ros REQUIRED)
 find_package(OpenCV REQUIRED)
 message(STATUS ${OpenCV_INCLUDE_DIRS} " are found")
 message(STATUS $ENV{DYVCAM_GENTL64_PATH}/../cmake/ " is found")
-find_package(Vidu_SDK_Api REQUIRED HINTS $ENV{DYVCAM_GENTL64_PATH}/../cmake)
+find_package(Vidu_SDK_Api REQUIRED)
 find_package(vidu_ros2_interfaces REQUIRED)
 
 include_directories(include/  ${OpenCV_INCLUDE_DIRS})

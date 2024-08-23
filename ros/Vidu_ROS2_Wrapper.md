@@ -7,7 +7,7 @@
 ## Step 2: Vidu SDK
 
 * Install Vidu SDK according  to  https://github.com/point-spread/ViduSdk/blob/main/README.md
-* Thus the `find_package(Vidu_SDK_Api REQUIRED HINTS $ENV{DYVCAM_GENTL64_PATH}/../cmake)` is good.
+* Thus the `find_package(Vidu_SDK_Api REQUIRED)` is good.
 
 ## Step 3: ROS2 workspace
 
@@ -27,6 +27,7 @@
 
 * Install the dependencies for ROS2 packages
   ```bash
+  sudo apt-get install python3-colcon-common-extensions -y
   sudo apt-get install python3-rosdep -y
   sudo rosdep init # "sudo rosdep init --include-eol-distros" for Dashing
   rosdep update

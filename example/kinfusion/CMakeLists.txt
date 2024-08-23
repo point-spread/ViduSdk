@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.5)
 # find_package(OpenCV PATHS REQUIRED)
 set(OpenCV_DIR "${CMAKE_CURRENT_LIST_DIR}/opencv/build/install")
 find_package(OpenCV REQUIRED HINTS ${OpenCV_DIR} NO_DEFAULT_PATH)
-find_package(Vidu_SDK_Api REQUIRED HINTS $ENV{DYVCAM_GENTL64_PATH}/../cmake)
+find_package(Vidu_SDK_Api REQUIRED)
 
 include_directories(
     ${DYV_SDK_INCLUDE}

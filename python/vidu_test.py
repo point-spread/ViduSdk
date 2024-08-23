@@ -79,10 +79,10 @@ for i in range(stream_num):
                     cv.putText(blank, text, (10, 120), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
                     cv.imshow("blank", blank)
             else:
-                mats = stream.getPyMat()
-                for j, mat in enumerate(mats):
-                    cv.imshow("%s: %i" % (streamName, j), mat)
-
+                images = stream.getPyImage()
+                for j, image in enumerate(images):
+                    cv.imshow("%s: %i" % (streamName, j), image)
+                    
             key = cv.waitKey(1)
             if key & 0xFF == ord('q'):
                 break

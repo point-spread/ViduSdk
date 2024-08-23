@@ -56,6 +56,8 @@ make -j
 make install
 ```
 
+> PS: If you get `error: parameter packs not expanded with ‘...’:`, [this](https://github.com/NVIDIA/nccl/issues/650) may be helpful.
+
 ### 2) Pangoline Installation for -DVISUALIZATION=ON
 Please skip Pangolin installation if you don't need visualization.
 
@@ -101,6 +103,11 @@ make -j8
 ```
 
 Here uses `-DVISUALIZATION=OFF/ON` to switch visualization plug. If you do not use Pangolin, please set `-DVISUALIZATION=OFF`.
+
+> PS: If you get
+> * `error: parameter packs not expanded with ‘...’:`, [this](https://github.com/NVIDIA/nccl/issues/650) may be helpful.  
+> Or
+> * `error: ‘glewInit’ was not declared in this scope`, run `sudo cp pangolin_fix.h /usr/local/include/pangolin/gl/glplatform.h` on Pangolin path may be helpful.  
 
 ## 5. Use BundleFusion
 

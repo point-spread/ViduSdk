@@ -3,7 +3,7 @@ This ros wrapper is to grab the `Okulo` camera's image streams including pointcl
 
 ***NOTE***: If you are a beginner to ROS, we highly recommend you first take some time to learn the basic concepts and tools from [ROS tutorial](http://wiki.ros.org/ROS/Tutorials).
 ## 1. Prerequisities
-1. An Okulo P1 camera 
+1. An Okulo P1 or C1 camera 
 2. Ubuntu 20.04
 
 ## 2. Installation Guides 
@@ -13,7 +13,7 @@ This ros wrapper is to grab the `Okulo` camera's image streams including pointcl
 * For Ubuntu 20.04 with ROS Noetic, install ROS Noetic according to http://wiki.ros.org/noetic/Installation/Ubuntu.
 
 ## 2: Vidu SDK
-Vidu Ros wrapper relies on the Vidu SDK package, thus you need to install Vidu SDK according  to  https://github.com/point-spread/ViduSdk/blob/main/README.md, so that the `find_package(Vidu_SDK_Api REQUIRED HINTS $ENV{DYVCAM_GENTL64_PATH}/../cmake)` in `vidu_ros_wrapper/CMakeLists.txt` is ready.
+Vidu Ros wrapper relies on the Vidu SDK package, thus you need to install Vidu SDK according  to  https://github.com/point-spread/ViduSdk/blob/main/README.md, so that the `find_package(Vidu_SDK_Api REQUIRED)` in `vidu_ros_wrapper/CMakeLists.txt` is ready.
 
 ## 3: ROS workspace
 * Create a ROS workspace

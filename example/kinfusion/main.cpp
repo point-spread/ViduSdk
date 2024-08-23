@@ -107,10 +107,10 @@ int main(int argc, char **argv)
             PCLstream.set("RGB::AutoExposure", false);
         }
 
-        PCLstream.set("ToF::Distance", 7.5f);
+        PCLstream.set("ToF::Distance", 2.5f);
         PCLstream.set("ToF::StreamFps", 30.0f);
         PCLstream.set("ToF::Threshold", 100);
-        PCLstream.set("ToF::Exposure", 1.0f);
+        PCLstream.set("ToF::Exposure", 100.0f);
         PCLstream.set("ToF::DepthFlyingPixelRemoval", 10);
         PCLstream.set("ToF::DepthSmoothStrength", 1);
 
@@ -169,7 +169,6 @@ int main(int argc, char **argv)
     while (1)
     {
         auto pPclFrame = PCLstream.waitFrames(); // pcl frames work only when tof && rgb stream grab frames!!!
-        int key = waitKey(1);
 
         if (pPclFrame)
         {
@@ -180,9 +179,11 @@ int main(int argc, char **argv)
                 printf("max distance %f for distanceMap", DistRange);
             }
 
-            const cv::Mat &xyz = pPclFrame->getMat(0);
+            const PDimage &xyz = pPclFrame->getImage(0);
+            cv::Mat xyz_mat =
+                cv::Mat(cv::Size(xyz.GetImageWidth(), xyz.GetImageHeight()), xyz.GetImageCVType(), xyz.GetImageData());
             std::vector<cv::Mat> channels(3);
-            cv::split(xyz, channels);
+            cv::split(xyz_mat, channels);
             const cv::Mat &depth = channels[2];
             cv::Mat f;
             depth.convertTo(f, CV_16UC1, 1000); // 1000 -> depth factor
@@ -404,9 +405,9 @@ void savePly(const std::string &output_file_name, UMat &res_points, UMat &res_no
     printf("Saving fused point cloud into ply file ...\n");
 
     // Save to the ply file
-#define PLY_START_HEADER "ply"
-#define PLY_END_HEADER "end_header"
-#define PLY_ASCII "format ascii 1.0"
+#define PLY_START_HEADER   "ply"
+#define PLY_END_HEADER     "end_header"
+#define PLY_ASCII          "format ascii 1.0"
 #define PLY_ELEMENT_VERTEX "element vertex"
     std::ofstream ofs(output_file_name); // text mode first
     ofs << PLY_START_HEADER << std::endl;

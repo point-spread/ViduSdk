@@ -36,6 +36,9 @@ make -j
 # install
 make install
 ``` 
+
+> PS: If you get `error: parameter packs not expanded with ‘...’:`, [this](https://github.com/NVIDIA/nccl/issues/650) may be helpful.
+
 ## 3. Compiling & Running
 
 Before compiling `kinfusion`,  please modify `OpenCV_DIR` value in line 6 of [CMakeLists.txt](./CMakeLists.txt) as below:
@@ -76,6 +79,8 @@ To run kinecfusion, please type commands as list below:
 
 ```
 
+> PS: If you get `Gtk-ERROR **: 14:40:45.027: GTK+ 2.x symbols detected. Using GTK+ 2.x and GTK+ 3 in the same process is not supported`, run `sudo apt-get install libgtk-3-dev` install gtk3 then rebuild opencv with `-DWITH_GTK_2_X=OFF -DWITH_GTK_3_X=ON`.
+
 ## 4. Code Overview
 
 Below we roughly walk through the codes in the [main.cpp](./main.cpp) and explain the purposes for each of them step-by-step.
@@ -106,10 +111,10 @@ Below we roughly walk through the codes in the [main.cpp](./main.cpp) and explai
             PCLstream.set("RGB::AutoExposure", false);
         }
 
-        PCLstream.set("ToF::Distance", 7.5f);
+        PCLstream.set("ToF::Distance", 2.5f);
         PCLstream.set("ToF::StreamFps", 30.0f);
         PCLstream.set("ToF::Threshold", 100);
-        PCLstream.set("ToF::Exposure", 1.0f);
+        PCLstream.set("ToF::Exposure", 100.0f);
         PCLstream.set("ToF::DepthFlyingPixelRemoval", 10);
         PCLstream.set("ToF::DepthSmoothStrength", 1);
 
@@ -205,9 +210,10 @@ Below we roughly walk through the codes in the [main.cpp](./main.cpp) and explai
 
     ```c++
     auto pPclFrame = PCLstream.waitFrames();
-    const cv::Mat &xyz = pPclFrame->getMat(0);
+    const PDimage &xyz = pPclFrame->getImage(0);
+    cv::Mat xyz_mat = cv::Mat(cv::Size(xyz.GetImageWidth(), xyz.GetImageHeight()), xyz.GetImageCVType(), xyz.GetImageData());
     std::vector<cv::Mat> channels(3);
-    cv::split(xyz, channels);
+    cv::split(xyz_mat, channels);
     const cv::Mat &depth = channels[2];
     cv::Mat f;
     depth.convertTo(f, CV_16UC1, 1000); // 1000 -> depth factor

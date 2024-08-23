@@ -23,7 +23,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 find_package(OpenCV REQUIRED)
-find_package(Vidu_SDK_Api REQUIRED HINTS $ENV{DYVCAM_GENTL64_PATH}/../cmake)
+find_package(Vidu_SDK_Api REQUIRED)
 # find_package(PCL 1.8 REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures

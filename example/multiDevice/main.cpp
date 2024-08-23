@@ -8,16 +8,24 @@
  */
 #include "Vidu_SDK_Api.h"
 #include <chrono>
+#include <opencv2/opencv.hpp>
 #include <thread>
 
 void showFrame(std::shared_ptr<PDbuffer> frame, int streamID, bool saveReq)
 {
     if (frame)
     {
-        const cv::Mat &pha = frame->getMat(0);
-        const cv::Mat &infrared = frame->getMat(1);
-        cv::imshow(stringFormat("pha%d", streamID).c_str(), pha);
-        cv::imshow(stringFormat("infrared%d", streamID).c_str(), infrared);
+        const PDimage &pha = frame->getImage(0);
+        const PDimage &infrared = frame->getImage(1);
+
+        cv::Mat pha_mat =
+            cv::Mat(cv::Size(pha.GetImageWidth(), pha.GetImageHeight()), pha.GetImageCVType(), pha.GetImageData());
+        cv::Mat infrared_mat = cv::Mat(cv::Size(infrared.GetImageWidth(), infrared.GetImageHeight()),
+                                       infrared.GetImageCVType(), infrared.GetImageData());
+
+        cv::imshow(stringFormat("pha%d", streamID).c_str(), pha_mat);
+        cv::imshow(stringFormat("infrared%d", streamID).c_str(), infrared_mat);
+
         if (saveReq)
         {
             GenTL::PDBufferSave(*frame, nullptr, 0);
@@ -71,11 +79,12 @@ int multiDeviceDemo()
     {
         auto frame1 = tofStream1.waitFrames();
         auto frame2 = tofStream2.waitFrames();
-        char key = cv::waitKey(1);
-        if (key == 'q')
-            break;
+        int32_t key = 0;
+        key = cv::waitKey(1);
         showFrame(frame1, 1, key == 'c');
         showFrame(frame2, 2, key == 'c');
+        if (key == 'q')
+            break;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }

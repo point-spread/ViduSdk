@@ -8,6 +8,8 @@
  */
 #include <chrono>
 #include <cstdint>
+#include <iostream>
+#include <opencv2/opencv.hpp>
 #include <thread>
 
 #include "Vidu_SDK_Api.h"
@@ -111,12 +113,14 @@ int rgbDemo()
     {
         // Obtain RGB frame data
         auto frame = stream.waitFrames();
-        char key = 0;
+        int32_t key = 0;
         if (frame)
         {
             // Obtain image data from frame data
-            const cv::Mat &rgb = frame->getMat(0);
-            cv::imshow("rgb", rgb);
+            const PDimage &rgb = frame->getImage(0);
+            cv::Mat rgb_mat =
+                cv::Mat(cv::Size(rgb.GetImageWidth(), rgb.GetImageHeight()), rgb.GetImageCVType(), rgb.GetImageData());
+            cv::imshow("rgb", rgb_mat);
             key = cv::waitKey(1);
             if (key == 'c')
             {
@@ -204,7 +208,7 @@ int tofDemo()
     while (1)
     {
         auto frame = stream.waitFrames();
-        char key = 0;
+        int32_t key = 0;
         if (frame)
         {
             if (DistRange < 1e-5) // DistRange should be inited
@@ -220,11 +224,16 @@ int tofDemo()
             //                              &varSize);
             // printf("TimeStampUSSE %ld timer from epoch \n", usseTimer);
 
-            const cv::Mat &pha = frame->getMat(0);
-            const cv::Mat &infrared = frame->getMat(1);
-            cv::imshow("pha", pha);
-            cv::imshow("infrared", infrared);
+            const PDimage &pha = frame->getImage(0);
+            const PDimage &infrared = frame->getImage(1);
+            cv::Mat pha_mat =
+                cv::Mat(cv::Size(pha.GetImageWidth(), pha.GetImageHeight()), pha.GetImageCVType(), pha.GetImageData());
+            cv::Mat infrared_mat = cv::Mat(cv::Size(infrared.GetImageWidth(), infrared.GetImageHeight()),
+                                           infrared.GetImageCVType(), infrared.GetImageData());
+            cv::imshow("pha", pha_mat);
+            cv::imshow("inrared", infrared_mat);
             key = cv::waitKey(1);
+
             if (key == 'q')
             {
                 break;
@@ -270,25 +279,31 @@ int ImuDemo()
     while (true)
     {
         auto frame = stream.waitFrames();
-        char key = 0;
+        int32_t key = 0;
         if (frame)
         {
-            cv::Mat blank = cv::Mat(600, 800, CV_8UC1, cv::Scalar::all(255));
-
             GenTL::DS_BUFFER_IMU_DATA *data = (GenTL::DS_BUFFER_IMU_DATA *)(frame->GetBuffer());
+
+            cv::Mat imu_image = cv::Mat(600, 800, CV_8UC1, cv::Scalar::all(255));
+
             char text[128] = {};
-            sprintf(text, "accelerometer time: %lu", data->AcceTime);
-            cv::putText(blank, text, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1.0, CV_RGB(0, 0, 0), 2.0f);
+            sprintf(text, "accelerometer time: %llu", (unsigned long long)data->AcceTime);
+            cv::putText(imu_image, text, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1.0, CV_RGB(0, 0, 0), 2.0f);
             memset(text, 0x0, sizeof(text));
-            sprintf(text, "x: %.6f, y: %.6f, z: %.6f", data->AcceData[0], data->AcceData[1], data->AcceData[2]);
-            cv::putText(blank, text, cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 1.0, CV_RGB(0, 0, 0), 2.0f);
+            float ax = data->AcceData[0], ay = data->AcceData[1], az = data->AcceData[2];
+            sprintf(text, "x: %s%.6f, y: %s%.6f, z: %s%.6f", ax >= 0 ? "+" : "", ax, ay >= 0 ? "+" : "", ay,
+                    az >= 0 ? "+" : "", az);
+            cv::putText(imu_image, text, cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 1.0, CV_RGB(0, 0, 0), 2.0f);
             memset(text, 0x0, sizeof(text));
-            sprintf(text, "gyroscope time: %lu", data->GyroTime);
-            cv::putText(blank, text, cv::Point(10, 90), cv::FONT_HERSHEY_SIMPLEX, 1.0, CV_RGB(0, 0, 0), 2.0f);
+            sprintf(text, "gyroscope time: %llu", (unsigned long long)data->GyroTime);
+            cv::putText(imu_image, text, cv::Point(10, 90), cv::FONT_HERSHEY_SIMPLEX, 1.0, CV_RGB(0, 0, 0), 2.0f);
             memset(text, 0x0, sizeof(text));
-            sprintf(text, "x: %.6f, y: %.6f, z: %.6f", data->GyroData[0], data->GyroData[1], data->GyroData[2]);
-            cv::putText(blank, text, cv::Point(10, 120), cv::FONT_HERSHEY_SIMPLEX, 1.0, CV_RGB(0, 0, 0), 2.0f);
-            cv::imshow("blank", blank);
+            float gx = data->GyroData[0], gy = data->GyroData[1], gz = data->GyroData[2];
+            sprintf(text, "x: %s%.6f, y: %s%.6f, z: %s%.6f", gx >= 0 ? "+" : "", gx, gy >= 0 ? "+" : "", gy,
+                    gz >= 0 ? "+" : "", gz);
+            cv::putText(imu_image, text, cv::Point(10, 120), cv::FONT_HERSHEY_SIMPLEX, 1.0, CV_RGB(0, 0, 0), 2.0f);
+
+            cv::imshow("ImuData", imu_image);
 
             key = cv::waitKey(1);
             if (key == 'q')
@@ -425,15 +440,7 @@ int pclDemo()
     {
         // Obtain PCL frame data
         auto pPclFrame = pclstream.waitFrames(); // pcl frames work only when tof && rgb stream grab frames!!!
-        char key = cv::waitKey(1);
-        if (key == 'c')
-        {
-            saveReq = true;
-        }
-        if (key == 'q')
-        {
-            break;
-        }
+        int32_t key = 0;
         if (pPclFrame)
         {
             size_t varSize = sizeof(size_t);
@@ -448,48 +455,65 @@ int pclDemo()
             // GenTL::PDBufferGetMetaByName(pPclFrame->getPort(), "##LT##TimeStampUSSE", nullptr, &DistRange, &varSize);
             // printf("TimeStampUSSE %ld timer from epoch \n", usseTimer);
 
-            // Mat with id 0 is PCL data
-            const cv::Mat &xyz = pPclFrame->getMat(0);
-            // Mat with id 1 is infrared image data
-            const cv::Mat &infrared = pPclFrame->getMat(1);
+            // Image with id 0 is PCL data
+            const PDimage &xyz = pPclFrame->getImage(0);
+            // Image with id 1 is infrared image data
+            const PDimage &infrared = pPclFrame->getImage(1);
 
+            cv::Mat xyz_mat =
+                cv::Mat(cv::Size(xyz.GetImageWidth(), xyz.GetImageHeight()), xyz.GetImageCVType(), xyz.GetImageData());
             std::vector<cv::Mat> channels(3);
-            cv::split(xyz, channels);
+            cv::split(xyz_mat, channels);
             // Decomposing PCL to obtain depth information for each point
-            const cv::Mat &depth = channels[2];
-            cv::Mat u16Depth;
+            const cv::Mat &channel2 = channels[2];
+            cv::Mat depth;
             // Obtain the phase of each point through depth information
-            depth.convertTo(u16Depth, CV_16UC1, 65535.0 / DistRange);
+            channel2.convertTo(depth, CV_16UC1, 65535.0 / DistRange);
 
-            cv::imshow("xyz", xyz);
-            cv::imshow("infrared", infrared);
+            cv::Mat infrared_mat = cv::Mat(cv::Size(infrared.GetImageWidth(), infrared.GetImageHeight()),
+                                           infrared.GetImageCVType(), infrared.GetImageData());
+
+            cv::imshow("xyz", xyz_mat);
             cv::imshow("depth", depth);
+            cv::imshow("infrared", infrared_mat);
 
             if (has_rgb)
             {
-                // If there is RGB, Mat with id 2 is align image
+                // If there is RGB, Image with id 2 is align image
                 // According to DepthAlign2Color, When true, the image is depth aligned to the texture;
                 // when false, the image is texture aligned to the depth
-                const cv::Mat &alignedColor = pPclFrame->getMat(2);
-                // Mat with id 3 only appears when the EnableRgbAttach is true
-                const cv::Mat &originColor =
-                    pPclFrame->getMat(3); // should pclstream.set("PCL::EnableRgbAttach", true);
-                cv::imshow("alignedColor", alignedColor);
-                cv::imshow("originColor", originColor);
+                const PDimage &alignedColor = pPclFrame->getImage(2);
+                // Image with id 3 only appears when the EnableRgbAttach is true
+                // should pclstream.set("PCL::EnableRgbAttach", true);
+                const PDimage &originColor = pPclFrame->getImage(3);
+                cv::Mat aligned_mat = cv::Mat(cv::Size(alignedColor.GetImageWidth(), alignedColor.GetImageHeight()),
+                                              alignedColor.GetImageCVType(), alignedColor.GetImageData());
+                cv::Mat origin_mat = cv::Mat(cv::Size(originColor.GetImageWidth(), originColor.GetImageHeight()),
+                                             originColor.GetImageCVType(), originColor.GetImageData());
+                cv::imshow("alignedColor", aligned_mat);
+                cv::imshow("originColor", origin_mat);
             }
 
             if (saveReq)
             {
                 saveReq = false;
-                GenTL::PDBufferSave(*pPclFrame, nullptr,
-                                    0); // 1 save ply with color, 2 save ply with color patch
-                cv::imwrite(stringFormat("depth-%d.png", count), u16Depth);
+                // opt: 1 save ply with color, 2 save ply with color patch
+                GenTL::PDBufferSave(*pPclFrame, nullptr, 0);
                 printf("saved  \n");
                 count++;
             }
         }
         pPclFrame.reset(); // plz. release frame buffer imediately
-        // std::this_thread::sleep_for();
+
+        key = cv::waitKey(1);
+        if (key == 'c')
+        {
+            saveReq = true;
+        }
+        if (key == 'q')
+        {
+            break;
+        }
     }
 
     return 0;
