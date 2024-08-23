@@ -23,7 +23,6 @@ static int demo()
     {
         PDdevice devInst(devSN);
         intrinsics intrin;
-        intrinsics undistort_intrin;
         extrinsics extrin;
         if (devInst.init())
         {
@@ -38,16 +37,24 @@ static int demo()
                 // Obtain internal and external parameters with distortion in the current data stream
                 if (streamInst.getCamPara(intrin, extrin))
                 {
-                    PD_INFO("Distort Intrin : \n");
+                    PD_INFO("Intrin : \n");
                     print_intrinsics(&intrin);
                     PD_INFO("Extrin : \n");
                     print_extrinsics(&extrin);
                 }
+                streamInst.set("DistortRemoveReg", true);
                 // Obtain internal parameters of the current data stream without distortion
-                if (streamInst.getCamPara(undistort_intrin))
+                if (streamInst.getCamPara(intrin, extrin))
                 {
                     PD_INFO("Undistort Intrin : \n");
-                    print_intrinsics(&undistort_intrin);
+                    print_intrinsics(&intrin);
+                }
+                streamInst.set("DepthAlign2Color", true);
+                // Obtain external parameters of the current data stream after depth align to color
+                if (streamInst.getCamPara(intrin, extrin))
+                {
+                    PD_INFO("Extrin : \n");
+                    print_extrinsics(&extrin);
                 }
             }
         }

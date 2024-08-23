@@ -93,3 +93,21 @@ v1.8:
     11. Fix the issue of distortion reduction affecting PCL after enabling DepthAlign2Color
 v1.8.1:
     1. Fix the issue of stuck caused by no input during linux installation
+v1.9:
+     1. Distance and frame rate switching restrictions
+     2. ToF and PCL border removal optimization
+     3. The depth map supports the use of distance distance representation (openni)
+     4. ToF supports saving images in png formats
+     5. Remove the API for obtaining camera undistort parameters, but obtain based on custom attributes
+     6. Increase the serial number of the camera's runtime
+     7. Simplified ViduSDK installation method
+     8. ToF images support alignment to RGB images when save snapshot
+     9. SDK use Algorithm Module Demo
+    10. Import and export of camera control parameter settings
+    11. Support recording and playback function
+    12. Fix the shortcomings of saved point cloud
+    13. Fix the issue of the log window not refreshing in real time after the date rotation of the Viewer
+    14. Fix the abnormal rotation issue of IMU window camera model
+    15. Fix the issue of Ubuntu 24.04 not being able to update firmware
+    16. Remove OpenCV dependencies from wrapper dynamic library
+    17. Optimize Viewer point cloud display
