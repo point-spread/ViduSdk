@@ -62,17 +62,3 @@ target_link_libraries(${PROJECT_NAME} Vidu_SDK_Api::GenTLwrapper)
 ```
 
 in the CMakeLists.txt file.
-
-### 5. Addendum
-
-If unable to install or do not want to install the deb package, you can follow the following steps to configure it:
-
- * execute `bash install.sh` install dependencies, which also sets the environment variable `DYVCAM_GENTL64_PATH`
- * execute `source ~/.bashrc` make environment variables effective
-
-Now, you can use vidu_viewer to open the camera, if you also want to use `Python` libraries, you also need to specify the `PYTHONPATH` environment variable to the `Vidu_SDK_Api/SDKLib/SDKPythonLib` directory, which contains the exported `Python` library files.
-
-In this case, when using `find_cackage`, it is necessary to specify the specific directory of Vidu_SDK_Api's cmake, for example `Vidu_SDK_Api/cmake`. Just like:
-```
-find_package(Vidu_SDK_Api REQUIRED HINTS $ENV{DYVCAM_GENTL64_PATH}/../cmake)
-```

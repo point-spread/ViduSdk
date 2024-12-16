@@ -46,11 +46,6 @@ int main(int argc, char *argv[])
         {
             extrinsics_file = argv[i + 1];
         }
-        else if (((strcmp(argv[i], "-e") == 0 || strcmp(argv[i], "--extrinsics") == 0)) && (i + 1) < argc &&
-                 argv[i + 1][0] != '-')
-        {
-            extrinsics_file = argv[i + 1];
-        }
         else if (((strcmp(argv[i], "-m") == 0 || strcmp(argv[i], "--tof_max_value") == 0)) && (i + 1) < argc &&
                  argv[i + 1][0] != '-')
         {
@@ -290,7 +285,7 @@ int main(int argc, char *argv[])
         cv::imshow("tex", texture);
 
         cv::imshow("depth align to texture", depth_align_to_texture);
-        cv::imshow("depth texture to align", texture_align_to_depth);
+        cv::imshow("texture to align depth", texture_align_to_depth);
 
         cv::imshow("blended 1", blended_1);
         cv::imshow("blended 2", blended_2);
