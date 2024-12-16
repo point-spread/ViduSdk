@@ -111,3 +111,14 @@ v1.9:
     15. Fix the issue of Ubuntu 24.04 not being able to update firmware
     16. Remove OpenCV dependencies from wrapper dynamic library
     17. Optimize Viewer point cloud display
+v2.0:
+     1. Performance optimization of image processing functions
+     2. Fix the issue of not displaying labels when drawing algorithm results
+     3. Fix the issue of inability to enumerate devices due to failed parsing of UVC device paths
+     4. Fix the issue of garbled caused by Chinese in the log file path
+     5. Fix the issue of unable to set zoom screen during playback pause
+     6. Optimise the problem of lagging when moving the PCL window view
+     7. Update UI and support Chinese language
+     8. Add a prompt to notify that UVC metadata has not been patched
+     9. Support to set the storage path of recorded video
+    10. IMU and PCL camera models changed to textures

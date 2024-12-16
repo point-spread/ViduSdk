@@ -42,7 +42,7 @@ static int demo()
                     PD_INFO("Extrin : \n");
                     print_extrinsics(&extrin);
                 }
-                streamInst.set("DistortRemoveReg", true);
+                streamInst.set("DistortRemove", true);
                 // Obtain internal parameters of the current data stream without distortion
                 if (streamInst.getCamPara(intrin, extrin))
                 {
