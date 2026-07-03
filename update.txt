@@ -122,3 +122,9 @@ v2.0:
      8. Add a prompt to notify that UVC metadata has not been patched
      9. Support to set the storage path of recorded video
     10. IMU and PCL camera models changed to textures
+v2.1:
+    1. Fix the issue of python can not construct stream by name
+    2. Fix the issue of pcl not support deproject after rgb and tof undistort
+    3. Support the new C2 camera
+    4. Add set properties demo
+    5. Fix the issue of PCL planar bending on the Ubuntu platform
