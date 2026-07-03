@@ -54,7 +54,7 @@ for i in range(stream_num):
             distance, ret = stream.get("Distance", 1.0)
             print(distance, ret)
             # OKL C1 support Resolution
-            # resolution, ret = stream.get("Resolution", "", 10)
+            # resolution, ret = stream.get("Resolution", "640 x 480", 10)
             # print(resolution, ret)
 
         if not suc:
